@@ -281,14 +281,47 @@ const SET_TRANSLATIONS = {
 };
 
 // 2. 가상 폴백 데이터 (인게임 파일이 없을 경우 작동 대비)
-const FALLBACK_PROBS = `lv,slot_count,grade_rate_1,grade_rate_2,grade_rate_3,grade_rate_4,grade_rate_5,grade_rate_6,grade_rate_7,grade_rate_8
-1,2,92900,5000,2000,100,0,0,0,0
-5,3,64500,25000,10000,500,0,0,0,0
-10,5,26480,50000,22500,1000,20,0,0,0
-20,8,0,48600,40000,11000,400,0,0,0
-30,10,0,14950,50000,30000,5000,50,0,0
-40,10,0,0,28945,50000,20000,850,180,25
-50,10,0,0,23900,70000,4000,1800,300,0`;
+const FALLBACK_PROBS = `lv,slot_count,grade_rate_1,grade_rate_2,grade_rate_3,grade_rate_4,grade_rate_5,grade_rate_6,grade_rate_7,grade_rate_8,upgrade_cost,upgrade_cost_total,upgrade_time,version
+1,2,92900,5000,2000,100,0,0,0,0,"{""idx"": 146, ""count"": 50}",0,10,1.0.0
+2,2,85800,10000,4000,200,0,0,0,0,"{""idx"": 146, ""count"": 280}",50,60,1.0.0
+3,2,78700,15000,6000,300,0,0,0,0,"{""idx"": 146, ""count"": 920}",330,180,1.0.0
+4,3,71600,20000,8000,400,0,0,0,0,"{""idx"": 146, ""count"": 3310}",1250,600,1.0.0
+5,3,64500,25000,10000,500,0,0,0,0,"{""idx"": 146, ""count"": 10700}",4560,1800,1.0.0
+6,3,56900,30000,12500,600,0,0,0,0,"{""idx"": 146, ""count"": 23180}",15260,3600,1.0.0
+7,4,49300,35000,15000,700,0,0,0,0,"{""idx"": 146, ""count"": 49930}",38440,7200,1.0.0
+8,4,41700,40000,17500,800,0,0,0,0,"{""idx"": 146, ""count"": 80240}",88370,10800,1.0.0
+9,4,34100,45000,20000,900,0,0,0,0,"{""idx"": 146, ""count"": 114110}",168610,14400,1.0.0
+10,5,26480,50000,22500,1000,20,0,0,0,"{""idx"": 146, ""count"": 151800}",282720,18000,1.0.0
+11,5,22960,50000,25000,2000,40,0,0,0,"{""idx"": 146, ""count"": 194210}",434520,21600,1.0.0
+12,5,19440,50000,27500,3000,60,0,0,0,"{""idx"": 146, ""count"": 240700}",628730,25200,1.0.0
+13,6,15920,50000,30000,4000,80,0,0,0,"{""idx"": 146, ""count"": 291100}",869430,28800,1.0.0
+14,6,12400,50000,32500,5000,100,0,0,0,"{""idx"": 146, ""count"": 384000}",1160530,36000,1.0.0
+15,6,8880,50000,35000,6000,120,0,0,0,"{""idx"": 146, ""count"": 484900}",1544530,43200,1.0.0
+16,7,0,55360,37500,7000,140,0,0,0,"{""idx"": 146, ""count"": 517700}",2029430,43200,1.0.0
+17,7,0,54340,37500,8000,160,0,0,0,"{""idx"": 146, ""count"": 528000}",2547130,43200,1.0.0
+18,7,0,53300,37500,9000,200,0,0,0,"{""idx"": 146, ""count"": 808300}",3075130,64800,1.0.0
+19,8,0,49700,40000,10000,300,0,0,0,"{""idx"": 146, ""count"": 839400}",3883430,64800,1.0.0
+20,8,0,48600,40000,11000,400,0,0,0,"{""idx"": 146, ""count"": 858300}",4722830,64800,1.0.0
+21,8,0,47500,40000,12000,500,0,0,0,"{""idx"": 146, ""count"": 1169700}",5581130,86400,1.0.0
+22,9,0,47400,38000,14000,600,0,0,0,"{""idx"": 146, ""count"": 1201400}",6750830,86400,1.0.0
+23,9,0,45300,38000,16000,700,0,0,0,"{""idx"": 146, ""count"": 1246200}",7952230,86400,1.0.0
+24,9,0,43200,38000,18000,800,0,0,0,"{""idx"": 146, ""count"": 1290900}",9198430,86400,1.0.0
+25,9,0,39100,40000,20000,900,0,0,0,"{""idx"": 2697000}",10489330,172800,1.0.0
+26,10,0,34990,42000,22000,1000,10,0,0,"{""idx"": 146, ""count"": 1407100}",13186330,345600,1.0.0
+27,10,0,29980,44000,24000,2000,20,0,0,"{""idx"": 146, ""count"": 9108900}",14593430,518400,1.0.0
+28,10,0,24970,46000,26000,3000,30,0,0,"{""idx"": 146, ""count"": 13033700}",23702330,691200,1.0.0
+29,10,0,19960,48000,28000,4000,40,0,0,"{""idx"": 146, ""count"": 17402700}",36736030,864000,1.0.0
+30,10,0,14950,50000,30000,5000,50,0,0,"{""idx"": 146, ""count"": 22216100}",54138730,1036800,1.0.0
+31,10,0,0,61890,32000,6000,100,10,0,"{""idx"": 146, ""count"": 24384000}",76354830,1036800,1.0.0
+32,10,0,0,58860,34000,7000,120,20,0,"{""idx"": 146, ""count"": 29585700}",100738830,1209600,1.0.0
+33,10,0,0,55830,36000,8000,140,30,0,"{""idx"": 146, ""count"": 35112300}",130324530,1382400,1.0.0
+34,10,0,0,52800,38000,9000,160,40,0,"{""idx"": 146, ""count"": 40964000}",165436830,1555200,1.0.0
+35,10,0,0,49770,40000,10000,180,50,0,"{""idx"": 146, ""count"": 47140800}",206400830,1728000,1.0.0
+36,10,0,0,41645,46000,12000,250,100,5,"{""idx"": 146, ""count"": 61358900}",253541630,2073600,1.0.0
+37,10,0,0,38470,47000,14000,400,120,10,"{""idx"": 146, ""count"": 75395600}",314900530,2419200,1.0.0
+38,10,0,0,35295,48000,16000,550,140,15,"{""idx"": 146, ""count"": 90521000}",390296130,2764800,1.0.0
+39,10,0,0,32120,49000,18000,700,160,20,"{""idx"": 146, ""count"": 106735000}",480817130,3110400,1.0.0
+40,10,0,0,28945,50000,20000,850,180,25,"{""idx"": 146, ""count"": 0}",587552130,0,1.0.0`;
 
 const FALLBACK_OPTIONS = `idx,name_key,min,max,grade_value_1,grade_value_2,grade_value_3,grade_value_4,grade_value_5,grade_value_6,grade_value_7,grade_value_8,floor_value,accumulate_max,rate,version
 1,t_ui_maches_option_01,100,10000,1000.0,3500.0,14000.0,63000.0,315000.0,2520000.0,25200000.0,252000000.0,0.1,0,5000,1.0.0
@@ -385,6 +418,10 @@ function processSummonProbs(text) {
                 obj.level = parseInt(val) || 1;
             } else if (key === "slot_count" || key === "슬롯수") {
                 obj.slot_count = parseInt(val) || 2;
+            } else if (key === "upgrade_cost" || key === "강화비용") {
+                obj.upgrade_cost = val;
+            } else if (key === "upgrade_time" || key === "강화시간") {
+                obj.upgrade_time = parseInt(val) || 0;
             } else if (key.startsWith("grade_rate_") || key === "일반" || key === "고급" || key === "희귀" || key === "유물" || key === "영웅" || key === "전설" || key === "신화" || key === "불멸") {
                 // 등급 비율 매핑
                 obj[key] = parseFloat(val) || 0;
@@ -597,21 +634,30 @@ function saveCompareState() {
     localStorage.setItem('maf_rune_compare_b', JSON.stringify(getCompareState('b')));
 }
 
+function updateSummonAppliedLevelLabel() {
+    const highestFloor = parseInt(document.getElementById('summon-opt-level')?.value) || 2001;
+    const optLevel = Math.max(0, Math.floor((highestFloor - 1) / 200));
+    const label = document.getElementById('summon-applied-level-label');
+    if (label) {
+        label.innerText = `(적용: ${optLevel} Lv)`;
+    }
+}
+
 // 6. UI 설정 및 바인딩
 function setupUI() {
     // 세트 선택기 채우기
     populateSetSelects();
 
-    // 소환 레벨 채우기
+    // 소환 레벨 채우기 (1~40)
     const levelSelect = document.getElementById('summon-level-select');
     if (levelSelect) {
         levelSelect.innerHTML = '';
-        summonProbs.forEach(s => {
+        for (let lv = 1; lv <= 40; lv++) {
             const opt = document.createElement('option');
-            opt.value = s.level;
-            opt.innerText = `Lv. ${s.level}`;
+            opt.value = lv;
+            opt.innerText = `Lv. ${lv}`;
             levelSelect.appendChild(opt);
-        });
+        }
     }
 
     // 룬 비교 이벤트 바인딩
@@ -701,6 +747,38 @@ function setupUI() {
     updateRuneOptionsForm('b', parsedB);
     triggerCalculation();
 
+    // 소환 필터 상태 복원 및 이벤트 바인딩 (savedSummon 복원 전에 처리하여 오버라이트 방지)
+    const incKeysEl = document.getElementById('summon-include-keys');
+    const onlySetsEl = document.getElementById('summon-only-sets');
+    const optLevelEl = document.getElementById('summon-opt-level');
+
+    if (incKeysEl) {
+        const saved = localStorage.getItem('maf_rune_summon_include_keys');
+        if (saved !== null) incKeysEl.checked = saved === 'true';
+        incKeysEl.addEventListener('change', filterAndRenderSummonResults);
+    }
+    if (onlySetsEl) {
+        const saved = localStorage.getItem('maf_rune_summon_only_sets');
+        if (saved !== null) onlySetsEl.checked = saved === 'true';
+        onlySetsEl.addEventListener('change', filterAndRenderSummonResults);
+    }
+    if (optLevelEl) {
+        const saved = localStorage.getItem('maf_rune_summon_opt_level');
+        if (saved !== null) {
+            let num = parseInt(saved) || 2001;
+            if (num <= 100) {
+                num = num * 200 + 1; // convert old level to equivalent floor
+            }
+            optLevelEl.value = num;
+        }
+        optLevelEl.addEventListener('input', () => {
+            localStorage.setItem('maf_rune_summon_opt_level', optLevelEl.value);
+            updateSummonAppliedLevelLabel();
+            filterAndRenderSummonResults();
+        });
+        updateSummonAppliedLevelLabel();
+    }
+
     // 소환 시뮬레이터 상태 복원
     const savedSummon = localStorage.getItem('maf_rune_summon_state');
     if (savedSummon) {
@@ -709,14 +787,37 @@ function setupUI() {
             if (parsed) {
                 if (parsed.level) document.getElementById('summon-level-select').value = parsed.level;
                 if (parsed.count) document.getElementById('summon-count-select').value = parsed.count;
-                if (parsed.gradeCounts && parsed.legendList) {
-                    renderSummonResults(parsed.count, parsed.gradeCounts, parsed.legendList);
+                if (parsed.summonedRunesList) {
+                    latestSummonedRunes = parsed.summonedRunesList;
+                } else if (parsed.legendList) {
+                    // Backwards compatibility
+                    latestSummonedRunes = parsed.legendList.map(item => {
+                        let setKey = "";
+                        for (let k in SET_TRANSLATIONS) {
+                            if (SET_TRANSLATIONS[k] === item.set) {
+                                setKey = k;
+                                break;
+                            }
+                        }
+                        const { options, baseValues } = rollRandomOptionsForRune(item.grade);
+                        return {
+                            rune: item.rune,
+                            grade: item.grade,
+                            setName: setKey,
+                            options: options,
+                            baseValues: baseValues
+                        };
+                    });
+                }
+                if (parsed.gradeCounts) {
+                    renderSummonResults(parsed.count, parsed.gradeCounts);
                 }
             }
         } catch (e) {
             console.error("Failed to parse saved summon state", e);
         }
     }
+
     updateSummonLevelInfo();
 
     // 룬 보드 정보 최초 업데이트
@@ -766,7 +867,14 @@ function bindCompareEvents(prefix) {
         if (!el) return;
         el.addEventListener('change', () => {
             if (id.includes('grade')) {
-                updateRuneOptionsForm(prefix);
+                const optionSelectors = document.querySelectorAll(`#rune-${prefix}-options-list .option-selector`);
+                const options = Array.from(optionSelectors).map(s => s.value);
+                const valInputs = document.querySelectorAll(`#rune-${prefix}-options-list .option-value-input`);
+                const optionValues = Array.from(valInputs).map(input => input.value);
+                const setName = document.getElementById(`rune-${prefix}-set`)?.value || "";
+
+                const savedState = { options, optionValues, setName };
+                updateRuneOptionsForm(prefix, savedState);
             }
             if (id.includes('level')) {
                 updateFloorLevelDisplay(prefix);
@@ -781,11 +889,6 @@ function bindCompareEvents(prefix) {
         updateFloorLevelDisplay(prefix);
         updateRuneOptionsRangeDisplay(prefix);
         triggerCalculation();
-    });
-
-    // 롤링
-    document.getElementById(`rune-${prefix}-roll-btn`).addEventListener('click', () => {
-        rollRuneStats(prefix);
     });
 }
 
@@ -802,9 +905,12 @@ function updateRuneOptionsRangeDisplay(prefix) {
     const optionSelectors = document.querySelectorAll(`#rune-${prefix}-options-list .option-selector`);
     optionSelectors.forEach((sel, idx) => {
         const optName = sel.value;
-        if (!optName) return;
-        const range = calculateOptionValueRange(grade, level, optName);
         const rangeTextEl = document.getElementById(`rune-${prefix}-opt-range-${idx + 1}`);
+        if (!optName) {
+            if (rangeTextEl) rangeTextEl.innerText = "";
+            return;
+        }
+        const range = calculateOptionValueRange(grade, level, optName);
         if (rangeTextEl) {
             rangeTextEl.innerText = `범위: ${formatStatValue(range.idx, range.min)} ~ ${formatStatValue(range.idx, range.max)}`;
         }
@@ -823,24 +929,13 @@ function updateRuneOptionsForm(prefix, savedState = null) {
         if (setSelect) setSelect.value = savedState.setName;
     }
 
-    // 세트 표기 여부 (전설, 신화, 불멸만 지원)
-    if (grade === "전설" || grade === "신화" || grade === "불멸") {
-        setGroup.style.display = 'flex';
-    } else {
-        setGroup.style.display = 'none';
-        const select = document.getElementById(`rune-${prefix}-set`);
-        if (select) select.value = "";
-    }
+    // 세트 표기 여부 (간편 비교에서는 사용 안 함)
+    setGroup.style.display = 'none';
+    const selectSet = document.getElementById(`rune-${prefix}-set`);
+    if (selectSet) selectSet.value = "";
 
-    // 옵션 개수
-    let optionCount = 1;
-    if (grade === "일반" || grade === "고급") {
-        optionCount = 1;
-    } else if (grade === "희귀" || grade === "유물" || grade === "영웅") {
-        optionCount = 2;
-    } else {
-        optionCount = 3;
-    }
+    // 옵션 개수 (비교기에서는 항상 3줄의 옵션을 제공하며, 사용자가 '옵션 없음'을 선택할 수 있도록 함)
+    let optionCount = 3;
 
     container.innerHTML = '';
     const level = parseInt(document.getElementById(`rune-${prefix}-level`).value) || 0;
@@ -856,7 +951,7 @@ function updateRuneOptionsForm(prefix, savedState = null) {
         headerDiv.style.width = '100%';
         headerDiv.innerHTML = `
             <span>옵션 ${i}</span>
-            <span class="option-range-display" id="rune-${prefix}-opt-range-${i}" style="font-size: 0.75rem; color: var(--accent-blue); font-weight: 600;">범위: 계산 중...</span>
+            <span class="option-range-display" id="rune-${prefix}-opt-range-${i}" style="font-size: 0.75rem; color: var(--accent-blue); font-weight: 600; display: none;">범위: 계산 중...</span>
         `;
 
         const ctrlRow = document.createElement('div');
@@ -870,6 +965,12 @@ function updateRuneOptionsForm(prefix, savedState = null) {
         select.id = `rune-${prefix}-opt-${i}`;
         select.className = 'select-control option-selector';
 
+        // '옵션 없음' 추가
+        const noneOpt = document.createElement('option');
+        noneOpt.value = "";
+        noneOpt.innerText = "옵션 없음";
+        select.appendChild(noneOpt);
+
         optionsData.forEach((opt, idx) => {
             const exists = Array.from(select.options).some(o => o.value === opt.name_key);
             if (!exists && opt.name_key) {
@@ -880,10 +981,10 @@ function updateRuneOptionsForm(prefix, savedState = null) {
             }
         });
 
-        if (savedState && savedState.options && savedState.options[i - 1]) {
+        if (savedState && savedState.options && savedState.options[i - 1] !== undefined) {
             select.value = savedState.options[i - 1];
         } else {
-            select.selectedIndex = (i - 1) % select.options.length;
+            select.selectedIndex = i % select.options.length;
         }
 
         const valInput = document.createElement('input');
@@ -892,13 +993,24 @@ function updateRuneOptionsForm(prefix, savedState = null) {
         valInput.className = 'number-control option-value-input';
         valInput.placeholder = '수치 (예: 15A)';
 
+        const updateInputState = () => {
+            if (select.value === "") {
+                valInput.value = "0";
+                valInput.disabled = true;
+                valInput.style.opacity = "0.5";
+            } else {
+                valInput.disabled = false;
+                valInput.style.opacity = "1";
+            }
+        };
+
         if (savedState && savedState.optionValues && savedState.optionValues[i - 1] !== undefined) {
             valInput.value = savedState.optionValues[i - 1];
         } else {
-            const range = calculateOptionValueRange(grade, level, select.value);
-            const avg = (range.min + range.max) / 2;
-            valInput.value = formatGameNumber(avg);
+            valInput.value = "0";
         }
+
+        updateInputState();
 
         ctrlRow.appendChild(select);
         ctrlRow.appendChild(valInput);
@@ -909,11 +1021,7 @@ function updateRuneOptionsForm(prefix, savedState = null) {
 
         select.addEventListener('change', () => {
             updateRuneOptionsRangeDisplay(prefix);
-            const gradeVal = document.getElementById(`rune-${prefix}-grade`).value;
-            const levelVal = parseInt(document.getElementById(`rune-${prefix}-level`).value) || 0;
-            const range = calculateOptionValueRange(gradeVal, levelVal, select.value);
-            const avg = (range.min + range.max) / 2;
-            valInput.value = formatGameNumber(avg);
+            updateInputState();
             triggerCalculation();
         });
 
@@ -980,6 +1088,17 @@ function getRuneInputStats(rune) {
         stats[optName].min += range.min;
         stats[optName].max += range.max;
     });
+
+    // Clamp flat options 25-30 to their accumulate_max
+    for (let optName in stats) {
+        const matchOpt = optionsData.find(o => o.name_key === optName);
+        if (matchOpt && matchOpt.accumulate_max > 0) {
+            stats[optName].value = Math.min(stats[optName].value, matchOpt.accumulate_max);
+            stats[optName].min = Math.min(stats[optName].min, matchOpt.accumulate_max);
+            stats[optName].max = Math.min(stats[optName].max, matchOpt.accumulate_max);
+        }
+    }
+
     return stats;
 }
 
@@ -1035,7 +1154,7 @@ function calculateCategoryMultiplierForSockets(sockets, spec, keys) {
         return stats;
     }).filter(s => s !== null);
 
-    // Calculate set counts first to find Option 25 set effects
+    // Calculate set counts first to find Option 25/30 set effects
     const setCounts = {};
     sockets.forEach(socket => {
         if (socket.equipped && (socket.grade === "전설" || socket.grade === "신화" || socket.grade === "불멸") && socket.setName) {
@@ -1076,26 +1195,65 @@ function calculateCategoryMultiplierForSockets(sockets, spec, keys) {
         });
     }
 
-    const totalSkins = (spec.skins || 0) + totalAddedSkins;
+    // Capping Option 25 (Skin count increase) to its accumulate_max (30)
+    const totalAddedSkinsClamped = Math.min(totalAddedSkins, 30);
+    const totalSkins = (spec.skins || 0) + totalAddedSkinsClamped;
     const modifiedSpec = { ...spec, skins: totalSkins };
 
     // 2) Multiply same options between different runes (using modifiedSpec)
     keys.forEach(key => {
-        runeAggregated.forEach(stats => {
-            if (stats[key] && stats[key] > 0) {
-                let val_eff = getEffectiveValue(key, stats[key], modifiedSpec);
-                if (key === "t_ui_maches_option_23" || key === "t_ui_maches_option_24") {
-                    val_eff = stats[key] * totalSkins;
+        if (key === "t_ui_maches_option_30") {
+            // Option 30 is summed up first and clamped to 100 (accumulate_max)
+            let totalOpt30 = 0;
+            runeAggregated.forEach(stats => {
+                if (stats[key] && stats[key] > 0) {
+                    totalOpt30 += stats[key];
                 }
-                let optMult = 1.0;
-                if (key === "t_ui_maches_option_30") {
-                    optMult = Math.pow(1.1, val_eff);
-                } else {
-                    optMult = 1 + (val_eff / 100);
-                }
-                multiplier *= optMult;
+            });
+
+            // Also check set effects for Option 30
+            for (let setName in setCounts) {
+                const count = setCounts[setName];
+                const effectsForSet = setEffects.filter(s => s.name_key === setName);
+                effectsForSet.forEach(set => {
+                    const checkSetOpt30 = (buffOpt, buffVal) => {
+                        if (!buffOpt || !buffVal) return;
+                        if (typeof buffOpt === 'number') {
+                            buffOpt = `t_ui_maches_option_${String(buffOpt).padStart(2, '0')}`;
+                        }
+                        if (buffOpt === "t_ui_maches_option_30") {
+                            totalOpt30 += buffVal;
+                        }
+                    };
+                    if (set.option_active_count_1 && count >= set.option_active_count_1) {
+                        checkSetOpt30(set.option_number_1, set.option_value_1);
+                    }
+                    if (set.option_active_count_2 && count >= set.option_active_count_2) {
+                        checkSetOpt30(set.option_number_2, set.option_value_2);
+                    }
+                    if (set.option_active_count_3 && count >= set.option_active_count_3) {
+                        checkSetOpt30(set.option_number_3, set.option_value_3);
+                    }
+                });
             }
-        });
+
+            const totalOpt30Clamped = Math.min(totalOpt30, 100);
+            if (totalOpt30Clamped > 0) {
+                let val_eff = getEffectiveValue(key, totalOpt30Clamped, modifiedSpec);
+                multiplier *= Math.pow(1.452, val_eff);
+            }
+        } else {
+            runeAggregated.forEach(stats => {
+                if (stats[key] && stats[key] > 0) {
+                    let val_eff = getEffectiveValue(key, stats[key], modifiedSpec);
+                    if (key === "t_ui_maches_option_23" || key === "t_ui_maches_option_24") {
+                        val_eff = stats[key] * totalSkins;
+                    }
+                    let optMult = 1 + (val_eff / 100);
+                    multiplier *= optMult;
+                }
+            });
+        }
     });
 
     // 3) Apply set effects (multiplicative, using modifiedSpec)
@@ -1109,17 +1267,16 @@ function calculateCategoryMultiplierForSockets(sockets, spec, keys) {
                 if (typeof buffOpt === 'number') {
                     buffOpt = `t_ui_maches_option_${String(buffOpt).padStart(2, '0')}`;
                 }
+
+                // Skip Option 30 since it was already handled in step 2 (clamped totalOpt30)
+                if (buffOpt === "t_ui_maches_option_30") return;
+
                 if (keys.includes(buffOpt)) {
                     let S_eff = getEffectiveValue(buffOpt, buffVal, modifiedSpec);
                     if (buffOpt === "t_ui_maches_option_23" || buffOpt === "t_ui_maches_option_24") {
                         S_eff = buffVal * totalSkins;
                     }
-                    let setMult = 1.0;
-                    if (buffOpt === "t_ui_maches_option_30") {
-                        setMult = Math.pow(1.1, S_eff);
-                    } else {
-                        setMult = 1 + (S_eff / 100);
-                    }
+                    let setMult = 1 + (S_eff / 100);
                     multiplier *= setMult;
                 }
             };
@@ -1609,6 +1766,16 @@ function getBoardStatsAndSets(sockets) {
         });
     }
 
+    // Clamp flat options 25-30 to their accumulate_max
+    for (let optName in boardStats) {
+        const matchOpt = optionsData.find(o => o.name_key === optName);
+        if (matchOpt && matchOpt.accumulate_max > 0) {
+            boardStats[optName].value = Math.min(boardStats[optName].value, matchOpt.accumulate_max);
+            boardStats[optName].min = Math.min(boardStats[optName].min, matchOpt.accumulate_max);
+            boardStats[optName].max = Math.min(boardStats[optName].max, matchOpt.accumulate_max);
+        }
+    }
+
     return { boardStats, activeSets };
 }
 
@@ -1700,7 +1867,8 @@ function getCombinedBoardStats(sockets, spec) {
         });
     }
 
-    const totalSkins = (spec.skins || 0) + totalAddedSkins;
+    const totalAddedSkinsClamped = Math.min(totalAddedSkins, 30);
+    const totalSkins = (spec.skins || 0) + totalAddedSkinsClamped;
     const modifiedSpec = { ...spec, skins: totalSkins };
 
     // 2) Compute combined values for each option key
@@ -1808,6 +1976,14 @@ function getCombinedBoardStats(sockets, spec) {
                 }
             });
 
+            // Clamp to accumulate_max if key is option 25-30
+            const matchOpt = optionsData.find(o => o.name_key === key);
+            if (matchOpt && matchOpt.accumulate_max > 0) {
+                sumVal = Math.min(sumVal, matchOpt.accumulate_max);
+                sumMin = Math.min(sumMin, matchOpt.accumulate_max);
+                sumMax = Math.min(sumMax, matchOpt.accumulate_max);
+            }
+
             // Apply spec factor to the final sum
             const val_eff = getEffectiveValue(key, sumVal, modifiedSpec);
             const min_eff = getEffectiveValue(key, sumMin, modifiedSpec);
@@ -1830,13 +2006,15 @@ function getCombinedBoardStats(sockets, spec) {
 function bindBoardEvents() {
     document.getElementById('editor-close-btn').addEventListener('click', closeSocketEditor);
 
-    document.getElementById('editor-equipped').addEventListener('change', () => {
-        toggleEditorEquippedFields();
-        updateEditorComparison();
-    });
-
     document.getElementById('editor-grade').addEventListener('change', () => {
-        updateEditorOptionsForm();
+        toggleEditorEquippedFields();
+
+        const optionSelectors = document.querySelectorAll('.editor-option-selector');
+        const options = Array.from(optionSelectors).map(s => s.value);
+        const valInputs = document.querySelectorAll('.editor-option-value-input');
+        const optionValues = Array.from(valInputs).map(input => input.value);
+
+        updateEditorOptionsForm({ options, optionValues });
         updateEditorComparison();
     });
 
@@ -1867,9 +2045,9 @@ function bindBoardEvents() {
 function openSocketEditor(index) {
     const socket = boardSockets[index];
     document.getElementById('editor-slot-index').value = index;
-    document.getElementById('editor-slot-title').innerText = `${index + 1}번 슬롯 (${socket.runeName}의 룬) 설정`;
+    document.getElementById('editor-slot-title').innerText = `${index + 1}번 슬롯 (${socket.runeName}의 룬) 변경`;
     document.getElementById('editor-equipped').value = socket.equipped.toString();
-    document.getElementById('editor-grade').value = socket.grade;
+    document.getElementById('editor-grade').value = socket.equipped ? socket.grade : "없음";
     document.getElementById('editor-level').value = socket.level;
     document.getElementById('editor-set').value = socket.setName;
 
@@ -1900,36 +2078,54 @@ function closeSocketEditor() {
 
 
 function toggleEditorEquippedFields() {
-    const equipped = document.getElementById('editor-equipped').value === 'true';
+    const grade = document.getElementById('editor-grade').value;
+    const equipped = grade !== "없음";
     document.querySelectorAll('.editor-fields').forEach(el => {
         el.style.display = equipped ? 'block' : 'none';
     });
     // 컨테이너 레이아웃 재조정
     const setGrp = document.getElementById('editor-set-group');
+    const setSelect = document.getElementById('editor-set');
     if (equipped) {
-        const grade = document.getElementById('editor-grade').value;
+        setGrp.style.display = 'block';
         if (grade === "전설" || grade === "신화" || grade === "불멸") {
-            setGrp.style.display = 'block';
+            if (setSelect) setSelect.disabled = false;
         } else {
-            setGrp.style.display = 'none';
+            if (setSelect) {
+                setSelect.value = "";
+                setSelect.disabled = true;
+            }
         }
     } else {
         setGrp.style.display = 'none';
+        if (setSelect) {
+            setSelect.value = "";
+            setSelect.disabled = true;
+        }
     }
 }
 
-function updateEditorOptionsForm() {
+function updateEditorOptionsForm(savedState = null) {
     const grade = document.getElementById('editor-grade').value;
     const level = parseInt(document.getElementById('editor-level').value) || 0;
     const container = document.getElementById('editor-options-list');
     const setGrp = document.getElementById('editor-set-group');
+    const setSelect = document.getElementById('editor-set');
     if (!container) return;
 
     if (grade === "전설" || grade === "신화" || grade === "불멸") {
         setGrp.style.display = 'block';
+        if (setSelect) setSelect.disabled = false;
     } else {
-        setGrp.style.display = 'none';
-        document.getElementById('editor-set').value = "";
+        if (grade !== "없음") {
+            setGrp.style.display = 'block';
+        } else {
+            setGrp.style.display = 'none';
+        }
+        if (setSelect) {
+            setSelect.value = "";
+            setSelect.disabled = true;
+        }
     }
 
     let optionCount = 1;
@@ -1944,6 +2140,8 @@ function updateEditorOptionsForm() {
     container.innerHTML = '';
     const index = parseInt(document.getElementById('editor-slot-index').value);
     const socket = boardSockets[index];
+
+    const stateToLoad = savedState || socket;
 
     for (let i = 1; i <= optionCount; i++) {
         const row = document.createElement('div');
@@ -1979,9 +2177,9 @@ function updateEditorOptionsForm() {
             }
         });
 
-        // 기존 장착 상태였던 룬의 옵션을 불러옴
-        if (socket && socket.options[i - 1]) {
-            select.value = socket.options[i - 1];
+        // 기존 장착 상태 또는 편집 중이던 옵션을 불러옴
+        if (stateToLoad && stateToLoad.options && stateToLoad.options[i - 1]) {
+            select.value = stateToLoad.options[i - 1];
         } else {
             select.selectedIndex = (i - 1) % select.options.length;
         }
@@ -1991,13 +2189,15 @@ function updateEditorOptionsForm() {
         valInput.className = 'number-control editor-option-value-input';
         valInput.placeholder = '수치 (예: 15A)';
 
-        // 기존 장착 상태였던 룬의 수치를 불러옴
-        if (socket && socket.optionValues && socket.optionValues[i - 1] !== undefined) {
-            valInput.value = formatGameNumber(socket.optionValues[i - 1]);
+        // 기존 장착 상태 또는 편집 중이던 수치를 불러옴
+        if (stateToLoad && stateToLoad.optionValues && stateToLoad.optionValues[i - 1] !== undefined) {
+            if (savedState) {
+                valInput.value = stateToLoad.optionValues[i - 1];
+            } else {
+                valInput.value = formatGameNumber(stateToLoad.optionValues[i - 1]);
+            }
         } else {
-            const range = calculateOptionValueRange(grade, level, select.value);
-            const avg = (range.min + range.max) / 2;
-            valInput.value = formatGameNumber(avg);
+            valInput.value = "0";
         }
 
         ctrlRow.appendChild(select);
@@ -2019,11 +2219,7 @@ function updateEditorOptionsForm() {
 
         select.addEventListener('change', () => {
             updateRangeDisplay();
-            const currentLevel = parseInt(document.getElementById('editor-level').value) || 0;
-            const currentGrade = document.getElementById('editor-grade').value;
-            const range = calculateOptionValueRange(currentGrade, currentLevel, select.value);
-            const avg = (range.min + range.max) / 2;
-            valInput.value = formatGameNumber(avg);
+            valInput.value = "0";
             updateEditorComparison();
         });
 
@@ -2035,8 +2231,8 @@ function updateEditorOptionsForm() {
 
 function saveSocketData() {
     const index = parseInt(document.getElementById('editor-slot-index').value);
-    const equipped = document.getElementById('editor-equipped').value === 'true';
     const grade = document.getElementById('editor-grade').value;
+    const equipped = grade !== "없음";
     const level = parseInt(document.getElementById('editor-level').value) || 0;
     const setName = document.getElementById('editor-set').value;
 
@@ -2187,8 +2383,8 @@ function updateEditorComparison() {
     const originalSocket = boardSockets[index];
 
     // Get edited socket state (After)
-    const equipped = document.getElementById('editor-equipped').value === 'true';
     const grade = document.getElementById('editor-grade').value;
+    const equipped = grade !== "없음";
     const level = parseInt(document.getElementById('editor-level').value) || 0;
     const setName = document.getElementById('editor-set').value;
 
@@ -2372,13 +2568,65 @@ function updateEditorComparison() {
 }
 
 // 11. 소환 확률 시뮬레이터 관련 로직
+let latestSummonedRunes = [];
+
+function getSummonProbData(level) {
+    if (summonProbs.length === 0) return null;
+    let match = summonProbs.find(s => s.level === level);
+    if (match) return match;
+
+    // Find closest level
+    let closest = summonProbs[0];
+    let minDiff = Math.abs(summonProbs[0].level - level);
+    for (let i = 1; i < summonProbs.length; i++) {
+        let diff = Math.abs(summonProbs[i].level - level);
+        if (diff < minDiff) {
+            minDiff = diff;
+            closest = summonProbs[i];
+        }
+    }
+    return closest;
+}
+
+function getUpgradePowderCost(costStr) {
+    if (!costStr) return 0;
+    try {
+        let cleanStr = costStr.replace(/"{2,}/g, '"').replace(/^"/, '').replace(/"$/, '');
+        const parsed = JSON.parse(cleanStr);
+        return parseInt(parsed.count) || 0;
+    } catch (e) {
+        const match = costStr.match(/"count":\s*"?(\d+)"?/);
+        if (match) {
+            return parseInt(match[1]) || 0;
+        }
+    }
+    return 0;
+}
+
+function formatUpgradeTime(seconds) {
+    if (seconds < 60) return `${seconds}초`;
+    const minutes = Math.floor(seconds / 60);
+    if (minutes < 60) {
+        const remSec = seconds % 60;
+        return remSec > 0 ? `${minutes}분 ${remSec}초` : `${minutes}분`;
+    }
+    const hours = Math.floor(minutes / 60);
+    const remMin = minutes % 60;
+    if (hours < 24) {
+        return remMin > 0 ? `${hours}시간 ${remMin}분` : `${hours}시간`;
+    }
+    const days = Math.floor(hours / 24);
+    const remHour = hours % 24;
+    return remHour > 0 ? `${days}일 ${remHour}시간` : `${days}일`;
+}
+
 function updateSummonLevelInfo() {
     const select = document.getElementById('summon-level-select');
     const display = document.getElementById('level-info-display');
     if (!select || !display) return;
 
     const level = parseInt(select.value);
-    const match = summonProbs.find(s => s.level === level);
+    const match = getSummonProbData(level);
     if (!match) {
         display.innerHTML = '<p class="no-sets">해당 소환 레벨 테이블 정보가 없습니다.</p>';
         return;
@@ -2390,22 +2638,70 @@ function updateSummonLevelInfo() {
         const rateKey = `grade_rate_${idx + 1}`;
         const rateVal = match[rateKey] || 0;
         if (rateVal > 0) {
-            probTexts.push(`<div class="level-prob-item">${g}: ${(rateVal / 1000).toFixed(2)}%</div>`);
+            probTexts.push(`<div class="level-prob-item">${g}: ${(rateVal / 1000).toFixed(3)}%</div>`);
         }
     });
 
+    // 룬가루 및 시간 정보 파싱
+    const powderCost = getUpgradePowderCost(match.upgrade_cost);
+    const upgradeTimeText = match.upgrade_time !== undefined ? formatUpgradeTime(match.upgrade_time) : "정보 없음";
+
+    // 룬가루 기댓값 계산
+    const POWDER_BY_GRADE = [5, 10, 20, 40, 100, 150, 300, 1000];
+    let expectedPowderPerSummon = 0;
+    GRADES.forEach((g, idx) => {
+        const rateKey = `grade_rate_${idx + 1}`;
+        const rateVal = match[rateKey] || 0;
+        expectedPowderPerSummon += (rateVal / 100000) * POWDER_BY_GRADE[idx];
+    });
+
+    const expectedRunesNeeded = expectedPowderPerSummon > 0 ? (powderCost / expectedPowderPerSummon) : 0;
+
     display.innerHTML = `
-        <div class="level-info-header">🚀 소환 레벨 ${level} 정보</div>
-        <p style="margin-bottom:0.5rem;"><strong>등장 가능 룬 (${match.slot_count}종)</strong>: ${match.runes.join(', ')}</p>
-        <div class="level-info-body">
-            ${probTexts.join('')}
+        <div class="level-info-header" style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 0.5rem; margin-bottom: 0.75rem;">
+            <span style="font-size: 1.1rem; font-weight: 800; color: var(--accent-blue);">🚀 소환 레벨 ${level} 정보</span>
+            <span style="font-size: 0.75rem; color: var(--text-muted); font-weight: normal;">(다음 레벨 강화 비용 기준)</span>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 0.65rem;">
+            <p style="margin: 0; font-size: 0.85rem; color: var(--text-primary);">
+                <strong>등장 가능 룬 (${match.slot_count}종)</strong>: 
+                <span style="color: var(--accent-orange); font-weight: bold;">${match.runes.join(', ')}</span>
+            </p>
+            
+            <div class="level-upgrade-details" style="display: flex; flex-direction: column; gap: 0.4rem; background: rgba(255,255,255,0.02); padding: 0.75rem; border-radius: 8px; border: 1px solid rgba(255,255,255,0.04);">
+                <div style="display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--text-secondary);">
+                    <span>✨ 필요 룬가루:</span>
+                    <strong style="color: #fbbf24; font-size: 0.85rem;">${powderCost.toLocaleString()}개</strong>
+                </div>
+                <div style="display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--text-secondary);">
+                    <span>⏱️ 필요 강화 시간:</span>
+                    <strong style="color: var(--accent-blue); font-size: 0.85rem;">${upgradeTimeText}</strong>
+                </div>
+                <div style="display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--text-secondary); border-top: 1px solid rgba(255,255,255,0.04); padding-top: 0.4rem; margin-top: 0.2rem;">
+                    <span>🎲 1회 소환당 획득 룬가루 기댓값:</span>
+                    <strong style="color: var(--accent-green);">${expectedPowderPerSummon.toFixed(2)}개</strong>
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 0.15rem; font-size: 0.8rem; color: var(--text-secondary);">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <span>📊 레벨업 필요 소환 룬 개수 기댓값:</span>
+                        <strong style="color: var(--accent-purple); font-size: 0.9rem;">${expectedRunesNeeded > 0 ? Math.ceil(expectedRunesNeeded).toLocaleString() + '개' : '0개'}</strong>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="margin-top: 0.25rem;">
+                <div style="font-size: 0.8rem; font-weight: 600; color: var(--text-muted); margin-bottom: 0.35rem;">등급별 소환 확률:</div>
+                <div class="level-info-body" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 0.4rem;">
+                    ${probTexts.join('')}
+                </div>
+            </div>
         </div>
     `;
 }
 
-function getRandomSetForGrade(grade) {
+function getRandomSetKeyForGrade(grade) {
     const uniqueSetKeys = Array.from(new Set(setEffects.map(s => s.name_key).filter(k => k)));
-    if (uniqueSetKeys.length === 0) return "없음";
+    if (uniqueSetKeys.length === 0) return "";
 
     const roll = Math.random() * 100; // 0 to 100%
     let noSetRate = 100;
@@ -2421,22 +2717,247 @@ function getRandomSetForGrade(grade) {
         noSetRate = 49.95;
         ratePerSet = 7.15;
     } else {
-        return "없음";
+        return "";
     }
 
     if (roll <= noSetRate) {
-        return "없음";
+        return "";
     }
 
     const setIndex = Math.floor((roll - noSetRate) / ratePerSet);
     if (setIndex >= 0 && setIndex < uniqueSetKeys.length) {
-        const setKey = uniqueSetKeys[setIndex];
-        return SET_TRANSLATIONS[setKey] || setKey;
+        return uniqueSetKeys[setIndex];
     }
-    return "없음";
+    return "";
 }
 
-function renderSummonResults(count, gradeCounts, legendList) {
+function getRandomSetForGrade(grade) {
+    const key = getRandomSetKeyForGrade(grade);
+    if (!key) return "없음";
+    return SET_TRANSLATIONS[key] || key;
+}
+
+function rollRandomOptionsForRune(grade) {
+    let optionCount = 1;
+    if (grade === "일반" || grade === "고급") {
+        optionCount = 1;
+    } else if (grade === "희귀" || grade === "유물" || grade === "영웅") {
+        optionCount = 2;
+    } else {
+        optionCount = 3;
+    }
+
+    const validOptions = optionsData.filter(o => o.name_key && o.rate > 0);
+    const totalRate = validOptions.reduce((sum, o) => sum + o.rate, 0);
+
+    const options = [];
+    const baseValues = [];
+
+    for (let i = 0; i < optionCount; i++) {
+        let selectedOpt = null;
+        let roll = Math.random() * totalRate;
+        let runningSum = 0;
+
+        for (let attempt = 0; attempt < 5; attempt++) {
+            roll = Math.random() * totalRate;
+            runningSum = 0;
+            for (let o of validOptions) {
+                runningSum += o.rate;
+                if (roll <= runningSum) {
+                    selectedOpt = o;
+                    break;
+                }
+            }
+            if (selectedOpt && !options.includes(selectedOpt.name_key)) {
+                break;
+            }
+        }
+
+        if (!selectedOpt) {
+            selectedOpt = validOptions[Math.floor(Math.random() * validOptions.length)];
+        }
+
+        options.push(selectedOpt.name_key);
+
+        const minVal = Math.round(selectedOpt.min);
+        const maxVal = Math.round(selectedOpt.max);
+        const rollInt = Math.floor(Math.random() * (maxVal - minVal + 1)) + minVal;
+
+        baseValues.push(rollInt);
+    }
+
+    return { options, baseValues };
+}
+
+function getFinalOptionValue(grade, optName, baseValue, level) {
+    const match = optionsData.find(o => o.name_key === optName);
+    if (!match) return 0;
+
+    const gradeIdx = GRADES.indexOf(grade) + 1; // 1~8
+    const baseValueMultiplier = match[`grade_value_${gradeIdx}`] || 0;
+    const scaleFactor = 1 + (level * (match.floor_value || 0));
+
+    return baseValue * baseValueMultiplier * scaleFactor;
+}
+
+function calculateRuneFloorContribution(rune, spec, level, includeKeys) {
+    let addedSkins = 0;
+    let opt30Val = 0;
+    let multAtk = 1.0;
+    let multKey = 1.0;
+
+    const values = rune.options.map((opt, idx) => {
+        return getFinalOptionValue(rune.grade, opt, rune.baseValues[idx], level);
+    });
+
+    for (let i = 0; i < rune.options.length; i++) {
+        const opt = rune.options[i];
+        if (!opt) continue;
+        const val = values[i];
+
+        if (opt === "t_ui_maches_option_25") {
+            addedSkins += val;
+        } else if (opt === "t_ui_maches_option_30") {
+            opt30Val += val;
+        }
+    }
+
+    const addedSkinsClamped = Math.min(addedSkins, 30);
+    const totalSkins = (spec.skins || 0) + addedSkinsClamped;
+
+    for (let i = 0; i < rune.options.length; i++) {
+        const opt = rune.options[i];
+        if (!opt) continue;
+        const val = values[i];
+
+        if (opt === "t_ui_maches_option_25" || opt === "t_ui_maches_option_26" || opt === "t_ui_maches_option_27" || opt === "t_ui_maches_option_28" || opt === "t_ui_maches_option_29") {
+            continue;
+        }
+        if (opt === "t_ui_maches_option_30") {
+            continue;
+        }
+
+        if (ATTACK_OPTIONS.includes(opt)) {
+            let val_eff = getEffectiveValue(opt, val, spec);
+            if (opt === "t_ui_maches_option_23") {
+                val_eff = val * totalSkins;
+            }
+            multAtk *= (1 + val_eff / 100);
+        }
+
+        if (KEY_OPTIONS.includes(opt)) {
+            let val_eff = getEffectiveValue(opt, val, spec);
+            multKey *= (1 + val_eff / 100);
+        }
+    }
+
+    if (opt30Val > 0) {
+        const opt30Clamped = Math.min(opt30Val, 100);
+        const val_eff = getEffectiveValue("t_ui_maches_option_30", opt30Clamped, spec);
+        multAtk *= Math.pow(1.452, val_eff);
+    }
+
+    multAtk *= Math.pow(2.5, addedSkinsClamped);
+
+    const floor_atk = multAtk > 0 ? Math.log(multAtk) / Math.log(1.05) : 0;
+
+    if (includeKeys) {
+        const mult_key_combined = multKey * Math.pow(1.004, floor_atk);
+        return mult_key_combined > 0 ? Math.log(mult_key_combined) / Math.log(1.004) : 0;
+    } else {
+        return floor_atk;
+    }
+}
+
+function filterAndRenderSummonResults() {
+    const includeKeys = document.getElementById('summon-include-keys')?.checked || false;
+    const onlySets = document.getElementById('summon-only-sets')?.checked || false;
+    const highestFloor = parseInt(document.getElementById('summon-opt-level')?.value) || 2001;
+    const optLevel = Math.max(0, Math.floor((highestFloor - 1) / 200));
+    const spec = getUserSpecValues();
+
+    // Save filter settings to localStorage
+    localStorage.setItem('maf_rune_summon_include_keys', includeKeys);
+    localStorage.setItem('maf_rune_summon_only_sets', onlySets);
+    localStorage.setItem('maf_rune_summon_opt_level', highestFloor);
+
+    const tbody = document.getElementById('summon-legendary-list');
+    if (!tbody) return;
+
+    // Filter and compute contributions
+    let processedRunes = latestSummonedRunes.map(rune => {
+        const floorContrib = calculateRuneFloorContribution(rune, spec, optLevel, includeKeys);
+        return {
+            ...rune,
+            floorContrib
+        };
+    });
+
+    if (onlySets) {
+        processedRunes = processedRunes.filter(r => r.setName !== "");
+    }
+
+    // Sort by contribution descending
+    processedRunes.sort((a, b) => b.floorContrib - a.floorContrib);
+
+    // Limit to top 100
+    const topRunes = processedRunes.slice(0, 100);
+
+    tbody.innerHTML = '';
+    if (topRunes.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; color:var(--text-muted);">조건에 만족하는 획득 룬이 없습니다.</td></tr>`;
+    } else {
+        topRunes.forEach(item => {
+            const tr = document.createElement('tr');
+            let gradeStyle = "";
+            if (item.grade === "전설") gradeStyle = "color:#a78bfa; font-weight:bold;";
+            if (item.grade === "신화") gradeStyle = "color:#f472b6; font-weight:bold;";
+            if (item.grade === "불멸") gradeStyle = "color:#f87171; font-weight:bold;";
+
+            const setStyle = item.setName ? "color:#fbbf24; font-weight:bold;" : "color:var(--text-muted);";
+            const setKo = item.setName ? (SET_TRANSLATIONS[item.setName] || item.setName) : "없음";
+
+            // Format option values using current optLevel
+            const optionValues = item.options.map((opt, idx) => {
+                return getFinalOptionValue(item.grade, opt, item.baseValues[idx], optLevel);
+            });
+
+            // Socket object for preferred options display
+            const socket = {
+                equipped: true,
+                grade: item.grade,
+                level: optLevel,
+                setName: item.setName,
+                options: item.options,
+                optionValues: optionValues
+            };
+
+            const optLinesHtml = item.options.map((opt, idx) => {
+                const cleanLabel = OPTION_TRANSLATIONS[opt] || opt;
+                const optIdx = optionsData.find(o => o.name_key === opt)?.idx || 1;
+                const formattedVal = formatStatValue(optIdx, optionValues[idx]);
+                return `<div style="font-size: 0.75rem; color: var(--text-secondary); white-space: nowrap; text-align: left;">${cleanLabel.replace('%s', '')}: <strong>${formattedVal}</strong></div>`;
+            }).join('');
+
+            const prefText = getPreferredOptionsText(socket);
+            const prefHtml = prefText ? `<div style="margin-top: 0.15rem; text-align: left;">${prefText}</div>` : '';
+
+            tr.innerHTML = `
+                <td><strong>${item.rune}의 룬</strong></td>
+                <td><span style="${gradeStyle}">${item.grade}</span></td>
+                <td><span style="${setStyle}">${setKo}</span></td>
+                <td>
+                    <div class="summon-opt-list">${optLinesHtml}</div>
+                    ${prefHtml}
+                </td>
+                <td><span style="color: var(--accent-blue); font-weight: bold;">+${item.floorContrib.toFixed(2)}층</span></td>
+            `;
+            tbody.appendChild(tr);
+        });
+    }
+}
+
+function renderSummonResults(count, gradeCounts) {
     const resultBox = document.getElementById('summon-results');
     if (!resultBox) return;
     resultBox.style.display = 'flex';
@@ -2465,29 +2986,7 @@ function renderSummonResults(count, gradeCounts, legendList) {
         });
     }
 
-    const tbody = document.getElementById('summon-legendary-list');
-    if (tbody) {
-        tbody.innerHTML = '';
-        if (legendList.length === 0) {
-            tbody.innerHTML = `<tr><td colspan="3" style="text-align:center; color:var(--text-muted);">획득한 상위 등급(전설 이상)의 룬이 없습니다.</td></tr>`;
-        } else {
-            legendList.forEach(item => {
-                const tr = document.createElement('tr');
-                let gradeStyle = "";
-                if (item.grade === "전설") gradeStyle = "color:#a78bfa; font-weight:bold;";
-                if (item.grade === "신화") gradeStyle = "color:#f472b6; font-weight:bold;";
-                if (item.grade === "불멸") gradeStyle = "color:#f87171; font-weight:bold;";
-                let setStyle = item.set !== "없음" ? "color:#fbbf24; font-weight:bold;" : "color:var(--text-muted);";
-
-                tr.innerHTML = `
-                    <td><strong>${item.rune}의 룬</strong></td>
-                    <td><span style="${gradeStyle}">${item.grade}</span></td>
-                    <td><span style="${setStyle}">${item.set}</span></td>
-                `;
-                tbody.appendChild(tr);
-            });
-        }
-    }
+    filterAndRenderSummonResults();
 }
 
 function runSummonSimulation() {
@@ -2500,7 +2999,7 @@ function runSummonSimulation() {
     const level = parseInt(levelSelect.value);
     const count = parseInt(countSelect.value);
 
-    const probData = summonProbs.find(s => s.level === level);
+    const probData = getSummonProbData(level);
     if (!probData) {
         alert("소환 레벨 데이터를 찾을 수 없습니다.");
         return;
@@ -2521,7 +3020,7 @@ function runSummonSimulation() {
     // 0회 초기화
     const gradeCounts = {};
     GRADES.forEach(g => gradeCounts[g] = 0);
-    const legendList = [];
+    const allSummoned = [];
 
     // 대량 난수 연산
     for (let i = 0; i < count; i++) {
@@ -2537,34 +3036,56 @@ function runSummonSimulation() {
 
         gradeCounts[selectedGrade]++;
 
-        // 전설 등급 이상인 경우 결과 목록 수집 (최대 100개까지만 리스트 표기)
+        const runeIdx = Math.floor(Math.random() * probData.runes.length);
+        const runeName = probData.runes[runeIdx];
+
+        // 가상 세트 부여 여부 (전설 등급 이상만 가능)
+        let setKey = "";
         if (selectedGrade === "전설" || selectedGrade === "신화" || selectedGrade === "불멸") {
-            if (legendList.length < 100) {
-                const runeIdx = Math.floor(Math.random() * probData.runes.length);
-                const runeName = probData.runes[runeIdx];
-
-                // 가상 세트 부여 여부 (인게임 등급별 확률 반영)
-                let setAssigned = getRandomSetForGrade(selectedGrade);
-
-                legendList.push({
-                    rune: runeName,
-                    grade: selectedGrade,
-                    set: setAssigned
-                });
-            }
+            setKey = getRandomSetKeyForGrade(selectedGrade);
         }
+
+        // Roll random options and base values
+        const { options, baseValues } = rollRandomOptionsForRune(selectedGrade);
+
+        allSummoned.push({
+            rune: runeName,
+            grade: selectedGrade,
+            setName: setKey,
+            options: options,
+            baseValues: baseValues
+        });
     }
+
+    // Sort allSummoned by contribution to keep only the top 1000
+    const includeKeys = document.getElementById('summon-include-keys')?.checked || false;
+    const highestFloor = parseInt(document.getElementById('summon-opt-level')?.value) || 2001;
+    const optLevel = Math.max(0, Math.floor((highestFloor - 1) / 200));
+    const spec = getUserSpecValues();
+
+    const withContrib = allSummoned.map(r => {
+        const floorContrib = calculateRuneFloorContribution(r, spec, optLevel, includeKeys);
+        return { ...r, tempContrib: floorContrib };
+    });
+
+    withContrib.sort((a, b) => b.tempContrib - a.tempContrib);
+
+    // Keep top 1000 to prevent local storage quota exceeded
+    latestSummonedRunes = withContrib.slice(0, 1000).map(r => {
+        const { tempContrib, ...rest } = r;
+        return rest;
+    });
 
     // 로컬 스토리지 저장
     localStorage.setItem('maf_rune_summon_state', JSON.stringify({
         level,
         count,
         gradeCounts,
-        legendList
+        summonedRunesList: latestSummonedRunes
     }));
 
     // UI 그리기
-    renderSummonResults(count, gradeCounts, legendList);
+    renderSummonResults(count, gradeCounts);
 }
 
 // 12. 공통 스탯 수치 포맷팅 함수

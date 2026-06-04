@@ -475,6 +475,14 @@ body {
     box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.2);
 }
 
+.select-control:disabled {
+    background: rgba(0, 0, 0, 0.12);
+    border-color: rgba(255, 255, 255, 0.05);
+    color: var(--text-muted);
+    cursor: not-allowed;
+    opacity: 0.65;
+}
+
 .select-control option {
     background: var(--bg-dark);
     color: var(--text-primary);
@@ -1205,7 +1213,7 @@ body {
 }
 
 .legend-runes-table th {
-    background: rgba(255, 255, 255, 0.02);
+    background: #181827;
     color: var(--text-secondary);
     font-weight: 600;
     position: sticky;
