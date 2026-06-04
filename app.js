@@ -1136,9 +1136,10 @@ function calculateCategoryMultiplierForSockets(sockets, spec, keys) {
         });
     }
 
-    // 4) Special handling for skin count (separate 2.5x multiplier)
+    // 4) Special handling for skin count (separate 2.5x multiplier based on net skin increase)
     if (keys === ATTACK_OPTIONS) {
-        multiplier *= Math.pow(2.5, totalSkins);
+        const netSkinsAdded = totalSkins - (spec.skins || 0);
+        multiplier *= Math.pow(2.5, netSkinsAdded);
     }
 
     return multiplier;
@@ -1517,7 +1518,7 @@ function renderBoardSockets() {
         item.innerHTML = `
             <div class="socket-index">${index + 1}</div>
             <div class="socket-content">
-                <span class="socket-rune-title">${socket.runeName}의 룬</span>
+                <span class="socket-rune-title">${socket.runeName} 룬</span>
                 ${metaHtml}
             </div>
         `;

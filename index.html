@@ -132,132 +132,156 @@
 
                         <div class="form-group"
                             style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem; flex-wrap: wrap;">
-                            <label for="spec-spirits" style="font-size: 0.85rem; color: var(--text-primary);">정령 종류 개수</label>
+                            <label for="spec-spirits" style="font-size: 0.85rem; color: var(--text-primary);">정령 종류
+                                개수</label>
                             <div style="display: flex; align-items: center; gap: 0.35rem;">
-                                <div class="number-input-wrapper" style="width: 100px; margin-top: 0; margin-bottom: 0;">
+                                <div class="number-input-wrapper"
+                                    style="width: 100px; margin-top: 0; margin-bottom: 0;">
                                     <input type="number" id="spec-spirits" class="number-control" min="0" value="10"
                                         style="padding: 0.35rem 0.5rem; text-align: right;">
                                     <span class="input-suffix" style="font-size: 0.75rem;">종</span>
                                 </div>
                                 <button class="btn-spec-help" data-help="spirits" title="설명 보기">ℹ️</button>
                             </div>
-                            <div class="spec-help-desc" id="help-spirits" style="display: none; width: 100%; font-size: 0.72rem; color: var(--text-secondary); background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.05); padding: 0.4rem 0.6rem; border-radius: 6px; margin-top: 0.25rem; line-height: 1.4; border-left: 2px solid var(--accent-blue); box-sizing: border-box;">
-                                정령 도감에서 활성화된 정령의 종류 수입니다. 룬의 '획득한 정령 종류당 공격력/골드 획득량 % 증가' 옵션 계산에 반영됩니다.
+                            <div class="spec-help-desc" id="help-spirits"
+                                style="display: none; width: 100%; font-size: 0.72rem; color: var(--text-secondary); background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.05); padding: 0.4rem 0.6rem; border-radius: 6px; margin-top: 0.25rem; line-height: 1.4; border-left: 2px solid var(--accent-blue); box-sizing: border-box;">
+                                정령 도감에서 활성화된 정령의 종류 수입니다. (일반 4 / 고급 8 / 희귀 12 / 유물 16 / 영웅 20 / 전설 24 / 신화 28 / 불멸 32 /
+                                극한 36 / 태초 40).
                             </div>
                         </div>
 
                         <div class="form-group"
                             style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem; flex-wrap: wrap;">
-                            <label for="spec-satellites" style="font-size: 0.85rem; color: var(--text-primary);">누리봉 위성 개수</label>
+                            <label for="spec-satellites" style="font-size: 0.85rem; color: var(--text-primary);">누리봉 위성
+                                개수</label>
                             <div style="display: flex; align-items: center; gap: 0.35rem;">
-                                <div class="number-input-wrapper" style="width: 100px; margin-top: 0; margin-bottom: 0;">
+                                <div class="number-input-wrapper"
+                                    style="width: 100px; margin-top: 0; margin-bottom: 0;">
                                     <input type="number" id="spec-satellites" class="number-control" min="0" value="5"
                                         style="padding: 0.35rem 0.5rem; text-align: right;">
                                     <span class="input-suffix" style="font-size: 0.75rem;">개</span>
                                 </div>
                                 <button class="btn-spec-help" data-help="satellites" title="설명 보기">ℹ️</button>
                             </div>
-                            <div class="spec-help-desc" id="help-satellites" style="display: none; width: 100%; font-size: 0.72rem; color: var(--text-secondary); background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.05); padding: 0.4rem 0.6rem; border-radius: 6px; margin-top: 0.25rem; line-height: 1.4; border-left: 2px solid var(--accent-blue); box-sizing: border-box;">
-                                현재 장착 중인 누리봉 위성의 개수입니다. 룬의 '누리봉 위성 갯수당 공격력/골드 획득량 % 증가' 옵션 계산에 반영됩니다.
+                            <div class="spec-help-desc" id="help-satellites"
+                                style="display: none; width: 100%; font-size: 0.72rem; color: var(--text-secondary); background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.05); padding: 0.4rem 0.6rem; border-radius: 6px; margin-top: 0.25rem; line-height: 1.4; border-left: 2px solid var(--accent-blue); box-sizing: border-box;">
+                                현재 장착 중인 누리봉 위성의 개수입니다.(마을의 봉식타워 상위 컨텐츠. <span style="color: var(--accent-orange); font-weight: bold;">뭔지 모르겠으면 0 입력하세요</span>)
                             </div>
                         </div>
 
                         <div class="form-group"
                             style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem; flex-wrap: wrap;">
-                            <label for="spec-missions" style="font-size: 0.85rem; color: var(--text-primary);">일일 미션 클리어</label>
+                            <label for="spec-missions" style="font-size: 0.85rem; color: var(--text-primary);">일일 미션
+                                클리어</label>
                             <div style="display: flex; align-items: center; gap: 0.35rem;">
-                                <div class="number-input-wrapper" style="width: 100px; margin-top: 0; margin-bottom: 0;">
+                                <div class="number-input-wrapper"
+                                    style="width: 100px; margin-top: 0; margin-bottom: 0;">
                                     <input type="number" id="spec-missions" class="number-control" min="0" value="20"
                                         style="padding: 0.35rem 0.5rem; text-align: right;">
                                     <span class="input-suffix" style="font-size: 0.75rem;">개</span>
                                 </div>
                                 <button class="btn-spec-help" data-help="missions" title="설명 보기">ℹ️</button>
                             </div>
-                            <div class="spec-help-desc" id="help-missions" style="display: none; width: 100%; font-size: 0.72rem; color: var(--text-secondary); background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.05); padding: 0.4rem 0.6rem; border-radius: 6px; margin-top: 0.25rem; line-height: 1.4; border-left: 2px solid var(--accent-blue); box-sizing: border-box;">
-                                클리어한 일일 미션의 개수입니다. 룬의 '일일 미션 클리어 갯수당 공격력/골드 획득량 % 증가' 옵션 계산에 반영됩니다.
+                            <div class="spec-help-desc" id="help-missions"
+                                style="display: none; width: 100%; font-size: 0.72rem; color: var(--text-secondary); background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.05); padding: 0.4rem 0.6rem; border-radius: 6px; margin-top: 0.25rem; line-height: 1.4; border-left: 2px solid var(--accent-blue); box-sizing: border-box;">
+                                클리어한 일일 미션의 개수입니다.(<span style="color: var(--accent-orange); font-weight: bold;">최대 8개</span>, 용잡이 레이드 공격 및 우정포인트 미션 주의)
                             </div>
                         </div>
 
                         <div class="form-group"
                             style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem; flex-wrap: wrap;">
-                            <label for="spec-skins" style="font-size: 0.85rem; color: var(--text-primary);">스킨 보유 개수</label>
+                            <label for="spec-skins" style="font-size: 0.85rem; color: var(--text-primary);">스킨 보유
+                                개수</label>
                             <div style="display: flex; align-items: center; gap: 0.35rem;">
-                                <div class="number-input-wrapper" style="width: 100px; margin-top: 0; margin-bottom: 0;">
+                                <div class="number-input-wrapper"
+                                    style="width: 100px; margin-top: 0; margin-bottom: 0;">
                                     <input type="number" id="spec-skins" class="number-control" min="0" value="15"
                                         style="padding: 0.35rem 0.5rem; text-align: right;">
                                     <span class="input-suffix" style="font-size: 0.75rem;">개</span>
                                 </div>
                                 <button class="btn-spec-help" data-help="skins" title="설명 보기">ℹ️</button>
                             </div>
-                            <div class="spec-help-desc" id="help-skins" style="display: none; width: 100%; font-size: 0.72rem; color: var(--text-secondary); background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.05); padding: 0.4rem 0.6rem; border-radius: 6px; margin-top: 0.25rem; line-height: 1.4; border-left: 2px solid var(--accent-blue); box-sizing: border-box;">
-                                현재 보유 중인 캐릭터 스킨의 총 개수입니다. 룬의 '스킨 보유 갯수당 공격력/골드 획득량 % 증가' 옵션 계산에 반영됩니다.
+                            <div class="spec-help-desc" id="help-skins"
+                                style="display: none; width: 100%; font-size: 0.72rem; color: var(--text-secondary); background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.05); padding: 0.4rem 0.6rem; border-radius: 6px; margin-top: 0.25rem; line-height: 1.4; border-left: 2px solid var(--accent-blue); box-sizing: border-box;">
+                                현재 보유 중인 캐릭터 스킨의 총 개수입니다. <span style="color: var(--accent-orange); font-weight: bold;">룬의 스킨 보유 개수 증가는 제외하고 입력합니다.</span>
                             </div>
                         </div>
 
                         <div class="form-group"
                             style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem; flex-wrap: wrap;">
-                            <label for="spec-piggybanks" style="font-size: 0.85rem; color: var(--text-primary);">보물 저금통 개수</label>
+                            <label for="spec-piggybanks" style="font-size: 0.85rem; color: var(--text-primary);">보물 저금통
+                                개수</label>
                             <div style="display: flex; align-items: center; gap: 0.35rem;">
-                                <div class="number-input-wrapper" style="width: 100px; margin-top: 0; margin-bottom: 0;">
+                                <div class="number-input-wrapper"
+                                    style="width: 100px; margin-top: 0; margin-bottom: 0;">
                                     <input type="number" id="spec-piggybanks" class="number-control" min="0" value="50"
                                         style="padding: 0.35rem 0.5rem; text-align: right;">
                                     <span class="input-suffix" style="font-size: 0.75rem;">개</span>
                                 </div>
                                 <button class="btn-spec-help" data-help="piggybanks" title="설명 보기">ℹ️</button>
                             </div>
-                            <div class="spec-help-desc" id="help-piggybanks" style="display: none; width: 100%; font-size: 0.72rem; color: var(--text-secondary); background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.05); padding: 0.4rem 0.6rem; border-radius: 6px; margin-top: 0.25rem; line-height: 1.4; border-left: 2px solid var(--accent-blue); box-sizing: border-box;">
-                                보유 중인 보물 저금통의 총 개수입니다. 룬의 '보물 저금통 갯수당 공격력 % 증가' 옵션 계산에 반영됩니다.
+                            <div class="spec-help-desc" id="help-piggybanks"
+                                style="display: none; width: 100%; font-size: 0.72rem; color: var(--text-secondary); background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.05); padding: 0.4rem 0.6rem; border-radius: 6px; margin-top: 0.25rem; line-height: 1.4; border-left: 2px solid var(--accent-blue); box-sizing: border-box;">
+                                보유 중인 보물 저금통의 총 개수입니다. <span style="color: var(--accent-orange); font-weight: bold;">최대 14차까지 14개입니다.</span>
                             </div>
                         </div>
 
                         <div class="form-group"
                             style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem; flex-wrap: wrap;">
-                            <label for="spec-ring" style="font-size: 0.85rem; color: var(--text-primary);">힘의 반지 차수</label>
+                            <label for="spec-ring" style="font-size: 0.85rem; color: var(--text-primary);">힘의 반지
+                                차수</label>
                             <div style="display: flex; align-items: center; gap: 0.35rem;">
-                                <div class="number-input-wrapper" style="width: 100px; margin-top: 0; margin-bottom: 0;">
+                                <div class="number-input-wrapper"
+                                    style="width: 100px; margin-top: 0; margin-bottom: 0;">
                                     <input type="number" id="spec-ring" class="number-control" min="0" value="30"
                                         style="padding: 0.35rem 0.5rem; text-align: right;">
                                     <span class="input-suffix" style="font-size: 0.75rem;">차</span>
                                 </div>
                                 <button class="btn-spec-help" data-help="ring" title="설명 보기">ℹ️</button>
                             </div>
-                            <div class="spec-help-desc" id="help-ring" style="display: none; width: 100%; font-size: 0.72rem; color: var(--text-secondary); background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.05); padding: 0.4rem 0.6rem; border-radius: 6px; margin-top: 0.25rem; line-height: 1.4; border-left: 2px solid var(--accent-blue); box-sizing: border-box;">
-                                장착 중인 힘의 반지의 강화 차수입니다. 룬의 '힘의 반지 차수당 공격력 % 증가' 옵션 계산에 반영됩니다.
+                            <div class="spec-help-desc" id="help-ring"
+                                style="display: none; width: 100%; font-size: 0.72rem; color: var(--text-secondary); background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.05); padding: 0.4rem 0.6rem; border-radius: 6px; margin-top: 0.25rem; line-height: 1.4; border-left: 2px solid var(--accent-blue); box-sizing: border-box;">
+                                장착 중인 힘의 반지의 강화 차수입니다. <span style="color: var(--accent-orange); font-weight: bold;">초월 보물도 포함됩니다(초월 1차 = 16, 2차 = 17...)</span>
                             </div>
                         </div>
 
                         <div class="form-group"
                             style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem; flex-wrap: wrap;">
-                            <label for="spec-crystal" style="font-size: 0.85rem; color: var(--text-primary);">황금 수정 차수</label>
+                            <label for="spec-crystal" style="font-size: 0.85rem; color: var(--text-primary);">황금 수정
+                                차수</label>
                             <div style="display: flex; align-items: center; gap: 0.35rem;">
-                                <div class="number-input-wrapper" style="width: 100px; margin-top: 0; margin-bottom: 0;">
+                                <div class="number-input-wrapper"
+                                    style="width: 100px; margin-top: 0; margin-bottom: 0;">
                                     <input type="number" id="spec-crystal" class="number-control" min="0" value="10"
                                         style="padding: 0.35rem 0.5rem; text-align: right;">
                                     <span class="input-suffix" style="font-size: 0.75rem;">차</span>
                                 </div>
                                 <button class="btn-spec-help" data-help="crystal" title="설명 보기">ℹ️</button>
                             </div>
-                            <div class="spec-help-desc" id="help-crystal" style="display: none; width: 100%; font-size: 0.72rem; color: var(--text-secondary); background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.05); padding: 0.4rem 0.6rem; border-radius: 6px; margin-top: 0.25rem; line-height: 1.4; border-left: 2px solid var(--accent-blue); box-sizing: border-box;">
-                                장착 중인 황금 수정의 강화 차수입니다. 룬의 '황금 수정 차수당 적처치 골드 % 증가' 옵션 계산에 반영됩니다.
+                            <div class="spec-help-desc" id="help-crystal"
+                                style="display: none; width: 100%; font-size: 0.72rem; color: var(--text-secondary); background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.05); padding: 0.4rem 0.6rem; border-radius: 6px; margin-top: 0.25rem; line-height: 1.4; border-left: 2px solid var(--accent-blue); box-sizing: border-box;">
+                                장착 중인 황금 수정의 강화 차수입니다. <span style="color: var(--accent-orange); font-weight: bold;">초월 보물도 포함됩니다(초월 1차 = 16, 2차 = 17...)</span>
                             </div>
                         </div>
 
                         <div class="form-group"
                             style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem; flex-wrap: wrap;">
-                            <label for="spec-eagle" style="font-size: 0.85rem; color: var(--text-primary);">독수리상 차수</label>
+                            <label for="spec-eagle" style="font-size: 0.85rem; color: var(--text-primary);">독수리상
+                                차수</label>
                             <div style="display: flex; align-items: center; gap: 0.35rem;">
-                                <div class="number-input-wrapper" style="width: 100px; margin-top: 0; margin-bottom: 0;">
+                                <div class="number-input-wrapper"
+                                    style="width: 100px; margin-top: 0; margin-bottom: 0;">
                                     <input type="number" id="spec-eagle" class="number-control" min="0" value="10"
                                         style="padding: 0.35rem 0.5rem; text-align: right;">
                                     <span class="input-suffix" style="font-size: 0.75rem;">차</span>
                                 </div>
                                 <button class="btn-spec-help" data-help="eagle" title="설명 보기">ℹ️</button>
                             </div>
-                            <div class="spec-help-desc" id="help-eagle" style="display: none; width: 100%; font-size: 0.72rem; color: var(--text-secondary); background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.05); padding: 0.4rem 0.6rem; border-radius: 6px; margin-top: 0.25rem; line-height: 1.4; border-left: 2px solid var(--accent-blue); box-sizing: border-box;">
-                                장착 중인 독수리상의 강화 차수입니다. 룬의 '독수리상 차수당 퀘스트 골드 % 증가' 옵션 계산에 반영됩니다.
+                            <div class="spec-help-desc" id="help-eagle"
+                                style="display: none; width: 100%; font-size: 0.72rem; color: var(--text-secondary); background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.05); padding: 0.4rem 0.6rem; border-radius: 6px; margin-top: 0.25rem; line-height: 1.4; border-left: 2px solid var(--accent-blue); box-sizing: border-box;">
+                                장착 중인 독수리상의 강화 차수입니다. <span style="color: var(--accent-orange); font-weight: bold;">초월 보물도 포함됩니다(초월 1차 = 16, 2차 = 17...)</span>
                             </div>
                         </div>
-                    </div>
                 </section>
             </div>
 
@@ -482,11 +506,14 @@
                             </div>
 
                             <!-- Board Final Multipliers Summary -->
-                            <div class="board-multipliers-summary" style="margin-top: 1rem; margin-bottom: 1.25rem; background: rgba(79, 70, 229, 0.08); border: 1px solid rgba(79, 70, 229, 0.2); border-radius: 14px; padding: 1rem;">
-                                <h4 style="color: var(--accent-blue); font-size: 0.9rem; font-weight: 700; margin-bottom: 0.75rem; border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding-bottom: 0.5rem; display: flex; align-items: center; gap: 0.35rem;">
+                            <div class="board-multipliers-summary"
+                                style="margin-top: 1rem; margin-bottom: 1.25rem; background: rgba(79, 70, 229, 0.08); border: 1px solid rgba(79, 70, 229, 0.2); border-radius: 14px; padding: 1rem;">
+                                <h4
+                                    style="color: var(--accent-blue); font-size: 0.9rem; font-weight: 700; margin-bottom: 0.75rem; border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding-bottom: 0.5rem; display: flex; align-items: center; gap: 0.35rem;">
                                     🏆 장착 룬 종합 최종 배율 (곱연산)
                                 </h4>
-                                <div id="board-multipliers-details" style="display: flex; flex-direction: column; gap: 0.65rem;">
+                                <div id="board-multipliers-details"
+                                    style="display: flex; flex-direction: column; gap: 0.65rem;">
                                     <!-- Dynamic board multipliers -->
                                 </div>
                             </div>
@@ -538,8 +565,8 @@
                                             max="10000" value="10">
                                         <span class="input-suffix">Lv</span>
                                     </div>
-                                    <span class="form-help-text" id="editor-floor-calc"
-                                        style="display: none;">대응 등반 층수: 2,001 ~ 2,200층</span>
+                                    <span class="form-help-text" id="editor-floor-calc" style="display: none;">대응 등반 층수:
+                                        2,001 ~ 2,200층</span>
                                 </div>
 
                                 <div class="form-group editor-fields" id="editor-set-group">
@@ -561,11 +588,14 @@
                                     style="margin-top: 1rem; width: 100%;">보드에 적용</button>
                             </div>
                             <!-- Editor Live Comparison Panel -->
-                            <div class="editor-comparison-panel" id="editor-comparison-panel" style="border-top: 1px solid rgba(255, 255, 255, 0.08); padding-top: 1.25rem; margin-top: 0.75rem;">
-                                <h4 style="font-size: 0.9rem; font-weight: 700; color: var(--accent-blue); margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.35rem;">
+                            <div class="editor-comparison-panel" id="editor-comparison-panel"
+                                style="border-top: 1px solid rgba(255, 255, 255, 0.08); padding-top: 1.25rem; margin-top: 0.75rem;">
+                                <h4
+                                    style="font-size: 0.9rem; font-weight: 700; color: var(--accent-blue); margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.35rem;">
                                     ⚖️ 실시간 스펙 비교 (이전 ↔ 변경)
                                 </h4>
-                                <div id="editor-comparison-details" style="display: flex; flex-direction: column; gap: 0.75rem;">
+                                <div id="editor-comparison-details"
+                                    style="display: flex; flex-direction: column; gap: 0.75rem;">
                                     <!-- Dynamic comparison info -->
                                 </div>
                             </div>
