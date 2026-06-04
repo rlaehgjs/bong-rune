@@ -1,0 +1,1483 @@
+/* ==========================================================================
+   중년기사 김봉식 룬 계산기 - 프리미엄 스타일 시트
+   ========================================================================== */
+
+/* 1. 디자인 시스템 토큰 및 초기화 */
+:root {
+    --bg-dark: #09090e;
+    --card-bg: rgba(18, 18, 28, 0.65);
+    --card-border: rgba(255, 255, 255, 0.07);
+    --text-primary: #f3f4f6;
+    --text-secondary: #9ca3af;
+    --text-muted: #6b7280;
+    
+    /* 네온 포인트 컬러 */
+    --primary: #4f46e5;       /* 인디고 */
+    --primary-glow: rgba(79, 70, 229, 0.4);
+    --accent-blue: #0ea5e9;    /* 네온 블루 */
+    --accent-orange: #f97316;  /* 오렌지 */
+    --accent-purple: #a855f7;  /* 보라 */
+    --accent-green: #22c55e;   /* 녹색 */
+    --accent-red: #ef4444;     /* 빨강 */
+    
+    /* 룬 등급별 색상 정의 */
+    --color-normal: #9ca3af;   /* 일반: 회색 */
+    --color-fine: #3b82f6;     /* 고급: 파란색 (인게임 매칭) */
+    --color-rare: #10b981;     /* 희귀: 녹색 (인게임 매칭) */
+    --color-relic: #f59e0b;    /* 유물: 노란색 */
+    --color-hero: #f97316;     /* 영웅: 주황색 */
+    --color-legend: #8b5cf6;   /* 전설: 보라색 */
+    --color-myth: #ec4899;     /* 신화: 핑크/빨강 */
+    --color-immortal: #ef4444; /* 불멸: 빨간색/붉은빛 */
+
+    /* 폰트 정의 */
+    --font-family: 'Outfit', 'Inter', 'Noto Sans KR', sans-serif;
+    
+    /* 트랜지션 */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--bg-dark);
+    color: var(--text-primary);
+    font-family: var(--font-family);
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+    line-height: 1.6;
+}
+
+/* 2. 백그라운드 오로라 이펙트 */
+.bg-glow {
+    position: fixed;
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+    filter: blur(120px);
+    opacity: 0.12;
+    z-index: -1;
+    pointer-events: none;
+}
+
+.bg-glow-1 {
+    background: radial-gradient(circle, var(--primary) 0%, transparent 70%);
+    top: -100px;
+    left: -100px;
+}
+
+.bg-glow-2 {
+    background: radial-gradient(circle, var(--accent-blue) 0%, transparent 70%);
+    bottom: -150px;
+    right: -100px;
+}
+
+/* 3. 공통 레이아웃 */
+.app-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 2.5rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+/* 글래스모피즘 공통 카드 */
+.glass-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-radius: 20px;
+    padding: 1.5rem;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+    transition: var(--transition-smooth);
+}
+
+.glass-card:hover {
+    border-color: rgba(255, 255, 255, 0.12);
+}
+
+/* 헤더 스타일 */
+.main-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    padding-bottom: 1.5rem;
+}
+
+.logo-area {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.badge {
+    align-self: flex-start;
+    background: linear-gradient(90deg, var(--primary), var(--accent-blue));
+    color: white;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 0.25rem 0.6rem;
+    border-radius: 9999px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    box-shadow: 0 0 10px rgba(79, 70, 229, 0.3);
+}
+
+.logo-area h1 {
+    font-size: 2rem;
+    font-weight: 800;
+    font-family: 'Outfit', sans-serif;
+    background: linear-gradient(135deg, #ffffff 30%, #a8a29e 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: -0.02em;
+}
+
+.subtitle {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    font-weight: 400;
+}
+
+/* 4. 메인 레이아웃 그리드 */
+.main-grid {
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    gap: 2rem;
+    align-items: start;
+}
+
+/* 5. 좌측 사이드바 패널 */
+.sidebar-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    padding-bottom: 0.75rem;
+}
+
+.panel-header h2 {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+/* 상태 인디케이터 점 */
+.pulse-indicator {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    position: relative;
+}
+
+.pulse-indicator::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    animation: pulse 1.5s infinite;
+}
+
+.pulse-indicator.success { background-color: var(--accent-green); }
+.pulse-indicator.success::after { background-color: var(--accent-green); }
+.pulse-indicator.error { background-color: var(--accent-red); }
+.pulse-indicator.error::after { background-color: var(--accent-red); }
+.pulse-indicator.warning { background-color: var(--accent-orange); }
+.pulse-indicator.warning::after { background-color: var(--accent-orange); }
+
+@keyframes pulse {
+    0% { transform: scale(1); opacity: 0.7; }
+    100% { transform: scale(2.5); opacity: 0; }
+}
+
+.section-desc {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+    line-height: 1.5;
+}
+
+/* CSV 업로드 카드 */
+.csv-upload-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.csv-status-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    padding: 0.75rem 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.csv-info {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    overflow: hidden;
+}
+
+.file-icon {
+    font-size: 1.5rem;
+}
+
+.file-details {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.file-name {
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.file-status {
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+.status-loaded { color: var(--accent-green); }
+.status-loading { color: var(--accent-orange); }
+.status-failed { color: var(--accent-red); }
+
+/* 히든 파일 인풋 */
+.hidden-input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+}
+
+/* 룰 가이드 */
+.rule-guide {
+    background: rgba(79, 70, 229, 0.05);
+    border: 1px solid rgba(79, 70, 229, 0.15);
+    border-radius: 14px;
+    padding: 1rem;
+}
+
+.rule-guide h3 {
+    font-size: 0.9rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+    color: var(--accent-blue);
+}
+
+.rule-guide ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+}
+
+.rule-guide li {
+    position: relative;
+    padding-left: 0.75rem;
+}
+
+.rule-guide li::before {
+    content: '•';
+    position: absolute;
+    left: 0;
+    color: var(--primary);
+}
+
+.text-highlight {
+    color: #fff;
+    font-weight: 600;
+    text-shadow: 0 0 5px rgba(255,255,255,0.2);
+}
+
+/* 태그 스타일 */
+.tag {
+    display: inline-block;
+    font-size: 0.7rem;
+    padding: 0.1rem 0.4rem;
+    border-radius: 4px;
+    font-weight: 600;
+    margin: 0.1rem;
+}
+.tag-normal { background: rgba(156, 163, 175, 0.15); color: var(--color-normal); border: 1px solid rgba(156, 163, 175, 0.3); }
+.tag-rare { background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); }
+.tag-legend { background: rgba(139, 92, 246, 0.15); color: #a78bfa; border: 1px solid rgba(139, 92, 246, 0.3); }
+
+/* 6. 중앙 계산기 패널 및 탭 */
+.calculator-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.tab-nav {
+    display: flex;
+    gap: 0.5rem;
+    padding: 0.5rem;
+}
+
+.tab-btn {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    padding: 0.85rem 1rem;
+    font-size: 1rem;
+    font-weight: 600;
+    font-family: var(--font-family);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.tab-btn:hover {
+    color: var(--text-primary);
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.tab-btn.active {
+    color: white;
+    background: linear-gradient(135deg, var(--primary), rgba(79, 70, 229, 0.6));
+    box-shadow: 0 4px 15px rgba(79, 70, 229, 0.25);
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+/* 7. 룬 비교 레이아웃 */
+.simulator-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    width: 100%;
+}
+
+.runes-config-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    width: 100%;
+}
+
+.rune-config-card {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.rune-card-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    padding-bottom: 0.75rem;
+}
+
+.rune-card-header h3 {
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+.rune-tag {
+    font-size: 0.7rem;
+    font-weight: 800;
+    padding: 0.15rem 0.5rem;
+    border-radius: 6px;
+    letter-spacing: 0.05em;
+}
+
+.rune-tag.tag-a {
+    background: rgba(14, 165, 233, 0.15);
+    color: var(--accent-blue);
+    border: 1px solid rgba(14, 165, 233, 0.3);
+}
+
+.rune-tag.tag-b {
+    background: rgba(249, 115, 22, 0.15);
+    color: var(--accent-orange);
+    border: 1px solid rgba(249, 115, 22, 0.3);
+}
+
+/* 폼 스타일 */
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.form-group label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+
+.form-help-text {
+    font-size: 0.75rem;
+    color: var(--accent-purple);
+    font-weight: 600;
+    margin-top: 0.1rem;
+}
+
+.select-control {
+    background: rgba(0, 0, 0, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    color: var(--text-primary);
+    padding: 0.65rem 0.75rem;
+    font-size: 0.9rem;
+    font-family: var(--font-family);
+    cursor: pointer;
+    transition: var(--transition-smooth);
+    width: 100%;
+}
+
+.select-control:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.2);
+}
+
+.select-control option {
+    background: var(--bg-dark);
+    color: var(--text-primary);
+}
+
+.number-input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.number-control {
+    background: rgba(0, 0, 0, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    color: var(--text-primary);
+    padding: 0.65rem 2rem 0.65rem 0.75rem;
+    font-size: 0.9rem;
+    font-family: var(--font-family);
+    width: 100%;
+    transition: var(--transition-smooth);
+}
+
+.number-control:focus {
+    outline: none;
+    border-color: var(--primary);
+}
+
+.input-suffix {
+    position: absolute;
+    right: 0.75rem;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    font-weight: 600;
+    pointer-events: none;
+}
+
+/* 룬 옵션 선택 컨테이너 */
+.options-container {
+    background: rgba(0, 0, 0, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.03);
+    border-radius: 14px;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+}
+
+.options-container h4 {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--text-secondary);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    padding-bottom: 0.4rem;
+}
+
+.options-inputs {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.option-row {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+.option-row span {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--text-muted);
+}
+
+/* 수치 롤 시뮬레이터 */
+.roll-simulator {
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    padding-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.roll-result {
+    background: rgba(79, 70, 229, 0.08);
+    border: 1px solid rgba(79, 70, 229, 0.2);
+    border-radius: 10px;
+    padding: 0.75rem;
+    animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(4px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.roll-result h5 {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--accent-purple);
+    margin-bottom: 0.4rem;
+}
+
+.roll-result ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.roll-result li {
+    font-size: 0.8rem;
+    display: flex;
+    justify-content: space-between;
+}
+
+.roll-value {
+    font-weight: 700;
+    color: #ffffff;
+}
+
+/* 8. 실시간 비교 대시보드 */
+.comparison-result-card {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    min-height: 450px;
+}
+
+.comparison-bars-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    flex: 1;
+}
+
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    color: var(--text-muted);
+    text-align: center;
+    flex: 1;
+    padding: 2rem;
+}
+
+.empty-icon {
+    font-size: 3rem;
+    opacity: 0.5;
+}
+
+/* 개별 능력치 비교 행 */
+.comparison-row {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.03);
+    border-radius: 12px;
+    padding: 0.85rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.comp-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.comp-title {
+    font-size: 0.85rem;
+    font-weight: 700;
+}
+
+.comp-value-a, .comp-value-b {
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.comp-value-a { color: var(--accent-blue); }
+.comp-value-b { color: var(--accent-orange); }
+
+/* 게이지 바 */
+.comp-bar-wrapper {
+    height: 10px;
+    background: rgba(0, 0, 0, 0.4);
+    border-radius: 9999px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+}
+
+.comp-bar {
+    height: 100%;
+    transition: width 0.4s cubic-bezier(0.1, 0.8, 0.25, 1);
+}
+
+.comp-bar.bar-a {
+    background: linear-gradient(90deg, rgba(14, 165, 233, 0.3), var(--accent-blue));
+    box-shadow: 0 0 8px rgba(14, 165, 233, 0.4);
+}
+
+.comp-bar.bar-b {
+    background: linear-gradient(90deg, var(--accent-orange), rgba(249, 115, 22, 0.3));
+    box-shadow: 0 0 8px rgba(249, 115, 22, 0.4);
+}
+
+.comp-comparison-text {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-align: center;
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    align-self: center;
+}
+
+.comp-comparison-text.win-a {
+    background: rgba(14, 165, 233, 0.1);
+    color: var(--accent-blue);
+}
+
+.comp-comparison-text.win-b {
+    background: rgba(249, 115, 22, 0.1);
+    color: var(--accent-orange);
+}
+
+.comp-comparison-text.draw {
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-secondary);
+}
+
+/* 세트 효과 리스트 */
+.set-effects-status {
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    padding-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.set-effects-status h4 {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--text-secondary);
+}
+
+.no-sets {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    font-style: italic;
+}
+
+.active-set-badge {
+    background: rgba(139, 92, 246, 0.08);
+    border: 1px solid rgba(139, 92, 246, 0.25);
+    border-radius: 8px;
+    padding: 0.6rem 0.85rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    margin-bottom: 0.5rem;
+}
+
+.active-set-title {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #a78bfa;
+    display: flex;
+    justify-content: space-between;
+}
+
+.active-set-desc {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+}
+
+/* 9. 룬 보드 시뮬레이터 (10 슬롯) 스타일 */
+.board-simulator-layout {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 1.5rem;
+    align-items: start;
+    position: relative;
+}
+
+.board-sockets-card {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.sockets-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+}
+
+/* 소켓 아이템 스타일 */
+.socket-item {
+    background: rgba(0, 0, 0, 0.3);
+    border: 2px dashed rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    padding: 1rem;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    position: relative;
+}
+
+.socket-item:hover {
+    transform: translateY(-2px);
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.socket-index {
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: var(--text-muted);
+    font-family: 'Outfit', sans-serif;
+    width: 25px;
+}
+
+.socket-content {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.socket-rune-title {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--text-secondary);
+}
+
+.socket-meta {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    margin-top: 0.25rem;
+}
+
+.socket-badge {
+    font-size: 0.65rem;
+    font-weight: 700;
+    padding: 0.1rem 0.35rem;
+    border-radius: 4px;
+}
+
+.socket-set-badge {
+    background: rgba(139, 92, 246, 0.15);
+    color: #c4b5fd;
+    font-size: 0.65rem;
+    font-weight: 600;
+    padding: 0.1rem 0.35rem;
+    border-radius: 4px;
+    border: 1px solid rgba(139, 92, 246, 0.3);
+}
+
+/* 장착된 소켓 상태 */
+.socket-item.equipped {
+    border-style: solid;
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.socket-item.equipped .socket-rune-title {
+    color: white;
+}
+
+.socket-item.equipped::after {
+    content: '⚙️';
+    font-size: 0.8rem;
+    position: absolute;
+    right: 0.75rem;
+    opacity: 0.3;
+}
+
+.socket-item.active-edit {
+    border-color: var(--primary) !important;
+    box-shadow: 0 0 15px rgba(79, 70, 229, 0.4);
+}
+
+/* 등급별 소켓 테두리 및 배지 색상 */
+.socket-item.grade-일반 { border-color: var(--color-normal); }
+.socket-item.grade-일반 .socket-badge { background: rgba(156, 163, 175, 0.15); color: var(--color-normal); }
+
+.socket-item.grade-고급 { border-color: var(--color-fine); }
+.socket-item.grade-고급 .socket-badge { background: rgba(59, 130, 246, 0.15); color: #60a5fa; }
+
+.socket-item.grade-희귀 { border-color: var(--color-rare); }
+.socket-item.grade-희귀 .socket-badge { background: rgba(16, 185, 129, 0.15); color: #34d399; }
+
+.socket-item.grade-유물 { border-color: var(--color-relic); }
+.socket-item.grade-유물 .socket-badge { background: rgba(245, 158, 11, 0.15); color: #fbbf24; }
+
+.socket-item.grade-영웅 { border-color: var(--color-hero); }
+.socket-item.grade-영웅 .socket-badge { background: rgba(249, 115, 22, 0.15); color: #fb923c; }
+
+.socket-item.grade-전설 { border-color: var(--color-legend); }
+.socket-item.grade-전설 .socket-badge { background: rgba(139, 92, 246, 0.15); color: #c4b5fd; }
+
+.socket-item.grade-신화 { border-color: var(--color-myth); }
+.socket-item.grade-신화 .socket-badge { background: rgba(236, 72, 153, 0.15); color: #f472b6; }
+
+.socket-item.grade-불멸 { border-color: var(--color-immortal); }
+.socket-item.grade-불멸 .socket-badge { background: rgba(239, 68, 68, 0.15); color: #f87171; }
+
+/* 우측 요약 보드 */
+.board-total-card {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.board-stats-container, .board-sets-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+    max-height: 350px;
+    overflow-y: auto;
+}
+
+.board-total-card h4 {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--text-secondary);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    padding-bottom: 0.3rem;
+}
+
+.board-stat-row {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    border-radius: 8px;
+    padding: 0.5rem 0.75rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.8rem;
+}
+
+.board-stat-name {
+    font-weight: 600;
+}
+
+.board-stat-val {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700;
+    color: var(--accent-blue);
+}
+
+/* 세트 리스트 한정 */
+.board-set-row {
+    background: rgba(139, 92, 246, 0.05);
+    border: 1px solid rgba(139, 92, 246, 0.15);
+    border-radius: 8px;
+    padding: 0.5rem 0.75rem;
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+}
+
+.board-set-name {
+    font-weight: 700;
+    color: #c4b5fd;
+}
+
+.board-set-desc {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+}
+
+/* 룬 보드 플로팅 에디터 패널 */
+.board-editor-modal {
+    grid-column: span 2;
+    background: rgba(22, 22, 38, 0.95);
+    border: 1px solid var(--primary);
+    box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    animation: slideUp 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.15);
+}
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.editor-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    padding-bottom: 0.5rem;
+}
+
+.editor-header h3 {
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: #fff;
+}
+
+.close-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+}
+
+.close-btn:hover {
+    color: white;
+}
+
+.editor-body {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.25rem;
+    align-items: end;
+}
+
+/* 에디터 내부 전체 너비 */
+.editor-body .options-container {
+    grid-column: span 2;
+}
+
+/* 10. 소환 시뮬레이터 */
+.summon-simulator-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.summon-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    padding-bottom: 1.5rem;
+}
+
+.control-row {
+    display: flex;
+    align-items: flex-end;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.control-row .form-group {
+    flex: 1;
+    min-width: 200px;
+}
+
+.level-info-card {
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.03);
+    border-radius: 12px;
+    padding: 0.85rem;
+    font-size: 0.8rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.level-info-header {
+    font-weight: 700;
+    color: var(--accent-blue);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    padding-bottom: 0.3rem;
+}
+
+.level-info-body {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+.level-prob-item {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 6px;
+    padding: 0.25rem 0.5rem;
+}
+
+/* 등급별 소환 결과 대시보드 */
+.summon-results-dashboard {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    padding-bottom: 0.5rem;
+}
+
+.dashboard-header h4 {
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.total-count {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+.summon-grades-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+}
+
+.grade-result-card {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    position: relative;
+    overflow: hidden;
+}
+
+/* 등급별 오버레이 보더 */
+.grade-result-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+}
+
+.grade-result-card.grade-일반::before { background-color: var(--color-normal); }
+.grade-result-card.grade-고급::before { background-color: var(--color-fine); }
+.grade-result-card.grade-희귀::before { background-color: var(--color-rare); }
+.grade-result-card.grade-유물::before { background-color: var(--color-relic); }
+.grade-result-card.grade-영웅::before { background-color: var(--color-hero); }
+.grade-result-card.grade-전설::before { background-color: var(--color-legend); }
+.grade-result-card.grade-신화::before { background-color: var(--color-myth); }
+.grade-result-card.grade-불멸::before { background-color: var(--color-immortal); }
+
+.grade-result-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.grade-result-name {
+    font-size: 0.9rem;
+    font-weight: 700;
+}
+
+.grade-일반 .grade-result-name { color: var(--color-normal); }
+.grade-고급 .grade-result-name { color: #60a5fa; }
+.grade-희귀 .grade-result-name { color: #34d399; }
+.grade-유물 .grade-result-name { color: #fbbf24; }
+.grade-영웅 .grade-result-name { color: #fb923c; }
+.grade-전설 .grade-result-name { color: #c4b5fd; }
+.grade-신화 .grade-result-name { color: #f472b6; }
+.grade-불멸 .grade-result-name { color: #f87171; }
+
+.grade-result-percent {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+.grade-result-value {
+    font-size: 1.5rem;
+    font-weight: 800;
+    font-family: 'Outfit', sans-serif;
+}
+
+.grade-result-bar-bg {
+    height: 6px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 9999px;
+    overflow: hidden;
+}
+
+.grade-result-bar {
+    height: 100%;
+    border-radius: 9999px;
+}
+
+.grade-일반 .grade-result-bar { background-color: var(--color-normal); }
+.grade-고급 .grade-result-bar { background-color: var(--color-fine); }
+.grade-희귀 .grade-result-bar { background-color: var(--color-rare); }
+.grade-유물 .grade-result-bar { background-color: var(--color-relic); }
+.grade-영웅 .grade-result-bar { background-color: var(--color-hero); }
+.grade-전설 .grade-result-bar { background-color: var(--color-legend); }
+.grade-신화 .grade-result-bar { background-color: var(--color-myth); }
+.grade-불멸 .grade-result-bar { background-color: var(--color-immortal); }
+
+/* 대량 획득 리스트 */
+.summon-detail-breakdown {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.legend-runes-table-wrapper {
+    background: rgba(0, 0, 0, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    max-height: 250px;
+    overflow-y: auto;
+}
+
+.legend-runes-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    font-size: 0.8rem;
+}
+
+.legend-runes-table th, .legend-runes-table td {
+    padding: 0.65rem 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.legend-runes-table th {
+    background: rgba(255, 255, 255, 0.02);
+    color: var(--text-secondary);
+    font-weight: 600;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.legend-runes-table tr:hover {
+    background: rgba(255, 255, 255, 0.01);
+}
+
+/* 11. 버튼 스타일 */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border: none;
+    font-family: var(--font-family);
+    font-weight: 600;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+    text-decoration: none;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--primary) 0%, rgba(79, 70, 229, 0.8) 100%);
+    color: white;
+    box-shadow: 0 4px 15px var(--primary-glow);
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(79, 70, 229, 0.5);
+}
+
+.btn-secondary {
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-primary);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.btn-accent {
+    background: linear-gradient(135deg, var(--accent-blue) 0%, var(--primary) 100%);
+    color: white;
+    box-shadow: 0 4px 15px rgba(14, 165, 233, 0.3);
+}
+
+.btn-accent:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(14, 165, 233, 0.5);
+}
+
+.btn-sm {
+    padding: 0.45rem 0.85rem;
+    font-size: 0.75rem;
+    border-radius: 8px;
+}
+
+.btn-large {
+    padding: 0.75rem 1.5rem;
+    font-size: 0.95rem;
+    border-radius: 12px;
+}
+
+/* 파일 업로드 버튼 */
+.btn-file-upload {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: var(--text-secondary);
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.3rem 0.6rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+}
+
+.btn-file-upload:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--text-primary);
+    border-color: rgba(255, 255, 255, 0.15);
+}
+
+/* 12. 푸터 */
+.main-footer {
+    text-align: center;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    color: var(--text-muted);
+    font-size: 0.8rem;
+}
+
+/* 13. 반응형 디자인 */
+@media (max-width: 1200px) {
+    .runes-config-wrapper {
+        grid-template-columns: 1fr;
+    }
+    .comparison-result-card {
+        min-height: auto;
+    }
+    .board-simulator-layout {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 900px) {
+    .main-grid {
+        grid-template-columns: 1fr;
+    }
+    .main-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+    .global-actions {
+        align-self: stretch;
+    }
+    .global-actions button {
+        width: 100%;
+    }
+    .control-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .control-row button {
+        width: 100%;
+    }
+    .sockets-grid {
+        grid-template-columns: 1fr;
+    }
+    .editor-body {
+        grid-template-columns: 1fr;
+    }
+    .editor-body .options-container {
+        grid-column: span 1;
+    }
+}
+
+/* 세트 효과 정보 사이드바 스타일 */
+#set-effects-guide-panel .set-guide-list {
+    max-height: 250px;
+    overflow-y: auto;
+    padding-right: 0.25rem;
+}
+
+/* Custom scrollbar for premium look */
+#set-effects-guide-panel .set-guide-list::-webkit-scrollbar {
+    width: 6px;
+}
+#set-effects-guide-panel .set-guide-list::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.01);
+}
+#set-effects-guide-panel .set-guide-list::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 99px;
+}
+#set-effects-guide-panel .set-guide-list::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.set-guide-item {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    padding: 0.5rem 0.75rem;
+    transition: var(--transition-smooth);
+}
+
+.set-guide-item[open] {
+    background: rgba(255, 255, 255, 0.04);
+    border-color: rgba(79, 70, 229, 0.2);
+}
+
+.set-guide-item summary {
+    font-size: 0.85rem;
+    cursor: pointer;
+    outline: none;
+    color: var(--text-primary);
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.set-guide-item summary::-webkit-details-marker {
+    display: none;
+}
+
+.set-guide-item summary::after {
+    content: '▼';
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    transition: transform 0.2s ease;
+}
+
+.set-guide-item[open] summary::after {
+    transform: rotate(180deg);
+    color: var(--accent-blue);
+}
+
+.set-guide-item ul {
+    list-style: none;
+    margin-top: 0.4rem;
+    padding-left: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+}
+
+.set-guide-item li {
+    position: relative;
+    padding-left: 0.75rem;
+}
+
+.set-guide-item li::before {
+    content: '•';
+    position: absolute;
+    left: 0;
+    color: var(--accent-blue);
+}
+
+/* 옵션 세부 설정에서 범위 비표시 */
+.option-range-display {
+    display: none !important;
+}
+
+/* 유저 스펙 설명 버튼 및 상세 설명 */
+.btn-spec-help {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: var(--text-muted);
+    cursor: pointer;
+    padding: 0;
+    font-size: 0.72rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+}
+
+.btn-spec-help:hover,
+.btn-spec-help.active {
+    background: var(--accent-blue);
+    color: #fff;
+    border-color: var(--accent-blue);
+    box-shadow: 0 0 8px rgba(79, 70, 229, 0.4);
+}
+
+.spec-help-desc {
+    animation: fadeInHelp 0.2s ease-out;
+}
+
+@keyframes fadeInHelp {
+    from {
+        opacity: 0;
+        transform: translateY(-4px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+

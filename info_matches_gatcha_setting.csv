@@ -1,0 +1,19 @@
+﻿ORIGINAL_FILENAME:c4LfM4A13xMTpUWUW%%g8wyVOB7aBS89Zha3LBmepxI=.dat
+key,type,value,desc
+amp_devil_ads_count,int,3,증폭권 일일 광고 획득
+amp_devil_cycle,int,4,증폭권 마코 증가 주기(구매 횟수)
+amp_devil_increase,int,10,증폭권 마코 증가량
+amp_devil_price,int,30,증폭권 마코 가격 (초깃값)
+effect_dict_order,json,"[{""option_types"":[1,2,3,6,7,8,9,10,11,12,13,17,19,21,23],""categori"":""atk""},{""option_types"":[4,5,14,15,16,18,20,22,24],""categori"":""currency""},{""option_types"":[25,26,27,28,29,30],""categori"":""etc""}]",종합 스펙창 아코디언 분류
+floor_replace,int,200,n층당 1레벨 치환
+gatcha_coin_floor_value,int,5,성냥 획득 층 단위
+grade_bg_color,json,"[{""grade"":1,""r"":140,""g"":105,""b"":85},{""grade"":2,""r"":55,""g"":95,""b"":182},{""grade"":3,""r"":95,""g"":140,""b"":75},{""grade"":4,""r"":160,""g"":50,""b"":195},{""grade"":5,""r"":200,""g"":135,""b"":20},{""grade"":6,""r"":215,""g"":25,""b"":85},{""grade"":7,""r"":45,""g"":210,""b"":210},{""grade"":8,""r"":250,""g"":40,""b"":255}]",백 그라운드 컬러 값
+matches_switch,bool,true,컨텐츠 스위치 true 열림 false 닫힘
+page_count,int,10,룬 페이지 개수
+rate_parameters,int,100000,뽑기 테이블 분율 모수
+save_timing_zero,int,500,500개 이상일때 뽑기로 0개 되면 저장
+slot_scroll_lvup,int,10,슬롯 강화시 레벨 증폭 스크롤 레벨 추가
+time_reduction_ad_count,int,5,일일 시간 감소 횟수 [광고]
+time_reduction_ad_time,int,10,광고 시간 차감[분]
+time_reduction_cost,int,50,시간 10분 용옥 소비량
+trade_amount,int,250,마코 1개당 룬가루 지급량

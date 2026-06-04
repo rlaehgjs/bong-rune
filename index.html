@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>중년기사 김봉식 - 룬 시뮬레이터 &amp; 계산기</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap"
+        rel="stylesheet">
+    <!-- Main Style Sheet -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="bg-glow bg-glow-1"></div>
+    <div class="bg-glow bg-glow-2"></div>
+
+    <div class="app-container">
+        <!-- Header -->
+        <header class="main-header">
+            <div class="logo-area">
+                <span class="badge">MAF Game Tool</span>
+                <h1>룬 시뮬레이터 &amp; 계산기</h1>
+                <p class="subtitle">중년기사 김봉식의 룬 인게임 데이터 분석 및 조합 시뮬레이터</p>
+            </div>
+        </header>
+
+        <!-- Main Content Grid -->
+        <main class="main-grid">
+            <!-- Left Sidebar: Rules & Info & User Spec -->
+            <div class="sidebar-column" style="display: flex; flex-direction: column; gap: 1.5rem;">
+                <section class="sidebar-panel glass-card">
+                    <div class="panel-header">
+                        <h2>📋 룬 시스템 정보</h2>
+                    </div>
+
+                    <div class="rule-guide">
+                        <h3>💡 룬 시스템 규칙 요약</h3>
+                        <ul>
+                            <li><strong>룬 등급 (8종)</strong>: 일반, 고급, 희귀, 유물, 영웅, 전설, 신화, 불멸</li>
+                            <li><strong>옵션 개수</strong>:
+                                <span class="tag tag-normal">일반/고급: 1줄</span>
+                                <span class="tag tag-rare">희귀~영웅: 2줄</span>
+                                <span class="tag tag-legend">전설~불멸: 3줄</span>
+                            </li>
+                            <li><strong>세트 옵션</strong>: 전설 등급 이상의 룬에만 일정 확률로 세트 효과가 부여됩니다.</li>
+                            <li><strong>옵션 레벨</strong>: 등반 층수에 따라 부여되며, <span class="text-highlight">200층당 1레벨</span>씩
+                                증가합니다.</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <section class="glass-card" id="set-effects-guide-panel" style="margin-top: 0;">
+                    <div class="panel-header">
+                        <h2>⚜️ 세트별 효과 일람</h2>
+                    </div>
+                    <div class="set-guide-list"
+                        style="display: flex; flex-direction: column; gap: 0.5rem; margin-top: 1rem;">
+                        <details class="set-guide-item">
+                            <summary><strong>😈 교만 세트</strong></summary>
+                            <ul>
+                                <li>3셋: 공격력 +666%</li>
+                                <li>7셋: 치명타 피해 +660,000% (660A%)</li>
+                                <li>10셋: 공격력 +1,000,000,000% (1C%)</li>
+                            </ul>
+                        </details>
+                        <details class="set-guide-item">
+                            <summary><strong>💰 인색 세트</strong></summary>
+                            <ul>
+                                <li>3셋: 퀘스트 골드 +666%</li>
+                                <li>7셋: 위성당 골드 +660,000% (660A%)</li>
+                                <li>10셋: 일일 미션당 골드 +100,000,000% (100B%)</li>
+                            </ul>
+                        </details>
+                        <details class="set-guide-item">
+                            <summary><strong>👁️ 질투 세트</strong></summary>
+                            <ul>
+                                <li>3셋: 크르르 공격력 +666%</li>
+                                <li>7셋: 크르르 낙뢰 +660,000% (660A%)</li>
+                                <li>10셋: 펫장비 공격력 +1,000,000,000% (1C%)</li>
+                            </ul>
+                        </details>
+                        <details class="set-guide-item">
+                            <summary><strong>🔥 분노 세트</strong></summary>
+                            <ul>
+                                <li>3셋: 스킨 보유 +3개</li>
+                                <li>7셋: 미션당 공격력 +66,000% (66A%)</li>
+                                <li>10셋: 치명타 피해 +1,000,000,000% (1C%)</li>
+                            </ul>
+                        </details>
+                        <details class="set-guide-item">
+                            <summary><strong>💋 음욕 세트</strong></summary>
+                            <ul>
+                                <li>3셋: 치명타 피해 +666%</li>
+                                <li>7셋: 정령당 공격력 +25,000% (25A%)</li>
+                                <li>10셋: 스킨당 공격력 +10,000,000% (10B%)</li>
+                            </ul>
+                        </details>
+                        <details class="set-guide-item">
+                            <summary><strong>🐷 탐욕 세트</strong></summary>
+                            <ul>
+                                <li>3셋: 뱃지 공격력 +666%</li>
+                                <li>7셋: 위성당 공격력 +77,000% (77A%)</li>
+                                <li>10셋: 저금통당 공격력 +100,000,000% (100B%)</li>
+                            </ul>
+                        </details>
+                        <details class="set-guide-item">
+                            <summary><strong>💤 나태 세트</strong></summary>
+                            <ul>
+                                <li>3셋: 환생 열쇠 +666%</li>
+                                <li>7셋: 환생 열쇠 +666,666% (666.66A%)</li>
+                                <li>10셋: 환생 열쇠 +66,666,666,666% (66.66C%)</li>
+                            </ul>
+                        </details>
+                    </div>
+                </section>
+
+                <section class="glass-card" id="user-spec-panel">
+                    <div class="panel-header">
+                        <h2>⚙️ 유저 스펙 설정</h2>
+                    </div>
+                    <div class="user-spec-inputs"
+                        style="display: flex; flex-direction: column; gap: 0.65rem; margin-top: 1rem;">
+                        <p class="desc"
+                            style="font-size: 0.75rem; color: var(--text-secondary); margin-bottom: 0.5rem; line-height: 1.4;">
+                            조건부 옵션의 최종 효용성(공격력/골드 증가량) 계산을 위해 현재 계정의 스펙 정보를 입력하세요.
+                        </p>
+
+                        <div class="form-group"
+                            style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem; flex-wrap: wrap;">
+                            <label for="spec-spirits" style="font-size: 0.85rem; color: var(--text-primary);">정령 종류 개수</label>
+                            <div style="display: flex; align-items: center; gap: 0.35rem;">
+                                <div class="number-input-wrapper" style="width: 100px; margin-top: 0; margin-bottom: 0;">
+                                    <input type="number" id="spec-spirits" class="number-control" min="0" value="10"
+                                        style="padding: 0.35rem 0.5rem; text-align: right;">
+                                    <span class="input-suffix" style="font-size: 0.75rem;">종</span>
+                                </div>
+                                <button class="btn-spec-help" data-help="spirits" title="설명 보기">ℹ️</button>
+                            </div>
+                            <div class="spec-help-desc" id="help-spirits" style="display: none; width: 100%; font-size: 0.72rem; color: var(--text-secondary); background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.05); padding: 0.4rem 0.6rem; border-radius: 6px; margin-top: 0.25rem; line-height: 1.4; border-left: 2px solid var(--accent-blue); box-sizing: border-box;">
+                                정령 도감에서 활성화된 정령의 종류 수입니다. 룬의 '획득한 정령 종류당 공격력/골드 획득량 % 증가' 옵션 계산에 반영됩니다.
+                            </div>
+                        </div>
+
+                        <div class="form-group"
+                            style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem; flex-wrap: wrap;">
+                            <label for="spec-satellites" style="font-size: 0.85rem; color: var(--text-primary);">누리봉 위성 개수</label>
+                            <div style="display: flex; align-items: center; gap: 0.35rem;">
+                                <div class="number-input-wrapper" style="width: 100px; margin-top: 0; margin-bottom: 0;">
+                                    <input type="number" id="spec-satellites" class="number-control" min="0" value="5"
+                                        style="padding: 0.35rem 0.5rem; text-align: right;">
+                                    <span class="input-suffix" style="font-size: 0.75rem;">개</span>
+                                </div>
+                                <button class="btn-spec-help" data-help="satellites" title="설명 보기">ℹ️</button>
+                            </div>
+                            <div class="spec-help-desc" id="help-satellites" style="display: none; width: 100%; font-size: 0.72rem; color: var(--text-secondary); background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.05); padding: 0.4rem 0.6rem; border-radius: 6px; margin-top: 0.25rem; line-height: 1.4; border-left: 2px solid var(--accent-blue); box-sizing: border-box;">
+                                현재 장착 중인 누리봉 위성의 개수입니다. 룬의 '누리봉 위성 갯수당 공격력/골드 획득량 % 증가' 옵션 계산에 반영됩니다.
+                            </div>
+                        </div>
+
+                        <div class="form-group"
+                            style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem; flex-wrap: wrap;">
+                            <label for="spec-missions" style="font-size: 0.85rem; color: var(--text-primary);">일일 미션 클리어</label>
+                            <div style="display: flex; align-items: center; gap: 0.35rem;">
+                                <div class="number-input-wrapper" style="width: 100px; margin-top: 0; margin-bottom: 0;">
+                                    <input type="number" id="spec-missions" class="number-control" min="0" value="20"
+                                        style="padding: 0.35rem 0.5rem; text-align: right;">
+                                    <span class="input-suffix" style="font-size: 0.75rem;">개</span>
+                                </div>
+                                <button class="btn-spec-help" data-help="missions" title="설명 보기">ℹ️</button>
+                            </div>
+                            <div class="spec-help-desc" id="help-missions" style="display: none; width: 100%; font-size: 0.72rem; color: var(--text-secondary); background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.05); padding: 0.4rem 0.6rem; border-radius: 6px; margin-top: 0.25rem; line-height: 1.4; border-left: 2px solid var(--accent-blue); box-sizing: border-box;">
+                                클리어한 일일 미션의 개수입니다. 룬의 '일일 미션 클리어 갯수당 공격력/골드 획득량 % 증가' 옵션 계산에 반영됩니다.
+                            </div>
+                        </div>
+
+                        <div class="form-group"
+                            style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem; flex-wrap: wrap;">
+                            <label for="spec-skins" style="font-size: 0.85rem; color: var(--text-primary);">스킨 보유 개수</label>
+                            <div style="display: flex; align-items: center; gap: 0.35rem;">
+                                <div class="number-input-wrapper" style="width: 100px; margin-top: 0; margin-bottom: 0;">
+                                    <input type="number" id="spec-skins" class="number-control" min="0" value="15"
+                                        style="padding: 0.35rem 0.5rem; text-align: right;">
+                                    <span class="input-suffix" style="font-size: 0.75rem;">개</span>
+                                </div>
+                                <button class="btn-spec-help" data-help="skins" title="설명 보기">ℹ️</button>
+                            </div>
+                            <div class="spec-help-desc" id="help-skins" style="display: none; width: 100%; font-size: 0.72rem; color: var(--text-secondary); background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.05); padding: 0.4rem 0.6rem; border-radius: 6px; margin-top: 0.25rem; line-height: 1.4; border-left: 2px solid var(--accent-blue); box-sizing: border-box;">
+                                현재 보유 중인 캐릭터 스킨의 총 개수입니다. 룬의 '스킨 보유 갯수당 공격력/골드 획득량 % 증가' 옵션 계산에 반영됩니다.
+                            </div>
+                        </div>
+
+                        <div class="form-group"
+                            style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem; flex-wrap: wrap;">
+                            <label for="spec-piggybanks" style="font-size: 0.85rem; color: var(--text-primary);">보물 저금통 개수</label>
+                            <div style="display: flex; align-items: center; gap: 0.35rem;">
+                                <div class="number-input-wrapper" style="width: 100px; margin-top: 0; margin-bottom: 0;">
+                                    <input type="number" id="spec-piggybanks" class="number-control" min="0" value="50"
+                                        style="padding: 0.35rem 0.5rem; text-align: right;">
+                                    <span class="input-suffix" style="font-size: 0.75rem;">개</span>
+                                </div>
+                                <button class="btn-spec-help" data-help="piggybanks" title="설명 보기">ℹ️</button>
+                            </div>
+                            <div class="spec-help-desc" id="help-piggybanks" style="display: none; width: 100%; font-size: 0.72rem; color: var(--text-secondary); background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.05); padding: 0.4rem 0.6rem; border-radius: 6px; margin-top: 0.25rem; line-height: 1.4; border-left: 2px solid var(--accent-blue); box-sizing: border-box;">
+                                보유 중인 보물 저금통의 총 개수입니다. 룬의 '보물 저금통 갯수당 공격력 % 증가' 옵션 계산에 반영됩니다.
+                            </div>
+                        </div>
+
+                        <div class="form-group"
+                            style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem; flex-wrap: wrap;">
+                            <label for="spec-ring" style="font-size: 0.85rem; color: var(--text-primary);">힘의 반지 차수</label>
+                            <div style="display: flex; align-items: center; gap: 0.35rem;">
+                                <div class="number-input-wrapper" style="width: 100px; margin-top: 0; margin-bottom: 0;">
+                                    <input type="number" id="spec-ring" class="number-control" min="0" value="30"
+                                        style="padding: 0.35rem 0.5rem; text-align: right;">
+                                    <span class="input-suffix" style="font-size: 0.75rem;">차</span>
+                                </div>
+                                <button class="btn-spec-help" data-help="ring" title="설명 보기">ℹ️</button>
+                            </div>
+                            <div class="spec-help-desc" id="help-ring" style="display: none; width: 100%; font-size: 0.72rem; color: var(--text-secondary); background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.05); padding: 0.4rem 0.6rem; border-radius: 6px; margin-top: 0.25rem; line-height: 1.4; border-left: 2px solid var(--accent-blue); box-sizing: border-box;">
+                                장착 중인 힘의 반지의 강화 차수입니다. 룬의 '힘의 반지 차수당 공격력 % 증가' 옵션 계산에 반영됩니다.
+                            </div>
+                        </div>
+
+                        <div class="form-group"
+                            style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem; flex-wrap: wrap;">
+                            <label for="spec-crystal" style="font-size: 0.85rem; color: var(--text-primary);">황금 수정 차수</label>
+                            <div style="display: flex; align-items: center; gap: 0.35rem;">
+                                <div class="number-input-wrapper" style="width: 100px; margin-top: 0; margin-bottom: 0;">
+                                    <input type="number" id="spec-crystal" class="number-control" min="0" value="10"
+                                        style="padding: 0.35rem 0.5rem; text-align: right;">
+                                    <span class="input-suffix" style="font-size: 0.75rem;">차</span>
+                                </div>
+                                <button class="btn-spec-help" data-help="crystal" title="설명 보기">ℹ️</button>
+                            </div>
+                            <div class="spec-help-desc" id="help-crystal" style="display: none; width: 100%; font-size: 0.72rem; color: var(--text-secondary); background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.05); padding: 0.4rem 0.6rem; border-radius: 6px; margin-top: 0.25rem; line-height: 1.4; border-left: 2px solid var(--accent-blue); box-sizing: border-box;">
+                                장착 중인 황금 수정의 강화 차수입니다. 룬의 '황금 수정 차수당 적처치 골드 % 증가' 옵션 계산에 반영됩니다.
+                            </div>
+                        </div>
+
+                        <div class="form-group"
+                            style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem; flex-wrap: wrap;">
+                            <label for="spec-eagle" style="font-size: 0.85rem; color: var(--text-primary);">독수리상 차수</label>
+                            <div style="display: flex; align-items: center; gap: 0.35rem;">
+                                <div class="number-input-wrapper" style="width: 100px; margin-top: 0; margin-bottom: 0;">
+                                    <input type="number" id="spec-eagle" class="number-control" min="0" value="10"
+                                        style="padding: 0.35rem 0.5rem; text-align: right;">
+                                    <span class="input-suffix" style="font-size: 0.75rem;">차</span>
+                                </div>
+                                <button class="btn-spec-help" data-help="eagle" title="설명 보기">ℹ️</button>
+                            </div>
+                            <div class="spec-help-desc" id="help-eagle" style="display: none; width: 100%; font-size: 0.72rem; color: var(--text-secondary); background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.05); padding: 0.4rem 0.6rem; border-radius: 6px; margin-top: 0.25rem; line-height: 1.4; border-left: 2px solid var(--accent-blue); box-sizing: border-box;">
+                                장착 중인 독수리상의 강화 차수입니다. 룬의 '독수리상 차수당 퀘스트 골드 % 증가' 옵션 계산에 반영됩니다.
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Center Panel: Rune Simulator & Compare -->
+            <section class="calculator-panel">
+                <div class="tab-nav glass-card">
+                    <button class="tab-btn" data-tab="compare-tab">⚖️ 룬 능력치 비교기</button>
+                    <button class="tab-btn active" data-tab="board-tab">🛡️ 룬 보드 시뮬레이터</button>
+                    <button class="tab-btn" data-tab="summon-tab">🔮 소환 시뮬레이터</button>
+                </div>
+
+                <!-- Tab 1: Compare Calculator -->
+                <div class="tab-content" id="compare-tab">
+                    <div class="simulator-layout">
+                        <!-- Top Row: Config Cards side-by-side -->
+                        <div class="runes-config-wrapper">
+                            <!-- Rune A Config -->
+                            <div class="rune-config-card glass-card" id="rune-a-card">
+                                <div class="rune-card-header">
+                                    <span class="rune-tag tag-a">RUNE A</span>
+                                    <h3>룬 A 설정</h3>
+                                </div>
+
+
+                                <div class="form-group">
+                                    <label for="rune-a-grade">룬 등급</label>
+                                    <select id="rune-a-grade" class="select-control">
+                                        <option value="일반" selected>일반</option>
+                                        <option value="고급">고급</option>
+                                        <option value="희귀">희귀</option>
+                                        <option value="유물">유물</option>
+                                        <option value="영웅">영웅</option>
+                                        <option value="전설">전설</option>
+                                        <option value="신화">신화</option>
+                                        <option value="불멸">불멸</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="rune-a-level">옵션 레벨 (Option Level)</label>
+                                    <div class="number-input-wrapper">
+                                        <input type="number" id="rune-a-level" class="number-control" min="0"
+                                            max="10000" value="10">
+                                        <span class="input-suffix">Lv</span>
+                                    </div>
+                                    <span class="form-help-text" id="rune-a-floor-calc"
+                                        style="color: var(--accent-blue);">대응 등반 층수: 2,001 ~ 2,200층</span>
+                                </div>
+
+                                <!-- Set selection, only visible if Legendary ~ Immortal -->
+                                <div class="form-group set-selection-group" id="rune-a-set-group"
+                                    style="display: none;">
+                                    <label for="rune-a-set">부여된 세트</label>
+                                    <select id="rune-a-set" class="select-control">
+                                        <option value="">없음</option>
+                                        <!-- Dynamic -->
+                                    </select>
+                                </div>
+
+                                <div class="options-container">
+                                    <h4>옵션 세부 설정</h4>
+                                    <div class="options-inputs" id="rune-a-options-list">
+                                        <!-- Dynamic based on grade -->
+                                    </div>
+                                </div>
+
+                                <div class="roll-simulator">
+                                    <button id="rune-a-roll-btn" class="btn btn-primary btn-sm">🎲 가상 수치 롤링 (임의
+                                        결정)</button>
+                                    <div class="roll-result" id="rune-a-roll-result" style="display: none;">
+                                        <h5>결정된 수치:</h5>
+                                        <ul id="rune-a-rolled-stats"></ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Rune B Config -->
+                            <div class="rune-config-card glass-card" id="rune-b-card">
+                                <div class="rune-card-header">
+                                    <span class="rune-tag tag-b">RUNE B</span>
+                                    <h3>룬 B 설정</h3>
+                                </div>
+
+
+                                <div class="form-group">
+                                    <label for="rune-b-grade">룬 등급</label>
+                                    <select id="rune-b-grade" class="select-control">
+                                        <option value="일반">일반</option>
+                                        <option value="고급" selected>고급</option>
+                                        <option value="희귀">희귀</option>
+                                        <option value="유물">유물</option>
+                                        <option value="영웅">영웅</option>
+                                        <option value="전설">전설</option>
+                                        <option value="신화">신화</option>
+                                        <option value="불멸">불멸</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="rune-b-level">옵션 레벨 (Option Level)</label>
+                                    <div class="number-input-wrapper">
+                                        <input type="number" id="rune-b-level" class="number-control" min="0"
+                                            max="10000" value="10">
+                                        <span class="input-suffix">Lv</span>
+                                    </div>
+                                    <span class="form-help-text" id="rune-b-floor-calc"
+                                        style="color: var(--accent-blue);">대응 등반 층수: 2,001 ~ 2,200층</span>
+                                </div>
+
+                                <!-- Set selection, only visible if Legendary ~ Immortal -->
+                                <div class="form-group set-selection-group" id="rune-b-set-group"
+                                    style="display: none;">
+                                    <label for="rune-b-set">부여된 세트</label>
+                                    <select id="rune-b-set" class="select-control">
+                                        <option value="">없음</option>
+                                        <!-- Dynamic -->
+                                    </select>
+                                </div>
+
+                                <div class="options-container">
+                                    <h4>옵션 세부 설정</h4>
+                                    <div class="options-inputs" id="rune-b-options-list">
+                                        <!-- Dynamic based on grade -->
+                                    </div>
+                                </div>
+
+                                <div class="roll-simulator">
+                                    <button id="rune-b-roll-btn" class="btn btn-primary btn-sm">🎲 가상 수치 롤링 (임의
+                                        결정)</button>
+                                    <div class="roll-result" id="rune-b-roll-result" style="display: none;">
+                                        <h5>결정된 수치:</h5>
+                                        <ul id="rune-b-rolled-stats"></ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Bottom Row: Comparison Center Dashboard -->
+                        <div class="comparison-result-card glass-card">
+                            <div class="rune-card-header">
+                                <h3>📊 실시간 수치 대비</h3>
+                            </div>
+
+                            <div class="comparison-summary">
+                                <p class="desc">두 룬의 옵션별 기대 수치 범위(스펙 비례 효용성)를 비교합니다.</p>
+                            </div>
+
+                            <!-- 최종 곱연산 배율 비교 요약 -->
+                            <div class="final-multiplier-summary" id="final-summary-comparison"
+                                style="margin-top: 1rem; margin-bottom: 1.5rem; background: rgba(79, 70, 229, 0.08); border: 1px solid rgba(79, 70, 229, 0.2); border-radius: 14px; padding: 1rem; display: none;">
+                                <h4
+                                    style="color: var(--accent-blue); font-size: 0.9rem; font-weight: 700; margin-bottom: 0.75rem; border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding-bottom: 0.5rem; display: flex; align-items: center; gap: 0.35rem;">
+                                    🏆 최종 배율 비교 요약 (곱연산)</h4>
+                                <div id="final-multiplier-details"
+                                    style="display: flex; flex-direction: column; gap: 0.65rem;">
+                                    <!-- Dynamic final multipliers -->
+                                </div>
+                            </div>
+
+                            <div class="comparison-bars-container" id="comparison-bars">
+                                <div class="empty-state">
+                                    <span class="empty-icon">⚖️</span>
+                                    <p>좌/우측 카드에서 옵션을 설정하면 수치 비교가 시작됩니다.</p>
+                                </div>
+                            </div>
+
+                            <!-- Warning Options Explanations -->
+                            <div class="warning-explanation-section" id="warning-options-container"
+                                style="display: none; margin-top: 1.5rem; border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 1rem;">
+                                <h4
+                                    style="color: var(--accent-orange); font-size: 0.9rem; font-weight: 700; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.25rem;">
+                                    ⚠️ 주의 필요 옵션 상세 안내</h4>
+                                <div id="warning-options-list"
+                                    style="display: flex; flex-direction: column; gap: 0.5rem;">
+                                    <!-- Dynamic warning notes -->
+                                </div>
+                            </div>
+
+                            <!-- Disrecommended Excluded Options -->
+                            <div class="excluded-explanation-section" id="excluded-options-container"
+                                style="display: none; margin-top: 1.5rem; border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 1rem;">
+                                <h4
+                                    style="color: var(--accent-red); font-size: 0.9rem; font-weight: 700; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.25rem;">
+                                    🚫 비교 제외된 옵션 (비추천)</h4>
+                                <div id="excluded-options-list"
+                                    style="display: flex; flex-direction: column; gap: 0.5rem;">
+                                    <!-- Dynamic disrecommended notes -->
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab 2: Rune Board Simulator (10 Sockets) -->
+                <div class="tab-content active" id="board-tab">
+                    <div class="board-simulator-layout">
+                        <!-- Left side: 10 Sockets Grid -->
+                        <div class="board-sockets-card glass-card">
+                            <div class="card-title-bar">
+                                <h3>🛡️ 장착 룬 보드 (10개 슬롯)</h3>
+                                <p class="section-desc">1번부터 10번까지의 각 룬 장착 슬롯을 터치하여 장착 상태를 변경하세요.</p>
+                            </div>
+
+                            <div class="sockets-grid" id="board-sockets-grid">
+                                <!-- 10 sockets will be dynamically generated here -->
+                            </div>
+                        </div>
+
+                        <!-- Right side: Total Stats and Set Buffs -->
+                        <div class="board-total-card glass-card">
+                            <div class="rune-card-header">
+                                <h3>📈 보드 종합 스탯 요약</h3>
+                            </div>
+
+                            <!-- Active Set Buffs on Board -->
+                            <div class="board-active-sets">
+                                <h4>⚜️ 활성화된 세트 효과 (3 / 7 / 10 세트)</h4>
+                                <div id="board-sets-list" class="board-sets-container">
+                                    <!-- Dynamic set list -->
+                                </div>
+                            </div>
+
+                            <!-- Board Final Multipliers Summary -->
+                            <div class="board-multipliers-summary" style="margin-top: 1rem; margin-bottom: 1.25rem; background: rgba(79, 70, 229, 0.08); border: 1px solid rgba(79, 70, 229, 0.2); border-radius: 14px; padding: 1rem;">
+                                <h4 style="color: var(--accent-blue); font-size: 0.9rem; font-weight: 700; margin-bottom: 0.75rem; border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding-bottom: 0.5rem; display: flex; align-items: center; gap: 0.35rem;">
+                                    🏆 장착 룬 종합 최종 배율 (곱연산)
+                                </h4>
+                                <div id="board-multipliers-details" style="display: flex; flex-direction: column; gap: 0.65rem;">
+                                    <!-- Dynamic board multipliers -->
+                                </div>
+                            </div>
+
+                            <!-- Merged Stats List -->
+                            <div class="board-stats-summary">
+                                <h4>⚡ 종합 능력치 상세</h4>
+                                <div id="board-stats-list" class="board-stats-container">
+                                    <!-- Dynamic stats list -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Float Editor panel: displays when a slot is selected -->
+                        <div class="board-editor-modal glass-card" id="board-editor-panel" style="display: none;">
+                            <div class="editor-header">
+                                <h3 id="editor-slot-title">룬 슬롯 편집</h3>
+                                <button id="editor-close-btn" class="close-btn">&times;</button>
+                            </div>
+                            <div class="editor-body">
+                                <input type="hidden" id="editor-slot-index">
+
+                                <div class="form-group">
+                                    <label>장착 여부</label>
+                                    <select id="editor-equipped" class="select-control">
+                                        <option value="true">장착함</option>
+                                        <option value="false">비어 있음</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group editor-fields">
+                                    <label>룬 등급</label>
+                                    <select id="editor-grade" class="select-control">
+                                        <option value="일반">일반</option>
+                                        <option value="고급">고급</option>
+                                        <option value="희귀">희귀</option>
+                                        <option value="유물">유물</option>
+                                        <option value="영웅">영웅</option>
+                                        <option value="전설" selected>전설</option>
+                                        <option value="신화">신화</option>
+                                        <option value="불멸">불멸</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group editor-fields">
+                                    <label>옵션 레벨 (Option Level)</label>
+                                    <div class="number-input-wrapper">
+                                        <input type="number" id="editor-level" class="number-control" min="0"
+                                            max="10000" value="10">
+                                        <span class="input-suffix">Lv</span>
+                                    </div>
+                                    <span class="form-help-text" id="editor-floor-calc"
+                                        style="display: none;">대응 등반 층수: 2,001 ~ 2,200층</span>
+                                </div>
+
+                                <div class="form-group editor-fields" id="editor-set-group">
+                                    <label>부여된 세트</label>
+                                    <select id="editor-set" class="select-control">
+                                        <option value="">없음</option>
+                                        <!-- Dynamic -->
+                                    </select>
+                                </div>
+
+                                <div class="options-container editor-fields">
+                                    <h4>옵션 설정</h4>
+                                    <div class="options-inputs" id="editor-options-list">
+                                        <!-- Dynamic -->
+                                    </div>
+                                </div>
+
+                                <button id="editor-save-btn" class="btn btn-accent btn-large"
+                                    style="margin-top: 1rem; width: 100%;">보드에 적용</button>
+                            </div>
+                            <!-- Editor Live Comparison Panel -->
+                            <div class="editor-comparison-panel" id="editor-comparison-panel" style="border-top: 1px solid rgba(255, 255, 255, 0.08); padding-top: 1.25rem; margin-top: 0.75rem;">
+                                <h4 style="font-size: 0.9rem; font-weight: 700; color: var(--accent-blue); margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.35rem;">
+                                    ⚖️ 실시간 스펙 비교 (이전 ↔ 변경)
+                                </h4>
+                                <div id="editor-comparison-details" style="display: flex; flex-direction: column; gap: 0.75rem;">
+                                    <!-- Dynamic comparison info -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab 3: Summon Simulator -->
+                <div class="tab-content" id="summon-tab">
+                    <div class="summon-simulator-layout glass-card">
+                        <div class="summon-controls">
+                            <h3>🔮 룬 소환 시뮬레이터</h3>
+                            <p class="section-desc">소환 레벨별 확률 데이터를 기반으로 룬 소환 결과를 난수 시뮬레이션합니다.</p>
+
+                            <div class="control-row">
+                                <div class="form-group">
+                                    <label for="summon-level-select">룬 소환 레벨</label>
+                                    <select id="summon-level-select" class="select-control">
+                                        <!-- Dynamic -->
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="summon-count-select">소환 횟수</label>
+                                    <select id="summon-count-select" class="select-control">
+                                        <option value="10">10회 소환</option>
+                                        <option value="100">100회 소환</option>
+                                        <option value="1000">1,000회 소환</option>
+                                        <option value="10000" selected>10,000회 소환</option>
+                                        <option value="50000">50,000회 소환</option>
+                                        <option value="100000">100,000회 소환</option>
+                                    </select>
+                                </div>
+
+                                <button id="run-summon-btn" class="btn btn-accent btn-large">
+                                    소환 시작
+                                </button>
+                            </div>
+
+                            <!-- Selected Level Info -->
+                            <div class="level-info-card" id="level-info-display">
+                                <!-- Dynamic -->
+                            </div>
+                        </div>
+
+                        <!-- Results Dashboard -->
+                        <div class="summon-results-dashboard" id="summon-results" style="display: none;">
+                            <div class="dashboard-header">
+                                <h4>📊 소환 결과 요약</h4>
+                                <span class="total-count" id="summary-total-count">총 10,000회</span>
+                            </div>
+
+                            <!-- Stat Grid for Grade Distributions -->
+                            <div class="summon-grades-grid" id="summon-grades-grid">
+                                <!-- Dynamic -->
+                            </div>
+
+                            <!-- Detail breakdown scroll area -->
+                            <div class="summon-detail-breakdown">
+                                <h4>⭐ 주요 획득 룬 목록 (전설 등급 이상)</h4>
+                                <div class="legend-runes-table-wrapper">
+                                    <table class="legend-runes-table">
+                                        <thead>
+                                            <tr>
+                                                <th>룬 이름</th>
+                                                <th>등급</th>
+                                                <th>세트 부여 여부</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="summon-legendary-list">
+                                            <!-- Dynamic -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="main-footer">
+            <p>&copy; 2026 중년기사 김봉식 룬 계산기 툴. 제작: Antigravity AI.</p>
+        </footer>
+    </div>
+
+    <!-- Main Logic Script -->
+    <script src="app.js"></script>
+</body>
+
+</html>
