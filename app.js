@@ -783,7 +783,7 @@ function setupUI() {
         updateSummonAppliedLevelLabel();
     }
 
-    // 소환 시뮬레이터 상태 복원
+    // 소환 시뮬레이터 상태 복원 (소환 레벨 및 횟수 설정 값만 복원하여 처음 진입 시에는 빈 결과창을 유지하도록 함)
     const savedSummon = localStorage.getItem('maf_rune_summon_state');
     if (savedSummon) {
         try {
@@ -791,31 +791,6 @@ function setupUI() {
             if (parsed) {
                 if (parsed.level) document.getElementById('summon-level-select').value = parsed.level;
                 if (parsed.count) document.getElementById('summon-count-select').value = parsed.count;
-                if (parsed.summonedRunesList) {
-                    latestSummonedRunes = parsed.summonedRunesList;
-                } else if (parsed.legendList) {
-                    // Backwards compatibility
-                    latestSummonedRunes = parsed.legendList.map(item => {
-                        let setKey = "";
-                        for (let k in SET_TRANSLATIONS) {
-                            if (SET_TRANSLATIONS[k] === item.set) {
-                                setKey = k;
-                                break;
-                            }
-                        }
-                        const { options, baseValues } = rollRandomOptionsForRune(item.grade);
-                        return {
-                            rune: item.rune,
-                            grade: item.grade,
-                            setName: setKey,
-                            options: options,
-                            baseValues: baseValues
-                        };
-                    });
-                }
-                if (parsed.gradeCounts) {
-                    renderSummonResults(parsed.count, parsed.gradeCounts);
-                }
             }
         } catch (e) {
             console.error("Failed to parse saved summon state", e);
