@@ -732,13 +732,17 @@ function setupUI() {
     }
 
     if (parsedA) {
-        document.getElementById('rune-a-grade').value = parsedA.grade;
-        document.getElementById('rune-a-level').value = parsedA.level;
+        const gradeEl = document.getElementById('rune-a-grade');
+        if (gradeEl) gradeEl.value = parsedA.grade;
+        const levelEl = document.getElementById('rune-a-level');
+        if (levelEl) levelEl.value = parsedA.level;
         updateFloorLevelDisplay('a');
     }
     if (parsedB) {
-        document.getElementById('rune-b-grade').value = parsedB.grade;
-        document.getElementById('rune-b-level').value = parsedB.level;
+        const gradeEl = document.getElementById('rune-b-grade');
+        if (gradeEl) gradeEl.value = parsedB.grade;
+        const levelEl = document.getElementById('rune-b-level');
+        if (levelEl) levelEl.value = parsedB.level;
         updateFloorLevelDisplay('b');
     }
 
@@ -885,22 +889,29 @@ function bindCompareEvents(prefix) {
     });
 
     // 레벨 타이핑 즉시 계산
-    document.getElementById(`rune-${prefix}-level`).addEventListener('input', () => {
-        updateFloorLevelDisplay(prefix);
-        updateRuneOptionsRangeDisplay(prefix);
-        triggerCalculation();
-    });
+    const levelEl = document.getElementById(`rune-${prefix}-level`);
+    if (levelEl) {
+        levelEl.addEventListener('input', () => {
+            updateFloorLevelDisplay(prefix);
+            updateRuneOptionsRangeDisplay(prefix);
+            triggerCalculation();
+        });
+    }
 }
 
 function updateFloorLevelDisplay(prefix) {
-    const level = parseInt(document.getElementById(`rune-${prefix}-level`).value) || 0;
-    document.getElementById(`rune-${prefix}-floor-calc`).innerText = getFloorRangeText(level);
+    const levelEl = document.getElementById(`rune-${prefix}-level`);
+    const level = levelEl ? (parseInt(levelEl.value) || 0) : 0;
+    const calcEl = document.getElementById(`rune-${prefix}-floor-calc`);
+    if (calcEl) calcEl.innerText = getFloorRangeText(level);
 }
 
 // 각 옵션의 범위(Min~Max) 표시 업데이트
 function updateRuneOptionsRangeDisplay(prefix) {
-    const grade = document.getElementById(`rune-${prefix}-grade`).value;
-    const level = parseInt(document.getElementById(`rune-${prefix}-level`).value) || 0;
+    const gradeEl = document.getElementById(`rune-${prefix}-grade`);
+    const grade = gradeEl ? gradeEl.value : "일반";
+    const levelEl = document.getElementById(`rune-${prefix}-level`);
+    const level = levelEl ? (parseInt(levelEl.value) || 0) : 0;
 
     const optionSelectors = document.querySelectorAll(`#rune-${prefix}-options-list .option-selector`);
     optionSelectors.forEach((sel, idx) => {
@@ -919,7 +930,8 @@ function updateRuneOptionsRangeDisplay(prefix) {
 
 // 등급별 룬 옵션 셀렉터 동적 조절
 function updateRuneOptionsForm(prefix, savedState = null) {
-    const grade = document.getElementById(`rune-${prefix}-grade`).value;
+    const gradeEl = document.getElementById(`rune-${prefix}-grade`);
+    const grade = gradeEl ? gradeEl.value : "일반";
     const container = document.getElementById(`rune-${prefix}-options-list`);
     const setGroup = document.getElementById(`rune-${prefix}-set-group`);
     if (!container) return;
@@ -930,7 +942,7 @@ function updateRuneOptionsForm(prefix, savedState = null) {
     }
 
     // 세트 표기 여부 (간편 비교에서는 사용 안 함)
-    setGroup.style.display = 'none';
+    if (setGroup) setGroup.style.display = 'none';
     const selectSet = document.getElementById(`rune-${prefix}-set`);
     if (selectSet) selectSet.value = "";
 
@@ -938,7 +950,8 @@ function updateRuneOptionsForm(prefix, savedState = null) {
     let optionCount = 3;
 
     container.innerHTML = '';
-    const level = parseInt(document.getElementById(`rune-${prefix}-level`).value) || 0;
+    const levelEl = document.getElementById(`rune-${prefix}-level`);
+    const level = levelEl ? (parseInt(levelEl.value) || 0) : 0;
 
     for (let i = 1; i <= optionCount; i++) {
         const row = document.createElement('div');
@@ -1034,9 +1047,12 @@ function updateRuneOptionsForm(prefix, savedState = null) {
 // 8. 룬 기대치 수학 공식 연산 엔진
 function getRuneConfig(prefix) {
     const name = "";
-    const grade = document.getElementById(`rune-${prefix}-grade`).value;
-    const level = parseInt(document.getElementById(`rune-${prefix}-level`).value) || 0;
-    const setName = document.getElementById(`rune-${prefix}-set`).value || "";
+    const gradeEl = document.getElementById(`rune-${prefix}-grade`);
+    const grade = gradeEl ? gradeEl.value : "일반";
+    const levelEl = document.getElementById(`rune-${prefix}-level`);
+    const level = levelEl ? (parseInt(levelEl.value) || 0) : 0;
+    const setEl = document.getElementById(`rune-${prefix}-set`);
+    const setName = setEl ? setEl.value : "";
 
     const optionSelectors = document.querySelectorAll(`#rune-${prefix}-options-list .option-selector`);
     const options = Array.from(optionSelectors).map(s => s.value);
@@ -1610,8 +1626,10 @@ function renderComparisonUI(statsA, statsB, runeA = null, runeB = null) {
 
 // 9. 가상 수치 롤 시뮬레이션 (입력창에 주사위 수치 직접 입력)
 function rollRuneStats(prefix) {
-    const grade = document.getElementById(`rune-${prefix}-grade`).value;
-    const level = parseInt(document.getElementById(`rune-${prefix}-level`).value) || 0;
+    const gradeEl = document.getElementById(`rune-${prefix}-grade`);
+    const grade = gradeEl ? gradeEl.value : "일반";
+    const levelEl = document.getElementById(`rune-${prefix}-level`);
+    const level = levelEl ? (parseInt(levelEl.value) || 0) : 0;
     const optionSelectors = document.querySelectorAll(`#rune-${prefix}-options-list .option-selector`);
 
     optionSelectors.forEach((sel, idx) => {
