@@ -1443,10 +1443,7 @@ body {
     color: var(--accent-blue);
 }
 
-/* 옵션 세부 설정에서 범위 비표시 */
-.option-range-display {
-    display: none !important;
-}
+
 
 /* 유저 스펙 설명 버튼 및 상세 설명 */
 .btn-spec-help {

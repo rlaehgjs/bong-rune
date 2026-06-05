@@ -3,11 +3,11 @@
 // ==========================================================================
 
 // 1. 등급 및 이름 상수
-const isLocal = window.location.hostname === "localhost" || 
-                window.location.hostname === "127.0.0.1" || 
-                (window.location.protocol && window.location.protocol.startsWith("file")) || 
-                window.location.hostname === "" || 
-                !window.location.hostname;
+const isLocal = window.location.hostname === "localhost" ||
+    window.location.hostname === "127.0.0.1" ||
+    (window.location.protocol && window.location.protocol.startsWith("file")) ||
+    window.location.hostname === "" ||
+    !window.location.hostname;
 console.log("[Rune Calculator] Environment check - isLocal:", isLocal, "protocol:", window.location.protocol, "hostname:", window.location.hostname);
 
 const RUNE_NAMES = ["암드", "바르", "코올라", "도토루", "엘메스", "팔콘", "제라드", "헬", "인테엘", "지아코"];
@@ -206,24 +206,11 @@ function parseGameNumber(str) {
 
 
 
-function isPercentOption(idx) {
-    return idx >= 2 && idx <= 24;
-}
-
 function getFloorRangeText(level) {
     if (level <= 0) return "대응 등반 층수: 0 ~ 200층";
     const start = 200 * level + 1;
     const end = 200 * (level + 1);
     return `대응 등반 층수: ${start.toLocaleString()} ~ ${end.toLocaleString()}층`;
-}
-
-function getEffectiveValue(optKey, value, specValues) {
-    const mapping = SPEC_MAPPING[optKey];
-    if (mapping) {
-        const factor = specValues[mapping.key] || 0;
-        return value * factor;
-    }
-    return value;
 }
 
 function getUserSpecValues() {
@@ -291,6 +278,172 @@ function bindSpecHelpEvents() {
         });
     });
 }
+
+function bindDataActionEvents() {
+    const exportBtn = document.getElementById('btn-export-data');
+    const importBtn = document.getElementById('btn-import-data');
+    const resetBtn = document.getElementById('btn-reset-data');
+    const backdrop = document.getElementById('modal-backdrop');
+    const panel = document.getElementById('data-port-panel');
+    const closeBtn = document.getElementById('data-port-close-btn');
+    const actionBtn = document.getElementById('data-port-action-btn');
+    const titleEl = document.getElementById('data-port-title');
+    const descEl = document.getElementById('data-port-desc');
+    const textarea = document.getElementById('data-port-textarea');
+
+    if (!exportBtn || !importBtn || !resetBtn || !backdrop || !panel) return;
+
+    // Helper to open modal
+    const openModal = (title, desc, actionLabel, content, isReadOnly) => {
+        titleEl.innerText = title;
+        descEl.innerText = desc;
+        actionBtn.innerText = actionLabel;
+        textarea.value = content;
+        textarea.readOnly = isReadOnly;
+        backdrop.style.display = 'block';
+        panel.style.display = 'block';
+    };
+
+    // Helper to close modal
+    const closeModal = () => {
+        backdrop.style.display = 'none';
+        panel.style.display = 'none';
+    };
+
+    closeBtn.addEventListener('click', closeModal);
+    backdrop.addEventListener('click', closeModal);
+
+    // Export Action
+    exportBtn.addEventListener('click', () => {
+        const spec = getUserSpecValues();
+        const data = {
+            version: "1.0.0",
+            spec: spec,
+            boardSockets: boardSockets,
+            compareA: JSON.parse(localStorage.getItem('maf_rune_compare_a') || '{}'),
+            compareB: JSON.parse(localStorage.getItem('maf_rune_compare_b') || '{}')
+        };
+        const jsonString = JSON.stringify(data, null, 2);
+        
+        // Try to copy to clipboard
+        navigator.clipboard.writeText(jsonString).then(() => {
+            openModal(
+                "데이터 내보내기",
+                "복사가 완료되었습니다! 아래의 텍스트 데이터를 백업 파일로 보관하세요.",
+                "닫기",
+                jsonString,
+                true
+            );
+        }).catch((err) => {
+            console.error("Clipboard copy failed, opening manual copy", err);
+            openModal(
+                "데이터 내보내기",
+                "아래의 텍스트 데이터를 직접 복사(Ctrl+C)하여 보관하세요.",
+                "텍스트 복사",
+                jsonString,
+                false
+            );
+        });
+    });
+
+    // Import Action
+    importBtn.addEventListener('click', () => {
+        openModal(
+            "데이터 불러오기",
+            "이전에 내보낸 텍스트 데이터를 아래에 붙여넣기(Ctrl+V) 하세요.",
+            "불러오기",
+            "",
+            false
+        );
+    });
+
+    // Reset Action
+    resetBtn.addEventListener('click', () => {
+        const confirmed = confirm("경고: 전체 데이터(스펙 설정, 장착된 룬 보드, 비교 상태)가 초기화되고 페이지가 새로고침됩니다. 진행하시겠습니까?");
+        if (confirmed) {
+            localStorage.clear();
+            window.location.reload();
+        }
+    });
+
+    // Modal action button (Save/Import/Copy)
+    actionBtn.addEventListener('click', () => {
+        if (actionBtn.innerText === "닫기") {
+            closeModal();
+            return;
+        }
+
+        if (actionBtn.innerText === "텍스트 복사") {
+            textarea.select();
+            document.execCommand('copy');
+            alert("텍스트가 복사되었습니다.");
+            closeModal();
+            return;
+        }
+
+        if (actionBtn.innerText === "불러오기") {
+            const raw = textarea.value.trim();
+            if (!raw) {
+                alert("불러올 데이터를 입력해주세요.");
+                return;
+            }
+            try {
+                const data = JSON.parse(raw);
+                if (!data || typeof data !== 'object') {
+                    throw new Error("Invalid format");
+                }
+                
+                // Restore Specs
+                if (data.spec) {
+                    const specIds = {
+                        'spec-spirits': data.spec.spirits,
+                        'spec-satellites': data.spec.satellites,
+                        'spec-missions': data.spec.missions,
+                        'spec-skins': data.spec.skins,
+                        'spec-piggybanks': data.spec.piggybanks,
+                        'spec-ring': data.spec.ring,
+                        'spec-crystal': data.spec.crystal,
+                        'spec-eagle': data.spec.eagle
+                    };
+                    for (let id in specIds) {
+                        const val = specIds[id];
+                        if (val !== undefined) {
+                            localStorage.setItem(id, val);
+                            const el = document.getElementById(id);
+                            if (el) el.value = val;
+                        }
+                    }
+                    if (data.spec.krrrrActive !== undefined) {
+                        localStorage.setItem('spec-krrrr-active', data.spec.krrrrActive);
+                        const el = document.getElementById('spec-krrrr-active');
+                        if (el) el.checked = data.spec.krrrrActive;
+                    }
+                }
+
+                // Restore Board Sockets
+                if (data.boardSockets && Array.isArray(data.boardSockets)) {
+                    localStorage.setItem('maf_rune_board_sockets', JSON.stringify(data.boardSockets));
+                    boardSockets = data.boardSockets;
+                }
+
+                // Restore Compare configs
+                if (data.compareA && Object.keys(data.compareA).length > 0) {
+                    localStorage.setItem('maf_rune_compare_a', JSON.stringify(data.compareA));
+                }
+                if (data.compareB && Object.keys(data.compareB).length > 0) {
+                    localStorage.setItem('maf_rune_compare_b', JSON.stringify(data.compareB));
+                }
+
+                alert("데이터 불러오기가 완료되었습니다!");
+                closeModal();
+                window.location.reload();
+            } catch (err) {
+                alert("데이터 파싱에 실패했습니다. 올바른 형식의 텍스트인지 다시 확인해주세요.\n오류 내용: " + err.message);
+            }
+        }
+    });
+}
+
 
 const SET_TRANSLATIONS = {
     "t_ui_maches_set_01": "교만",
@@ -745,6 +898,7 @@ function setupUI() {
     // 유저 스펙 설정 이벤트 바인딩
     bindSpecEvents();
     bindSpecHelpEvents();
+    bindDataActionEvents();
 
     // 로컬 스토리지 데이터 로드 및 적용
     const savedA = localStorage.getItem('maf_rune_compare_a');
@@ -868,7 +1022,7 @@ function populateSetSelects() {
 // 7. 룬 비교기 조작 바인딩
 function bindCompareEvents(prefix) {
     const ids = [`rune-${prefix}-grade`, `rune-${prefix}-level`, `rune-${prefix}-set`];
-    
+
     const refreshOptionsForm = () => {
         const optionSelectors = document.querySelectorAll(`#rune-${prefix}-options-list .option-selector`);
         const options = Array.from(optionSelectors).map(s => s.value);
@@ -1066,60 +1220,7 @@ function getRuneConfig(prefix) {
     return { name, grade, level, setName, options, optionValues };
 }
 
-// 룬 수치 Min-Max 계산 수식 실행
-function calculateOptionValueRange(grade, level, nameKey) {
-    const match = optionsData.find(o => o.name_key === nameKey);
-    if (!match) return { min: 0, max: 0, idx: 0 };
 
-    const gradeIdx = GRADES.indexOf(grade) + 1; // 1~8
-    const baseValue = match[`grade_value_${gradeIdx}`] || 0;
-
-    // 층수 보정 (옵션레벨) 스케일 팩터
-    const scaleFactor = 1 + (level * (match.floor_value || 0));
-
-    // 공식: 수치 = 랜덤값(min~max) * grade_value * (1 + level * floor_value)
-    const finalMin = match.min * baseValue * scaleFactor;
-    const finalMax = match.max * baseValue * scaleFactor;
-
-    return {
-        min: finalMin,
-        max: finalMax,
-        idx: match.idx
-    };
-}
-
-// 단일 룬 스탯 맵 누적 산출 (입력값 포함)
-function getRuneInputStats(rune) {
-    const stats = {}; // { optionKey: { value, min, max, idx } }
-    rune.options.forEach((optName, idx) => {
-        if (!optName) return;
-        const range = calculateOptionValueRange(rune.grade, rune.level, optName);
-
-        let inputVal = rune.optionValues[idx];
-        if (isNaN(inputVal) || inputVal === null || inputVal === undefined) {
-            inputVal = (range.min + range.max) / 2;
-        }
-
-        if (!stats[optName]) {
-            stats[optName] = { value: 0, min: 0, max: 0, idx: range.idx };
-        }
-        stats[optName].value += inputVal;
-        stats[optName].min += range.min;
-        stats[optName].max += range.max;
-    });
-
-    // Clamp flat options 25-30 to their accumulate_max
-    for (let optName in stats) {
-        const matchOpt = optionsData.find(o => o.name_key === optName);
-        if (matchOpt && matchOpt.accumulate_max > 0) {
-            stats[optName].value = Math.min(stats[optName].value, matchOpt.accumulate_max);
-            stats[optName].min = Math.min(stats[optName].min, matchOpt.accumulate_max);
-            stats[optName].max = Math.min(stats[optName].max, matchOpt.accumulate_max);
-        }
-    }
-
-    return stats;
-}
 
 // 실시간 수치 시각적 비교 갱신
 function triggerCalculation() {
@@ -1151,182 +1252,7 @@ const KEY_OPTIONS = [
     "t_ui_maches_option_05"
 ];
 
-function calculateCategoryMultiplierForSockets(sockets, spec, keys) {
-    let multiplier = 1.0;
 
-    // 1) Calculate per-rune aggregated options (additive within a single rune)
-    const runeAggregated = sockets.map(socket => {
-        if (!socket.equipped) return null;
-        const stats = {};
-        socket.options.forEach((optName, idx) => {
-            if (!optName) return;
-            const range = calculateOptionValueRange(socket.grade, socket.level, optName);
-            let val = socket.optionValues[idx];
-            if (val === undefined || isNaN(val) || val === null) {
-                val = (range.min + range.max) / 2;
-            }
-            if (!stats[optName]) {
-                stats[optName] = 0;
-            }
-            stats[optName] += val;
-        });
-        return stats;
-    }).filter(s => s !== null);
-
-    // Calculate set counts first to find Option 25/30 set effects
-    const setCounts = {};
-    sockets.forEach(socket => {
-        if (socket.equipped && (socket.grade === "전설" || socket.grade === "신화" || socket.grade === "불멸") && socket.setName) {
-            setCounts[socket.setName] = (setCounts[socket.setName] || 0) + 1;
-        }
-    });
-
-    // Calculate total added skins from runes and sets (Option 25)
-    let totalAddedSkins = 0;
-    runeAggregated.forEach(stats => {
-        if (stats["t_ui_maches_option_25"]) {
-            totalAddedSkins += stats["t_ui_maches_option_25"];
-        }
-    });
-
-    for (let setName in setCounts) {
-        const count = setCounts[setName];
-        const effectsForSet = setEffects.filter(s => s.name_key === setName);
-        effectsForSet.forEach(set => {
-            const checkSetSkinBuff = (buffOpt, buffVal) => {
-                if (!buffOpt || !buffVal) return;
-                if (typeof buffOpt === 'number') {
-                    buffOpt = `t_ui_maches_option_${String(buffOpt).padStart(2, '0')}`;
-                }
-                if (buffOpt === "t_ui_maches_option_25") {
-                    totalAddedSkins += buffVal;
-                }
-            };
-            if (set.option_active_count_1 && count >= set.option_active_count_1) {
-                checkSetSkinBuff(set.option_number_1, set.option_value_1);
-            }
-            if (set.option_active_count_2 && count >= set.option_active_count_2) {
-                checkSetSkinBuff(set.option_number_2, set.option_value_2);
-            }
-            if (set.option_active_count_3 && count >= set.option_active_count_3) {
-                checkSetSkinBuff(set.option_number_3, set.option_value_3);
-            }
-        });
-    }
-
-    // Capping Option 25 (Skin count increase) to its accumulate_max (30)
-    const totalAddedSkinsClamped = Math.min(totalAddedSkins, 30);
-    const totalSkins = (spec.skins || 0) + totalAddedSkinsClamped;
-    const modifiedSpec = { ...spec, skins: totalSkins };
-
-    // 2) Multiply same options between different runes (using modifiedSpec)
-    keys.forEach(key => {
-        if (key === "t_ui_maches_option_30") {
-            // Option 30 is summed up first and clamped to 100 (accumulate_max)
-            let totalOpt30 = 0;
-            runeAggregated.forEach(stats => {
-                if (stats[key] && stats[key] > 0) {
-                    totalOpt30 += stats[key];
-                }
-            });
-
-            // Also check set effects for Option 30
-            for (let setName in setCounts) {
-                const count = setCounts[setName];
-                const effectsForSet = setEffects.filter(s => s.name_key === setName);
-                effectsForSet.forEach(set => {
-                    const checkSetOpt30 = (buffOpt, buffVal) => {
-                        if (!buffOpt || !buffVal) return;
-                        if (typeof buffOpt === 'number') {
-                            buffOpt = `t_ui_maches_option_${String(buffOpt).padStart(2, '0')}`;
-                        }
-                        if (buffOpt === "t_ui_maches_option_30") {
-                            totalOpt30 += buffVal;
-                        }
-                    };
-                    if (set.option_active_count_1 && count >= set.option_active_count_1) {
-                        checkSetOpt30(set.option_number_1, set.option_value_1);
-                    }
-                    if (set.option_active_count_2 && count >= set.option_active_count_2) {
-                        checkSetOpt30(set.option_number_2, set.option_value_2);
-                    }
-                    if (set.option_active_count_3 && count >= set.option_active_count_3) {
-                        checkSetOpt30(set.option_number_3, set.option_value_3);
-                    }
-                });
-            }
-
-            const totalOpt30Clamped = Math.min(totalOpt30, 100);
-            if (totalOpt30Clamped > 0) {
-                let val_eff = getEffectiveValue(key, totalOpt30Clamped, modifiedSpec);
-                multiplier *= Math.pow(1.452, val_eff);
-            }
-        } else {
-            runeAggregated.forEach(stats => {
-                if (stats[key] && stats[key] > 0) {
-                    if (!spec.krrrrActive && (key === "t_ui_maches_option_09" || key === "key_placeholder" || key === "t_ui_maches_option_10")) {
-                        return;
-                    }
-                    let val_eff = getEffectiveValue(key, stats[key], modifiedSpec);
-                    if (key === "t_ui_maches_option_23" || key === "t_ui_maches_option_24") {
-                        val_eff = stats[key] * totalSkins;
-                    }
-                    let optMult = 1 + (val_eff / 100);
-                    multiplier *= optMult;
-                }
-            });
-        }
-    });
-
-    // 3) Apply set effects (multiplicative, using modifiedSpec)
-    for (let setName in setCounts) {
-        const count = setCounts[setName];
-        const effectsForSet = setEffects.filter(s => s.name_key === setName);
-
-        effectsForSet.forEach(set => {
-            const applySetBuffMult = (buffOpt, buffVal) => {
-                if (!buffOpt || !buffVal) return;
-                if (typeof buffOpt === 'number') {
-                    buffOpt = `t_ui_maches_option_${String(buffOpt).padStart(2, '0')}`;
-                }
-
-                // Skip Option 30 since it was already handled in step 2 (clamped totalOpt30)
-                if (buffOpt === "t_ui_maches_option_30") return;
-
-                if (!spec.krrrrActive && (buffOpt === "t_ui_maches_option_09" || buffOpt === "t_ui_maches_option_10")) {
-                    return;
-                }
-
-                if (keys.includes(buffOpt)) {
-                    let S_eff = getEffectiveValue(buffOpt, buffVal, modifiedSpec);
-                    if (buffOpt === "t_ui_maches_option_23" || buffOpt === "t_ui_maches_option_24") {
-                        S_eff = buffVal * totalSkins;
-                    }
-                    let setMult = 1 + (S_eff / 100);
-                    multiplier *= setMult;
-                }
-            };
-
-            if (set.option_active_count_1 && count >= set.option_active_count_1) {
-                applySetBuffMult(set.option_number_1, set.option_value_1);
-            }
-            if (set.option_active_count_2 && count >= set.option_active_count_2) {
-                applySetBuffMult(set.option_number_2, set.option_value_2);
-            }
-            if (set.option_active_count_3 && count >= set.option_active_count_3) {
-                applySetBuffMult(set.option_number_3, set.option_value_3);
-            }
-        });
-    }
-
-    // 4) Special handling for skin count (separate 2.5x multiplier based on net skin increase)
-    if (keys === ATTACK_OPTIONS) {
-        const netSkinsAdded = totalSkins - (spec.skins || 0);
-        multiplier *= Math.pow(2.5, netSkinsAdded);
-    }
-
-    return multiplier;
-}
 
 function renderComparisonUI(statsA, statsB, runeA = null, runeB = null) {
     const container = document.getElementById('comparison-bars');
@@ -1478,8 +1404,15 @@ function renderComparisonUI(statsA, statsB, runeA = null, runeB = null) {
             let valB = dataB.value || 0;
 
             // Calculate Effective Values (효용성)
-            const valA_eff = getEffectiveValue(key, valA, spec);
-            const valB_eff = getEffectiveValue(key, valB, spec);
+            let valA_eff = getEffectiveValue(key, valA, spec);
+            let valB_eff = getEffectiveValue(key, valB, spec);
+
+            if (key === "t_ui_maches_option_23" || key === "t_ui_maches_option_24") {
+                const skinsA = (spec.skins || 0) + (statsA["t_ui_maches_option_25"]?.value || 0);
+                const skinsB = (spec.skins || 0) + (statsB["t_ui_maches_option_25"]?.value || 0);
+                valA_eff = valA * skinsA;
+                valB_eff = valB * skinsB;
+            }
 
             // Calculate multipliers for this option
             let multA = 1.0;
@@ -1488,16 +1421,8 @@ function renderComparisonUI(statsA, statsB, runeA = null, runeB = null) {
                 multA = Math.pow(1.1, valA_eff);
                 multB = Math.pow(1.1, valB_eff);
             } else if (isPercentOption(dataA.idx)) {
-                let actualValA = valA_eff;
-                let actualValB = valB_eff;
-                if (key === "t_ui_maches_option_23" || key === "t_ui_maches_option_24") {
-                    const skinsA = (spec.skins || 0) + (statsA["t_ui_maches_option_25"]?.value || 0);
-                    const skinsB = (spec.skins || 0) + (statsB["t_ui_maches_option_25"]?.value || 0);
-                    actualValA = valA * skinsA;
-                    actualValB = valB * skinsB;
-                }
-                multA = 1 + (actualValA / 100);
-                multB = 1 + (actualValB / 100);
+                multA = 1 + (valA_eff / 100);
+                multB = 1 + (valB_eff / 100);
             } else {
                 multA = valA_eff;
                 multB = valB_eff;
@@ -1540,12 +1465,12 @@ function renderComparisonUI(statsA, statsB, runeA = null, runeB = null) {
             if (key === "t_ui_maches_option_23" || key === "t_ui_maches_option_24") {
                 const skinsA = (spec.skins || 0) + (statsA["t_ui_maches_option_25"]?.value || 0);
                 const skinsB = (spec.skins || 0) + (statsB["t_ui_maches_option_25"]?.value || 0);
-                detailA = `<div style="font-size: 0.65rem; color: var(--text-muted); text-align: right;">(기본 ${formatStatValue(dataA.idx, valA)} × 스킨 ${skinsA}개 = 최종 +${formatStatValue(dataA.idx, valA * skinsA)} 적용)</div>`;
-                detailB = `<div style="font-size: 0.65rem; color: var(--text-muted); text-align: right;">(기본 ${formatStatValue(dataB.idx, valB)} × 스킨 ${skinsB}개 = 최종 +${formatStatValue(dataB.idx, valB * skinsB)} 적용)</div>`;
+                detailA = `<div style="font-size: 0.65rem; color: var(--text-muted); text-align: right;">(기본 ${formatStatValue(dataA.idx, valA)} × 스킨 ${skinsA}개 = 최종 +${formatStatValue(dataA.idx, valA_eff)} 적용)</div>`;
+                detailB = `<div style="font-size: 0.65rem; color: var(--text-muted); text-align: right;">(기본 ${formatStatValue(dataB.idx, valB)} × 스킨 ${skinsB}개 = 최종 +${formatStatValue(dataB.idx, valB_eff)} 적용)</div>`;
             } else if (mapping) {
                 const factor = spec[mapping.key] || 0;
-                detailA = `<div style="font-size: 0.65rem; color: var(--text-muted); text-align: right;">(기본 ${formatStatValue(dataA.idx, valA)} × ${factor}${mapping.suffix})</div>`;
-                detailB = `<div style="font-size: 0.65rem; color: var(--text-muted); text-align: right;">(기본 ${formatStatValue(dataB.idx, valB)} × ${factor}${mapping.suffix})</div>`;
+                detailA = `<div style="font-size: 0.65rem; color: var(--text-muted); text-align: right;">(기본 ${formatStatValue(dataA.idx, valA)} × ${factor}${mapping.suffix} = 최종 +${formatStatValue(dataA.idx, valA_eff)} 적용)</div>`;
+                detailB = `<div style="font-size: 0.65rem; color: var(--text-muted); text-align: right;">(기본 ${formatStatValue(dataB.idx, valB)} × ${factor}${mapping.suffix} = 최종 +${formatStatValue(dataB.idx, valB_eff)} 적용)</div>`;
             }
 
             const row = document.createElement('div');
@@ -1833,202 +1758,7 @@ function getPreferredOptionsText(socket) {
     return `<div class="socket-pref-tags" style="font-size: 0.7rem; color: #a78bfa; margin-top: 0.25rem; font-weight: bold; text-shadow: 0 0 5px rgba(167, 139, 250, 0.4);">✨ ${parts.join(' + ')}</div>`;
 }
 
-function getCombinedBoardStats(sockets, spec) {
-    const combinedStats = {}; // { optKey: { value, min, max, idx } }
 
-    // First find totalAddedSkins from the sockets and set effects
-    let totalAddedSkins = 0;
-
-    // 1) Find all option keys present in equipped sockets
-    const allKeys = new Set();
-    sockets.forEach(socket => {
-        if (!socket.equipped) return;
-        socket.options.forEach((opt, idx) => {
-            if (!opt) return;
-            allKeys.add(opt);
-            if (opt === "t_ui_maches_option_25") {
-                let val = socket.optionValues ? socket.optionValues[idx] : undefined;
-                if (val === undefined || isNaN(val) || val === null) {
-                    const range = calculateOptionValueRange(socket.grade, socket.level, opt);
-                    val = (range.min + range.max) / 2;
-                }
-                totalAddedSkins += val;
-            }
-        });
-    });
-
-    // Also get set effects
-    const setCounts = {};
-    sockets.forEach(socket => {
-        if (socket.equipped && (socket.grade === "전설" || socket.grade === "신화" || socket.grade === "불멸") && socket.setName) {
-            setCounts[socket.setName] = (setCounts[socket.setName] || 0) + 1;
-        }
-    });
-
-    // Find set effect option keys and add to allKeys
-    const activeSets = [];
-    for (let setName in setCounts) {
-        const count = setCounts[setName];
-        const effectsForSet = setEffects.filter(s => s.name_key === setName);
-        effectsForSet.forEach(set => {
-            const addSetOpt = (buffOpt, buffVal, reqCount) => {
-                if (!buffOpt || !buffVal) return;
-                let optKey = buffOpt;
-                if (typeof optKey === 'number') {
-                    optKey = `t_ui_maches_option_${String(optKey).padStart(2, '0')}`;
-                }
-                allKeys.add(optKey);
-                activeSets.push({ setName, reqCount, buffOpt: optKey, buffVal });
-                if (optKey === "t_ui_maches_option_25") {
-                    totalAddedSkins += buffVal;
-                }
-            };
-            if (set.option_active_count_1 && count >= set.option_active_count_1) {
-                addSetOpt(set.option_number_1, set.option_value_1, set.option_active_count_1);
-            }
-            if (set.option_active_count_2 && count >= set.option_active_count_2) {
-                addSetOpt(set.option_number_2, set.option_value_2, set.option_active_count_2);
-            }
-            if (set.option_active_count_3 && count >= set.option_active_count_3) {
-                addSetOpt(set.option_number_3, set.option_value_3, set.option_active_count_3);
-            }
-        });
-    }
-
-    const totalAddedSkinsClamped = Math.min(totalAddedSkins, 30);
-    const totalSkins = (spec.skins || 0) + totalAddedSkinsClamped;
-    const modifiedSpec = { ...spec, skins: totalSkins };
-
-    // 2) Compute combined values for each option key
-    allKeys.forEach(key => {
-        const matchOpt = optionsData.find(o => o.name_key === key);
-        const optIdx = matchOpt ? matchOpt.idx : 1;
-
-        if (isPercentOption(optIdx)) {
-            // Multiplicative combination for percent options
-            let productRunes = 1.0;
-            let productRunesMin = 1.0;
-            let productRunesMax = 1.0;
-            let sumVal = 0;
-
-            sockets.forEach(socket => {
-                if (!socket.equipped) return;
-                // Sum values of the same option within this single rune
-                let sumRune = 0;
-                let sumRuneMin = 0;
-                let sumRuneMax = 0;
-                let hasOpt = false;
-
-                socket.options.forEach((opt, idx) => {
-                    if (opt === key) {
-                        hasOpt = true;
-                        const range = calculateOptionValueRange(socket.grade, socket.level, opt);
-                        let val = socket.optionValues ? socket.optionValues[idx] : undefined;
-                        if (val === undefined || isNaN(val) || val === null) {
-                            val = (range.min + range.max) / 2;
-                        }
-                        sumRune += val;
-                        sumRuneMin += range.min;
-                        sumRuneMax += range.max;
-                    }
-                });
-
-                if (hasOpt) {
-                    let val_eff = getEffectiveValue(key, sumRune, modifiedSpec);
-                    let val_eff_min = getEffectiveValue(key, sumRuneMin, modifiedSpec);
-                    let val_eff_max = getEffectiveValue(key, sumRuneMax, modifiedSpec);
-                    if (key === "t_ui_maches_option_23" || key === "t_ui_maches_option_24") {
-                        val_eff = sumRune * totalSkins;
-                        val_eff_min = sumRuneMin * totalSkins;
-                        val_eff_max = sumRuneMax * totalSkins;
-                    }
-                    productRunes *= (1 + val_eff / 100);
-                    productRunesMin *= (1 + val_eff_min / 100);
-                    productRunesMax *= (1 + val_eff_max / 100);
-                    sumVal += sumRune;
-                }
-            });
-
-            // Multiply active sets
-            let productSets = 1.0;
-            activeSets.forEach(set => {
-                if (set.buffOpt === key) {
-                    let val_eff = getEffectiveValue(key, set.buffVal, modifiedSpec);
-                    if (key === "t_ui_maches_option_23" || key === "t_ui_maches_option_24") {
-                        val_eff = set.buffVal * totalSkins;
-                    }
-                    productSets *= (1 + val_eff / 100);
-                    sumVal += set.buffVal;
-                }
-            });
-
-            const combinedVal = (productRunes * productSets - 1) * 100;
-            const combinedMin = (productRunesMin * productSets - 1) * 100;
-            const combinedMax = (productRunesMax * productSets - 1) * 100;
-
-            combinedStats[key] = {
-                value: combinedVal,
-                min: combinedMin,
-                max: combinedMax,
-                idx: optIdx,
-                rawValue: sumVal
-            };
-        } else {
-            // Additive combination for flat options (like Option 1, 25-30)
-            let sumVal = 0;
-            let sumMin = 0;
-            let sumMax = 0;
-
-            sockets.forEach(socket => {
-                if (!socket.equipped) return;
-                socket.options.forEach((opt, idx) => {
-                    if (opt === key) {
-                        const range = calculateOptionValueRange(socket.grade, socket.level, opt);
-                        let val = socket.optionValues ? socket.optionValues[idx] : undefined;
-                        if (val === undefined || isNaN(val) || val === null) {
-                            val = (range.min + range.max) / 2;
-                        }
-                        sumVal += val;
-                        sumMin += range.min;
-                        sumMax += range.max;
-                    }
-                });
-            });
-
-            // Add sets
-            activeSets.forEach(set => {
-                if (set.buffOpt === key) {
-                    sumVal += set.buffVal;
-                    sumMin += set.buffVal;
-                    sumMax += set.buffVal;
-                }
-            });
-
-            // Clamp to accumulate_max if key is option 25-30
-            const matchOpt = optionsData.find(o => o.name_key === key);
-            if (matchOpt && matchOpt.accumulate_max > 0) {
-                sumVal = Math.min(sumVal, matchOpt.accumulate_max);
-                sumMin = Math.min(sumMin, matchOpt.accumulate_max);
-                sumMax = Math.min(sumMax, matchOpt.accumulate_max);
-            }
-
-            // Apply spec factor to the final sum
-            const val_eff = getEffectiveValue(key, sumVal, modifiedSpec);
-            const min_eff = getEffectiveValue(key, sumMin, modifiedSpec);
-            const max_eff = getEffectiveValue(key, sumMax, modifiedSpec);
-
-            combinedStats[key] = {
-                value: val_eff,
-                min: min_eff,
-                max: max_eff,
-                idx: optIdx,
-                rawValue: sumVal // keep raw value if needed
-            };
-        }
-    });
-
-    return { combinedStats, activeSets };
-}
 
 
 function bindBoardEvents() {
@@ -2070,7 +1800,7 @@ function bindBoardEvents() {
 function openSocketEditor(index) {
     const socket = boardSockets[index];
     document.getElementById('editor-slot-index').value = index;
-    document.getElementById('editor-slot-title').innerText = `${index + 1}번 슬롯 (${socket.runeName}의 룬) 변경`;
+    document.getElementById('editor-slot-title').innerText = `${index + 1}번 슬롯 (${socket.runeName} 룬) 변경`;
     document.getElementById('editor-equipped').value = socket.equipped.toString();
     document.getElementById('editor-grade').value = socket.equipped ? socket.grade : "없음";
     document.getElementById('editor-level').value = socket.level;
@@ -2382,14 +2112,16 @@ function updateBoardSummary() {
                 let renderVal = stat.value;
 
                 if (k === "t_ui_maches_option_23" || k === "t_ui_maches_option_24") {
-                    const rawVal = stat.rawValue !== undefined ? stat.rawValue : stat.value;
-                    renderVal = rawVal;
-                    const finalVal = rawVal * totalSkins;
+                    renderVal = stat.rawValue !== undefined ? stat.rawValue : stat.value;
+                    const rawVal = renderVal;
+                    const finalVal = stat.value;
                     detailLabel = ` <span style="font-size: 0.7rem; color: var(--text-muted);">(기본 ${formatStatValue(stat.idx, rawVal)} × 스킨 ${totalSkins}개 = 최종 +${formatStatValue(stat.idx, finalVal)} 적용)</span>`;
                 } else if (mapping) {
                     const factor = spec[mapping.key] || 0;
-                    const rawVal = stat.rawValue !== undefined ? stat.rawValue : stat.value;
-                    detailLabel = ` <span style="font-size: 0.7rem; color: var(--text-muted);">(기본 ${formatStatValue(stat.idx, rawVal)} × ${factor}${mapping.suffix})</span>`;
+                    renderVal = stat.rawValue !== undefined ? stat.rawValue : stat.value;
+                    const rawVal = renderVal;
+                    const finalVal = stat.value;
+                    detailLabel = ` <span style="font-size: 0.7rem; color: var(--text-muted);">(기본 ${formatStatValue(stat.idx, rawVal)} × ${factor}${mapping.suffix} = 최종 +${formatStatValue(stat.idx, finalVal)} 적용)</span>`;
                 }
 
                 row.innerHTML = `
@@ -2832,78 +2564,7 @@ function getFinalOptionValue(grade, optName, baseValue, level) {
     return baseValue * baseValueMultiplier * scaleFactor;
 }
 
-function calculateRuneFloorContribution(rune, spec, level, includeKeys) {
-    let addedSkins = 0;
-    let opt30Val = 0;
-    let multAtk = 1.0;
-    let multKey = 1.0;
 
-    const values = rune.options.map((opt, idx) => {
-        return getFinalOptionValue(rune.grade, opt, rune.baseValues[idx], level);
-    });
-
-    for (let i = 0; i < rune.options.length; i++) {
-        const opt = rune.options[i];
-        if (!opt) continue;
-        const val = values[i];
-
-        if (opt === "t_ui_maches_option_25") {
-            addedSkins += val;
-        } else if (opt === "t_ui_maches_option_30") {
-            opt30Val += val;
-        }
-    }
-
-    const addedSkinsClamped = Math.min(addedSkins, 30);
-    const totalSkins = (spec.skins || 0) + addedSkinsClamped;
-
-    for (let i = 0; i < rune.options.length; i++) {
-        const opt = rune.options[i];
-        if (!opt) continue;
-        const val = values[i];
-
-        if (opt === "t_ui_maches_option_25" || opt === "t_ui_maches_option_26" || opt === "t_ui_maches_option_27" || opt === "t_ui_maches_option_28" || opt === "t_ui_maches_option_29") {
-            continue;
-        }
-        if (opt === "t_ui_maches_option_30") {
-            continue;
-        }
-
-        if (ATTACK_OPTIONS.includes(opt)) {
-            if (!spec.krrrrActive && (opt === "t_ui_maches_option_09" || opt === "t_ui_maches_option_10")) {
-                // Skip Krrrr options when not active
-            } else {
-                let val_eff = getEffectiveValue(opt, val, spec);
-                if (opt === "t_ui_maches_option_23") {
-                    val_eff = val * totalSkins;
-                }
-                multAtk *= (1 + val_eff / 100);
-            }
-        }
-
-        if (KEY_OPTIONS.includes(opt)) {
-            let val_eff = getEffectiveValue(opt, val, spec);
-            multKey *= (1 + val_eff / 100);
-        }
-    }
-
-    if (opt30Val > 0) {
-        const opt30Clamped = Math.min(opt30Val, 100);
-        const val_eff = getEffectiveValue("t_ui_maches_option_30", opt30Clamped, spec);
-        multAtk *= Math.pow(1.452, val_eff);
-    }
-
-    multAtk *= Math.pow(2.5, addedSkinsClamped);
-
-    const floor_atk = multAtk > 0 ? Math.log(multAtk) / Math.log(1.05) : 0;
-
-    if (includeKeys) {
-        const mult_key_combined = multKey * Math.pow(1.004, floor_atk);
-        return mult_key_combined > 0 ? Math.log(mult_key_combined) / Math.log(1.004) : 0;
-    } else {
-        return floor_atk;
-    }
-}
 
 function filterAndRenderSummonResults() {
     const includeKeys = document.getElementById('summon-include-keys')?.checked || false;

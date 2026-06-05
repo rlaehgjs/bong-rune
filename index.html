@@ -305,6 +305,19 @@
                                 체크 해제 시, 크르르 공격력 증가 및 크르르 낙뢰 데미지 증가 옵션이 곱연산 배율 및 기여도 계산에서 제외됩니다.
                             </div>
                         </div>
+
+                        <!-- 데이터 관리 버튼들 -->
+                        <div class="form-group" style="margin-top: 1.25rem; border-top: 1px solid rgba(255, 255, 255, 0.08); padding-top: 1rem; display: flex; flex-direction: column; gap: 0.5rem; width: 100%; box-sizing: border-box;">
+                            <button id="btn-export-data" class="btn btn-accent btn-sm" style="width: 100%; justify-content: center; height: 36px; gap: 0.35rem;">
+                                📤 데이터 내보내기 (텍스트)
+                            </button>
+                            <button id="btn-import-data" class="btn btn-secondary btn-sm" style="width: 100%; justify-content: center; height: 36px; gap: 0.35rem;">
+                                📥 데이터 불러오기
+                            </button>
+                            <button id="btn-reset-data" class="btn btn-sm" style="width: 100%; justify-content: center; height: 36px; gap: 0.35rem; background: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.3);">
+                                🗑️ 데이터 초기화
+                            </button>
+                        </div>
                 </section>
             </div>
 
@@ -727,7 +740,26 @@
         </footer>
     </div>
 
+    <!-- Modal Backdrop -->
+    <div id="modal-backdrop" style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(4px); z-index: 999;"></div>
+
+    <!-- Data Import/Export Modal -->
+    <div class="board-editor-modal glass-card" id="data-port-panel" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 1000; width: 90%; max-width: 500px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); padding: 1.5rem; box-sizing: border-box; border: 1px solid rgba(255, 255, 255, 0.1);">
+        <div class="rune-card-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+            <h3 id="data-port-title" style="margin: 0; font-size: 1.1rem; font-weight: 700; color: var(--text-primary);">데이터 내보내기</h3>
+            <button id="data-port-close-btn" class="close-btn" style="background: none; border: none; color: var(--text-secondary); font-size: 1.5rem; cursor: pointer; line-height: 1;">&times;</button>
+        </div>
+        <div class="form-group" style="margin-bottom: 1rem;">
+            <p id="data-port-desc" style="font-size: 0.78rem; color: var(--text-secondary); margin-bottom: 0.5rem; line-height: 1.4;">아래의 텍스트 데이터를 복사하여 보관하세요.</p>
+            <textarea id="data-port-textarea" style="width: 100%; height: 200px; background: rgba(0, 0, 0, 0.2); color: var(--text-primary); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; padding: 0.5rem; font-family: monospace; font-size: 0.75rem; resize: none; box-sizing: border-box; outline: none;"></textarea>
+        </div>
+        <div style="display: flex; justify-content: flex-end; gap: 0.5rem;">
+            <button id="data-port-action-btn" class="btn btn-primary btn-sm" style="padding: 0.5rem 1.25rem; height: 32px;">복사하기</button>
+        </div>
+    </div>
+
     <!-- Main Logic Script -->
+    <script src="calculator.js"></script>
     <script src="app.js"></script>
 </body>
 
