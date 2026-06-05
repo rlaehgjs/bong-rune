@@ -228,7 +228,8 @@ function getUserSpecValues() {
         piggybanks: parseInt(document.getElementById('spec-piggybanks')?.value) || 0,
         ring: parseInt(document.getElementById('spec-ring')?.value) || 0,
         crystal: parseInt(document.getElementById('spec-crystal')?.value) || 0,
-        eagle: parseInt(document.getElementById('spec-eagle')?.value) || 0
+        eagle: parseInt(document.getElementById('spec-eagle')?.value) || 0,
+        krrrrActive: document.getElementById('spec-krrrr-active') ? document.getElementById('spec-krrrr-active').checked : true
     };
 }
 
@@ -252,6 +253,20 @@ function bindSpecEvents() {
             updateBoardSummary();
         });
     });
+
+    // Load and bind Krrrr checkbox
+    const krrrrEl = document.getElementById('spec-krrrr-active');
+    if (krrrrEl) {
+        const savedKrrrr = localStorage.getItem('spec-krrrr-active');
+        if (savedKrrrr !== null) {
+            krrrrEl.checked = savedKrrrr === 'true';
+        }
+        krrrrEl.addEventListener('change', () => {
+            localStorage.setItem('spec-krrrr-active', krrrrEl.checked);
+            triggerCalculation();
+            updateBoardSummary();
+        });
+    }
 }
 
 function bindSpecHelpEvents() {
@@ -1236,6 +1251,9 @@ function calculateCategoryMultiplierForSockets(sockets, spec, keys) {
         } else {
             runeAggregated.forEach(stats => {
                 if (stats[key] && stats[key] > 0) {
+                    if (!spec.krrrrActive && (key === "t_ui_maches_option_09" || key === "key_placeholder" || key === "t_ui_maches_option_10")) {
+                        return;
+                    }
                     let val_eff = getEffectiveValue(key, stats[key], modifiedSpec);
                     if (key === "t_ui_maches_option_23" || key === "t_ui_maches_option_24") {
                         val_eff = stats[key] * totalSkins;
@@ -1261,6 +1279,10 @@ function calculateCategoryMultiplierForSockets(sockets, spec, keys) {
 
                 // Skip Option 30 since it was already handled in step 2 (clamped totalOpt30)
                 if (buffOpt === "t_ui_maches_option_30") return;
+
+                if (!spec.krrrrActive && (buffOpt === "t_ui_maches_option_09" || buffOpt === "t_ui_maches_option_10")) {
+                    return;
+                }
 
                 if (keys.includes(buffOpt)) {
                     let S_eff = getEffectiveValue(buffOpt, buffVal, modifiedSpec);
@@ -2831,11 +2853,15 @@ function calculateRuneFloorContribution(rune, spec, level, includeKeys) {
         }
 
         if (ATTACK_OPTIONS.includes(opt)) {
-            let val_eff = getEffectiveValue(opt, val, spec);
-            if (opt === "t_ui_maches_option_23") {
-                val_eff = val * totalSkins;
+            if (!spec.krrrrActive && (opt === "t_ui_maches_option_09" || opt === "t_ui_maches_option_10")) {
+                // Skip Krrrr options when not active
+            } else {
+                let val_eff = getEffectiveValue(opt, val, spec);
+                if (opt === "t_ui_maches_option_23") {
+                    val_eff = val * totalSkins;
+                }
+                multAtk *= (1 + val_eff / 100);
             }
-            multAtk *= (1 + val_eff / 100);
         }
 
         if (KEY_OPTIONS.includes(opt)) {
