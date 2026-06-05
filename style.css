@@ -1496,3 +1496,22 @@ body {
     }
 }
 
+/* 14. 모바일/반응형 추가 보완 */
+#user-spec-panel .number-control {
+    padding-right: 1.8rem !important;
+}
+
+@media (max-width: 600px) {
+    .tab-nav {
+        flex-direction: column;
+        gap: 0.35rem;
+        padding: 0.35rem;
+    }
+    .tab-btn {
+        padding: 0.65rem 0.85rem;
+        font-size: 0.85rem;
+        width: 100%;
+        justify-content: center;
+    }
+}
+
