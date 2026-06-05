@@ -1333,6 +1333,9 @@ body {
     .board-simulator-layout {
         grid-template-columns: 1fr;
     }
+    .board-editor-modal {
+        grid-column: span 1;
+    }
 }
 
 @media (max-width: 900px) {
