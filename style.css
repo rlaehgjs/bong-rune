@@ -21,14 +21,14 @@
     --accent-red: #ef4444;     /* 빨강 */
     
     /* 룬 등급별 색상 정의 */
-    --color-normal: #9ca3af;   /* 일반: 회색 */
-    --color-fine: #3b82f6;     /* 고급: 파란색 (인게임 매칭) */
-    --color-rare: #10b981;     /* 희귀: 녹색 (인게임 매칭) */
-    --color-relic: #f59e0b;    /* 유물: 노란색 */
-    --color-hero: #f97316;     /* 영웅: 주황색 */
-    --color-legend: #8b5cf6;   /* 전설: 보라색 */
-    --color-myth: #ec4899;     /* 신화: 핑크/빨강 */
-    --color-immortal: #ef4444; /* 불멸: 빨간색/붉은빛 */
+    --color-normal: rgb(140, 105, 85);
+    --color-fine: rgb(55, 95, 182);
+    --color-rare: rgb(95, 140, 75);
+    --color-relic: rgb(160, 50, 195);
+    --color-hero: rgb(200, 135, 20);
+    --color-legend: rgb(215, 25, 85);
+    --color-myth: rgb(45, 210, 210);
+    --color-immortal: rgb(250, 40, 255);
 
     /* 폰트 정의 */
     --font-family: 'Outfit', 'Inter', 'Noto Sans KR', sans-serif;
@@ -327,9 +327,19 @@ body {
     font-weight: 600;
     margin: 0.1rem;
 }
-.tag-normal { background: rgba(156, 163, 175, 0.15); color: var(--color-normal); border: 1px solid rgba(156, 163, 175, 0.3); }
-.tag-rare { background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); }
-.tag-legend { background: rgba(139, 92, 246, 0.15); color: #a78bfa; border: 1px solid rgba(139, 92, 246, 0.3); }
+.tag-normal { background: rgba(140, 105, 85, 0.15); color: var(--color-normal); border: 1px solid rgba(140, 105, 85, 0.3); }
+.tag-rare { background: rgba(95, 140, 75, 0.15); color: var(--color-rare); border: 1px solid rgba(95, 140, 75, 0.3); }
+.tag-legend { background: rgba(215, 25, 85, 0.15); color: var(--color-legend); border: 1px solid rgba(215, 25, 85, 0.3); }
+
+/* 등급별 개별 태그 */
+.tag-일반 { background: rgba(140, 105, 85, 0.15); color: var(--color-normal); border: 1px solid rgba(140, 105, 85, 0.3); }
+.tag-고급 { background: rgba(55, 95, 182, 0.15); color: var(--color-fine); border: 1px solid rgba(55, 95, 182, 0.3); }
+.tag-희귀 { background: rgba(95, 140, 75, 0.15); color: var(--color-rare); border: 1px solid rgba(95, 140, 75, 0.3); }
+.tag-유물 { background: rgba(160, 50, 195, 0.15); color: var(--color-relic); border: 1px solid rgba(160, 50, 195, 0.3); }
+.tag-영웅 { background: rgba(200, 135, 20, 0.15); color: var(--color-hero); border: 1px solid rgba(200, 135, 20, 0.3); }
+.tag-전설 { background: rgba(215, 25, 85, 0.15); color: var(--color-legend); border: 1px solid rgba(215, 25, 85, 0.3); }
+.tag-신화 { background: rgba(45, 210, 210, 0.15); color: var(--color-myth); border: 1px solid rgba(45, 210, 210, 0.3); }
+.tag-불멸 { background: rgba(250, 40, 255, 0.15); color: var(--color-immortal); border: 1px solid rgba(250, 40, 255, 0.3); }
 
 /* 6. 중앙 계산기 패널 및 탭 */
 .calculator-panel {
@@ -869,28 +879,28 @@ body {
 
 /* 등급별 소켓 테두리 및 배지 색상 */
 .socket-item.grade-일반 { border-color: var(--color-normal); }
-.socket-item.grade-일반 .socket-badge { background: rgba(156, 163, 175, 0.15); color: var(--color-normal); }
+.socket-item.grade-일반 .socket-badge { background: rgba(140, 105, 85, 0.15); color: var(--color-normal); }
 
 .socket-item.grade-고급 { border-color: var(--color-fine); }
-.socket-item.grade-고급 .socket-badge { background: rgba(59, 130, 246, 0.15); color: #60a5fa; }
+.socket-item.grade-고급 .socket-badge { background: rgba(55, 95, 182, 0.15); color: var(--color-fine); }
 
 .socket-item.grade-희귀 { border-color: var(--color-rare); }
-.socket-item.grade-희귀 .socket-badge { background: rgba(16, 185, 129, 0.15); color: #34d399; }
+.socket-item.grade-희귀 .socket-badge { background: rgba(95, 140, 75, 0.15); color: var(--color-rare); }
 
 .socket-item.grade-유물 { border-color: var(--color-relic); }
-.socket-item.grade-유물 .socket-badge { background: rgba(245, 158, 11, 0.15); color: #fbbf24; }
+.socket-item.grade-유물 .socket-badge { background: rgba(160, 50, 195, 0.15); color: var(--color-relic); }
 
 .socket-item.grade-영웅 { border-color: var(--color-hero); }
-.socket-item.grade-영웅 .socket-badge { background: rgba(249, 115, 22, 0.15); color: #fb923c; }
+.socket-item.grade-영웅 .socket-badge { background: rgba(200, 135, 20, 0.15); color: var(--color-hero); }
 
 .socket-item.grade-전설 { border-color: var(--color-legend); }
-.socket-item.grade-전설 .socket-badge { background: rgba(139, 92, 246, 0.15); color: #c4b5fd; }
+.socket-item.grade-전설 .socket-badge { background: rgba(215, 25, 85, 0.15); color: var(--color-legend); }
 
 .socket-item.grade-신화 { border-color: var(--color-myth); }
-.socket-item.grade-신화 .socket-badge { background: rgba(236, 72, 153, 0.15); color: #f472b6; }
+.socket-item.grade-신화 .socket-badge { background: rgba(45, 210, 210, 0.15); color: var(--color-myth); }
 
 .socket-item.grade-불멸 { border-color: var(--color-immortal); }
-.socket-item.grade-불멸 .socket-badge { background: rgba(239, 68, 68, 0.15); color: #f87171; }
+.socket-item.grade-불멸 .socket-badge { background: rgba(250, 40, 255, 0.15); color: var(--color-immortal); }
 
 /* 우측 요약 보드 */
 .board-total-card {
@@ -1145,13 +1155,13 @@ body {
 }
 
 .grade-일반 .grade-result-name { color: var(--color-normal); }
-.grade-고급 .grade-result-name { color: #60a5fa; }
-.grade-희귀 .grade-result-name { color: #34d399; }
-.grade-유물 .grade-result-name { color: #fbbf24; }
-.grade-영웅 .grade-result-name { color: #fb923c; }
-.grade-전설 .grade-result-name { color: #c4b5fd; }
-.grade-신화 .grade-result-name { color: #f472b6; }
-.grade-불멸 .grade-result-name { color: #f87171; }
+.grade-고급 .grade-result-name { color: var(--color-fine); }
+.grade-희귀 .grade-result-name { color: var(--color-rare); }
+.grade-유물 .grade-result-name { color: var(--color-relic); }
+.grade-영웅 .grade-result-name { color: var(--color-hero); }
+.grade-전설 .grade-result-name { color: var(--color-legend); }
+.grade-신화 .grade-result-name { color: var(--color-myth); }
+.grade-불멸 .grade-result-name { color: var(--color-immortal); }
 
 .grade-result-percent {
     font-size: 0.75rem;

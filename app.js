@@ -2299,7 +2299,7 @@ function updateEditorComparison() {
 
         return `
             <div style="font-size: 0.78rem;">
-                <span class="tag" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #fff; padding: 0.1rem 0.3rem;">${s.grade}</span> 
+                <span class="tag tag-${s.grade}">${s.grade}</span> 
                 <strong>Lv. ${s.level}</strong>${setNameKo}
                 <ul style="margin-top: 0.25rem; padding-left: 0.5rem;">${optsList}</ul>
             </div>
@@ -2606,10 +2606,16 @@ function filterAndRenderSummonResults() {
     } else {
         topRunes.forEach(item => {
             const tr = document.createElement('tr');
-            let gradeStyle = "";
-            if (item.grade === "전설") gradeStyle = "color:#a78bfa; font-weight:bold;";
-            if (item.grade === "신화") gradeStyle = "color:#f472b6; font-weight:bold;";
-            if (item.grade === "불멸") gradeStyle = "color:#f87171; font-weight:bold;";
+            let gradeStyle = "font-weight:bold; color: ";
+            if (item.grade === "일반") gradeStyle += "var(--color-normal);";
+            else if (item.grade === "고급") gradeStyle += "var(--color-fine);";
+            else if (item.grade === "희귀") gradeStyle += "var(--color-rare);";
+            else if (item.grade === "유물") gradeStyle += "var(--color-relic);";
+            else if (item.grade === "영웅") gradeStyle += "var(--color-hero);";
+            else if (item.grade === "전설") gradeStyle += "var(--color-legend);";
+            else if (item.grade === "신화") gradeStyle += "var(--color-myth);";
+            else if (item.grade === "불멸") gradeStyle += "var(--color-immortal);";
+            else gradeStyle = "";
 
             const setStyle = item.setName ? "color:#fbbf24; font-weight:bold;" : "color:var(--text-muted);";
             const setKo = item.setName ? (SET_TRANSLATIONS[item.setName] || item.setName) : "없음";
