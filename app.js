@@ -3,6 +3,13 @@
 // ==========================================================================
 
 // 1. 등급 및 이름 상수
+const isLocal = window.location.hostname === "localhost" || 
+                window.location.hostname === "127.0.0.1" || 
+                (window.location.protocol && window.location.protocol.startsWith("file")) || 
+                window.location.hostname === "" || 
+                !window.location.hostname;
+console.log("[Rune Calculator] Environment check - isLocal:", isLocal, "protocol:", window.location.protocol, "hostname:", window.location.hostname);
+
 const RUNE_NAMES = ["암드", "바르", "코올라", "도토루", "엘메스", "팔콘", "제라드", "헬", "인테엘", "지아코"];
 const GRADES = ["일반", "고급", "희귀", "유물", "영웅", "전설", "신화", "불멸"];
 
@@ -660,6 +667,11 @@ function updateSummonAppliedLevelLabel() {
 
 // 6. UI 설정 및 바인딩
 function setupUI() {
+    // 로컬 환경 여부에 따라 간편 비교 등급/레벨 입력 활성화
+    document.querySelectorAll('.compare-local-only').forEach(el => {
+        el.style.display = isLocal ? 'block' : 'none';
+    });
+
     // 세트 선택기 채우기
     populateSetSelects();
 
@@ -856,23 +868,29 @@ function populateSetSelects() {
 // 7. 룬 비교기 조작 바인딩
 function bindCompareEvents(prefix) {
     const ids = [`rune-${prefix}-grade`, `rune-${prefix}-level`, `rune-${prefix}-set`];
+    
+    const refreshOptionsForm = () => {
+        const optionSelectors = document.querySelectorAll(`#rune-${prefix}-options-list .option-selector`);
+        const options = Array.from(optionSelectors).map(s => s.value);
+        const valInputs = document.querySelectorAll(`#rune-${prefix}-options-list .option-value-input`);
+        const optionValues = Array.from(valInputs).map(input => input.value);
+        const setName = document.getElementById(`rune-${prefix}-set`)?.value || "";
+
+        const savedState = { options, optionValues, setName };
+        updateRuneOptionsForm(prefix, savedState);
+    };
+
     ids.forEach(id => {
         const el = document.getElementById(id);
         if (!el) return;
         el.addEventListener('change', () => {
             if (id.includes('grade')) {
-                const optionSelectors = document.querySelectorAll(`#rune-${prefix}-options-list .option-selector`);
-                const options = Array.from(optionSelectors).map(s => s.value);
-                const valInputs = document.querySelectorAll(`#rune-${prefix}-options-list .option-value-input`);
-                const optionValues = Array.from(valInputs).map(input => input.value);
-                const setName = document.getElementById(`rune-${prefix}-set`)?.value || "";
-
-                const savedState = { options, optionValues, setName };
-                updateRuneOptionsForm(prefix, savedState);
+                refreshOptionsForm();
             }
             if (id.includes('level')) {
                 updateFloorLevelDisplay(prefix);
                 updateRuneOptionsRangeDisplay(prefix);
+                refreshOptionsForm();
             }
             triggerCalculation();
         });
@@ -884,6 +902,7 @@ function bindCompareEvents(prefix) {
         levelEl.addEventListener('input', () => {
             updateFloorLevelDisplay(prefix);
             updateRuneOptionsRangeDisplay(prefix);
+            refreshOptionsForm();
             triggerCalculation();
         });
     }
@@ -898,22 +917,11 @@ function updateFloorLevelDisplay(prefix) {
 
 // 각 옵션의 범위(Min~Max) 표시 업데이트
 function updateRuneOptionsRangeDisplay(prefix) {
-    const gradeEl = document.getElementById(`rune-${prefix}-grade`);
-    const grade = gradeEl ? gradeEl.value : "일반";
-    const levelEl = document.getElementById(`rune-${prefix}-level`);
-    const level = levelEl ? (parseInt(levelEl.value) || 0) : 0;
-
     const optionSelectors = document.querySelectorAll(`#rune-${prefix}-options-list .option-selector`);
     optionSelectors.forEach((sel, idx) => {
-        const optName = sel.value;
-        const rangeTextEl = document.getElementById(`rune-${prefix}-opt-range-${idx + 1}`);
-        if (!optName) {
-            if (rangeTextEl) rangeTextEl.innerText = "";
-            return;
-        }
-        const range = calculateOptionValueRange(grade, level, optName);
-        if (rangeTextEl) {
-            rangeTextEl.innerText = `범위: ${formatStatValue(range.idx, range.min)} ~ ${formatStatValue(range.idx, range.max)}`;
+        const labelEl = document.getElementById(`rune-${prefix}-opt-label-${idx + 1}`);
+        if (labelEl) {
+            labelEl.innerHTML = `옵션 ${idx + 1}`;
         }
     });
 }
@@ -953,8 +961,7 @@ function updateRuneOptionsForm(prefix, savedState = null) {
         headerDiv.style.alignItems = 'center';
         headerDiv.style.width = '100%';
         headerDiv.innerHTML = `
-            <span>옵션 ${i}</span>
-            <span class="option-range-display" id="rune-${prefix}-opt-range-${i}" style="font-size: 0.75rem; color: var(--accent-blue); font-weight: 600; display: none;">범위: 계산 중...</span>
+            <span id="rune-${prefix}-opt-label-${i}" style="font-size: 0.85rem; font-weight: 600; color: var(--text-secondary);">옵션 ${i}</span>
         `;
 
         const ctrlRow = document.createElement('div');
@@ -979,7 +986,13 @@ function updateRuneOptionsForm(prefix, savedState = null) {
             if (!exists && opt.name_key) {
                 const o = document.createElement('option');
                 o.value = opt.name_key;
-                o.innerText = OPTION_TRANSLATIONS[opt.name_key] || opt.name_key;
+                let optText = OPTION_TRANSLATIONS[opt.name_key] || opt.name_key;
+                if (isLocal) {
+                    const range = calculateOptionValueRange(grade, level, opt.name_key);
+                    const rangeStr = `(${formatStatValue(range.idx, range.min)} ~ ${formatStatValue(range.idx, range.max)})`;
+                    optText += ` ${rangeStr}`;
+                }
+                o.innerText = optText;
                 select.appendChild(o);
             }
         });
@@ -2039,16 +2052,13 @@ function bindBoardEvents() {
         const level = parseInt(document.getElementById('editor-level').value) || 0;
         document.getElementById('editor-floor-calc').innerText = getFloorRangeText(level);
 
-        // Also update range display of each option in the editor form dynamically
-        const selectors = document.querySelectorAll('.editor-option-selector');
-        selectors.forEach((select, i) => {
-            const grade = document.getElementById('editor-grade').value;
-            const range = calculateOptionValueRange(grade, level, select.value);
-            const rangeTextEl = document.getElementById(`editor-opt-range-${i + 1}`);
-            if (rangeTextEl) {
-                rangeTextEl.innerText = `범위: ${formatStatValue(range.idx, range.min)} ~ ${formatStatValue(range.idx, range.max)}`;
-            }
-        });
+        // 레벨 변경 시 에디터 옵션 폼을 재생성하여 범위 갱신
+        const optionSelectors = document.querySelectorAll('.editor-option-selector');
+        const options = Array.from(optionSelectors).map(s => s.value);
+        const valInputs = document.querySelectorAll('.editor-option-value-input');
+        const optionValues = Array.from(valInputs).map(input => input.value);
+
+        updateEditorOptionsForm({ options, optionValues });
         updateEditorComparison();
     });
 
@@ -2169,7 +2179,7 @@ function updateEditorOptionsForm(savedState = null) {
         headerDiv.style.width = '100%';
         headerDiv.innerHTML = `
             <span>옵션 ${i}</span>
-            <span class="option-range-display" id="editor-opt-range-${i}" style="font-size: 0.75rem; color: var(--accent-blue); font-weight: 600;">범위: 계산 중...</span>
+            <span class="option-range-display" id="editor-opt-range-${i}" style="font-size: 0.75rem; color: var(--accent-blue); font-weight: 600; display: ${isLocal ? 'inline-block' : 'none'};">범위: 계산 중...</span>
         `;
 
         const ctrlRow = document.createElement('div');
@@ -2187,7 +2197,13 @@ function updateEditorOptionsForm(savedState = null) {
             if (!exists && opt.name_key) {
                 const o = document.createElement('option');
                 o.value = opt.name_key;
-                o.innerText = OPTION_TRANSLATIONS[opt.name_key] || opt.name_key;
+                let optText = OPTION_TRANSLATIONS[opt.name_key] || opt.name_key;
+                if (isLocal) {
+                    const range = calculateOptionValueRange(grade, level, opt.name_key);
+                    const rangeStr = `(${formatStatValue(range.idx, range.min)} ~ ${formatStatValue(range.idx, range.max)})`;
+                    optText += ` ${rangeStr}`;
+                }
+                o.innerText = optText;
                 select.appendChild(o);
             }
         });
@@ -2223,6 +2239,7 @@ function updateEditorOptionsForm(savedState = null) {
         container.appendChild(row);
 
         const updateRangeDisplay = () => {
+            if (!isLocal) return;
             const currentLevel = parseInt(document.getElementById('editor-level').value) || 0;
             const currentGrade = document.getElementById('editor-grade').value;
             const range = calculateOptionValueRange(currentGrade, currentLevel, select.value);
